@@ -1,0 +1,5 @@
+OLDs/*
+app/__pycache__
+local/.vscode/*
+local/audio/*
+local/exports/*
