@@ -3,3 +3,4 @@ app/__pycache__
 local/.vscode/*
 local/audio/*
 local/exports/*
+mongodb-volume/*
