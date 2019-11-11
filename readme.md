@@ -1,4 +1,12 @@
 
+# Tbd
+
+- Should we adjust NFTT (+ noverlap) to have same length for each window? Yes, so that each image is same width, despite different sampling rates. 
+  - Rule of thumb: 10-50 ms / window is usually good
+  - My tests: c. 15 ms / window seems clearest
+  - For NFTT "A power 2 is most efficient"
+
+
 # Todo
 
 - Git

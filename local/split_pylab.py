@@ -23,7 +23,7 @@ def graph_spectrogram(wavFilename, spectroFilename):
   pylab.figure(num=None, figsize=(10, 7))
 
   # Spectrogram settings
-  # Cleaner, less contrast: 512 / 2
+  # Cleaner, less contrast, visually good noverlap value: 512 / 2
   # Noisier, sharper, more contrast: 1024 / 8
 
   NFTT = 512
