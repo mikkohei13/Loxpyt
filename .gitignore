@@ -1,6 +1,6 @@
-OLDs/*
-app/__pycache__
-local/.vscode/*
+*/OLDs/*
+*/__pycache__/*
+*/.vscode/*
 local/audio/*
 local/exports/*
 mongodb-volume/*
