@@ -1,12 +1,16 @@
 
+import argparse
 import split_and_spectro
 
-audioDir = "audio/noordwijk/"
-audioFilename = "5DB0E3A4.WAV"
+parser = argparse.ArgumentParser(description='Tool to create segment files and spectrograms from large audio files')
+parser.add_argument("--file")
+parser.add_argument("--segments")
 
-# audioDir = "audio/ks/"
-# audioFilename = "HLO10_20191102_022600.wav"
+args = parser.parse_args()
+audioFullPath = args.file
+segments = int(args.segments)
 
-audioFullPath = audioDir + audioFilename
+# --segments 1 --file audio/noordwijk/5DB0E3A4.WAV
+# --segments 1 --file audio/ks/HLO10_20191102_022600.wav
 
-split_and_spectro.parseFile(audioFullPath, "exports/", 101)
+split_and_spectro.parseFile(audioFullPath, "exports/", segments)
