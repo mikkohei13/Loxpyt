@@ -10,7 +10,7 @@ args = parser.parse_args()
 audioFullPath = args.file
 segments = int(args.segments)
 
-# --segments 1 --file audio/noordwijk/5DB0E3A4.WAV
-# --segments 1 --file audio/ks/HLO10_20191102_022600.wav
+# python3 audiofile_handler.py --segments 1 --file audio/noordwijk/5DB0E3A4.WAV
+# python3 audiofile_handler.py --segments 1 --file audio/ks/HLO10_20191102_022600.wav
 
 split_and_spectro.parseFile(audioFullPath, "exports/", segments)

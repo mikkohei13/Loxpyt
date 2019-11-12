@@ -1,7 +1,7 @@
 from pydub import AudioSegment
 import wave
 import pylab
-
+import os
 from PIL import Image, ImageChops
 
 # Cropper
@@ -87,9 +87,16 @@ def parseFile(audioFilePath, exportDirPath, segments = 1):
 
     # Create spectrogram
     # NOTE: PRESUMES MONO
+    # Todo: stereo to mono
 
     # Saves the spectro image to disk
     graph_spectrogram(wavFilename, spectroFilename)
+
+    # Save mp3 file to disk and remove wav
+    # Todo: exclude wav file extension from mp3 & spectro
+    segment.export(wavFilename + ".mp3", format="mp3")
+    os.remove(wavFilename)
+
 
     # Finish this loop
     t1 = t2
