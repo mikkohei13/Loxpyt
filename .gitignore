@@ -1,6 +1,7 @@
 */OLDs/*
-*/__pycache__/*
-*/.vscode/*
-local/audio/*
-local/exports/*
+app/src/__pycache__/*
+app/src/.vscode/*
+*/exports/*
+app/src/exports/*
 mongodb-volume/*
+source_audio/*

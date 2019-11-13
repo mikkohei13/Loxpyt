@@ -1,4 +1,23 @@
 
+
+# Usage
+
+Rebuild image
+
+  docker-compose up --build
+
+Terminal to container:
+
+  docker exec -ti loxia_web bash
+
+Handle audio file:
+
+  cd /app/src/
+  python3 audiofile_handler.py --segments 1 --file audio/noordwijk/5DB0E3A4.WAV
+
+
+
+
 # Tbd
 
 - Should we adjust NFTT (+ noverlap) to have same length for each window? Yes, so that each image is same width, despite different sampling rates. 
@@ -9,17 +28,20 @@
 
 # Todo
 
-- Git
-- Pip in Docker
+- Dependencies in Docker, how?
+  - pip
+  - apt-get install ffmpeg libavcodec-extra
 - Spectrogram
+  - Instead of fitting spec to pixel dimensions, calculate size using NFTT & noverlay?
   - Fix file dimensions pixel-perfect?
   - Should not scale colors of each plot separately for AI?
   - More contrast for higher amplitudes? https://towardsdatascience.com/getting-to-know-the-mel-spectrogram-31bca3e2d9d0
   - Greyscale? https://jakevdp.github.io/PythonDataScienceHandbook/04.07-customizing-colorbars.html
 - Audio
-  - Segments as mp3 to save space?
   - Limit all to same freq (~16 kHz)
   - All to mono
+
+
 - Where time data: start time, day 
 - Where metadata: recorded model, recorder id, original filename, original path, conversion datetime, peak amplitude
 
@@ -47,15 +69,16 @@
 
 Source file
 - Source file uuid, dumb [string]
-- Directory name & filename (must not change this afterwards) [string]
-- Device id (given manually) [string]
+- Directory name & filename (must not change this afterwards) [string] DONE
+- Device id [string] DONE
+- Device type [string]
 - Location code (acts as id) [string]
 - Start datetime, normalized, from file meta, using function for each device [datetime/string]
   - Audiomoth: UTC, winter/summer?
   - SM4: Finnish summer time
 - Night id (first day yyyymmdd) [int]
 - Length in seconds [int]
-- File info? [array]
+- File info [array]
 - Conversion datetime [datetime/string]
 
 Segment file
@@ -64,6 +87,7 @@ Segment file
 - Segment number [int]
 - Segment size in seconds [int]
 - Segment offset in seconds [int]
+- Peak amplitude [int]?
 
 Segment annotation data
 - Annotation uuid, dumb
