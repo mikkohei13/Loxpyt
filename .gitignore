@@ -1,7 +1,9 @@
-*/OLDs/*
-app/src/__pycache__/*
-app/src/.vscode/*
-*/exports/*
-app/src/exports/*
+
+# Ignore these dirs anywhere
+OLDs/
+__pycache__/
+.vscode/
+exports/
+
 mongodb-volume/*
 source_audio/*
