@@ -7,6 +7,8 @@ import argparse
 import split_and_spectro
 import pyexifinfo
 
+import loxia_database
+
 debug = True # get input from this file AND use interpreter on host Linux 
 
 if debug:
@@ -30,6 +32,10 @@ else:
 
 # Get metadata for the file
 metadata = pyexifinfo.parseFile(file)
+
+db = loxia_database.db()
+
+db.saveSession(metadata)
 
 
 # Split into segments and generate spectrograms

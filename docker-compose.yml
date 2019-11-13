@@ -10,7 +10,8 @@ services:
     container_name: loxia_web
     volumes:
       - ./app:/app
-      - ./source_audio:/source_audio
+      - ./_source_audio:/_source_audio
+      - ./_exports:/_exports
     ports:
       - 80:80
     # networks:
