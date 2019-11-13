@@ -3,7 +3,8 @@
 OLDs/
 __pycache__/
 .vscode/
-exports/
+_exports/
+_source_audio/
 
 mongodb-volume/*
 source_audio/*

@@ -2,7 +2,7 @@
 
 # Usage
 
-Rebuild image
+After adding pip requirements to requirements.txt, rebuild Docker image with:
 
   docker-compose up --build
 
@@ -13,7 +13,7 @@ Terminal to container:
 Handle audio file:
 
   cd /app/src/
-  python3 audiofile_handler.py --segments 1 --file audio/noordwijk/5DB0E3A4.WAV
+  python3 audiofile_handler.py --segments 1 --file /_source_audio/noordwijk/5DB0E3A4.WAV
 
 
 
@@ -28,9 +28,14 @@ Handle audio file:
 
 # Todo
 
-- Dependencies in Docker, how?
-  - pip
-  - apt-get install ffmpeg libavcodec-extra
+
+- Backup of database, automatic whenever ...
+- Conversion
+  - Organize export files so that each session (night) is in its own dir. Do this when you know how the conversions will eventually be done (manually per night using terminal command, so that there would be no need to handle errors automatically).
+  - Issues:
+    - Avoid errors when typing the command manually.
+    - Make it easy to change the export path during development
+
 - Spectrogram
   - Instead of fitting spec to pixel dimensions, calculate size using NFTT & noverlay?
   - Fix file dimensions pixel-perfect?
@@ -67,16 +72,21 @@ Handle audio file:
 
 # Data
 
+Session (can be 1...n nights)
+- Session id, dumb [string]
+- Directory name [string]
+- Location code (acts as id) [string]
+
 Source file
 - Source file uuid, dumb [string]
+- Session id uuid
 - Directory name & filename (must not change this afterwards) [string] DONE
 - Device id [string] DONE
 - Device type [string]
-- Location code (acts as id) [string]
 - Start datetime, normalized, from file meta, using function for each device [datetime/string]
   - Audiomoth: UTC, winter/summer?
   - SM4: Finnish summer time
-- Night id (first day yyyymmdd) [int]
+- Night id (first day yyyymmdd), calculated from datetime [int]
 - Length in seconds [int]
 - File info [array]
 - Conversion datetime [datetime/string]

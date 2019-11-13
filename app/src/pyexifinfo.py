@@ -8,8 +8,21 @@ def getDurationStr2Sec(durationStr):
   durationList = durationStr.split(":")
   return 3600*int(durationList[0]) + 60*int(durationList[1]) + int(durationList[2])
 
-def getDeviceId(foo):
-  return "DEBUG"
+
+def getAudiomothData(string):
+  # Todo: log if input does not match expected, e.g. if different in new versions of the device
+  words = string.split(" ")
+
+  # deviceId
+  audioMothIndex = words.index("AudioMoth")
+  deviceId = words[(audioMothIndex + 1)]
+
+  # gain setting
+  settingIndex = words.index("setting")
+  gainSetting = int(words[(settingIndex + 1)])
+
+  return deviceId, gainSetting
+
 
 def parseFile(audioFilePath):
 
@@ -28,7 +41,7 @@ def parseFile(audioFilePath):
   # Nocmig device data
   if "AudioMoth" in results.get("Comment", ""):
     results["x-device-model"] = "audiomoth"
-    results["x-device-id"] = getDeviceId(results.get("Comment"))
+    results["x-device-id"], results["x-gain-setting"] = getAudiomothData(results.get("Comment"))
     results["x-notes"] = results.get("Comment")
     results["x-file-modified"] = results.get("File Modification Date/Time")
   else:
@@ -40,7 +53,7 @@ def parseFile(audioFilePath):
   # Todo: Extract metadata from Wildlife acoustics devices
   # https://github.com/riggsd/guano-py/blob/master/bin/wamd2guano.py
 
-  results["X-duration-seconds"] = getDurationStr2Sec(results.get("Duration", "00:00:00"))
+  results["x-duration-seconds"] = getDurationStr2Sec(results.get("Duration", "00:00:00"))
 
   print(results)
   pprint.pprint(results)
