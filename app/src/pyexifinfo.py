@@ -32,33 +32,42 @@ def parseFile(audioFilePath):
 
   # Parse html to dict
   bs = BeautifulSoup(html, 'lxml')
-
   results = {}
   for row in bs.findAll('tr'):
     aux = row.findAll('td')
     results[aux[0].string] = aux[1].string
 
-  # Nocmig device data
-  if "AudioMoth" in results.get("Comment", ""):
-    results["x-device-model"] = "audiomoth"
-    results["x-device-id"], results["x-gain-setting"] = getAudiomothData(results.get("Comment"))
-    results["x-notes"] = results.get("Comment")
-    results["x-file-modified"] = results.get("File Modification Date/Time")
-  else:
-    results["x-device-model"] = "sm4" # Todo: fix if use other devices
-    results["x-device-id"] = "HLO10" # Todo: fix if use other devices
-    results["x-notes"] = "Not getting metadata from Wildlife Acoustics devices yet"
-    results["x-file-modified"] = None
+  # Create metadata dict
+  metadata = {}
 
+  # A) raw meta
+  metadata['rawMetadata'] = results
+
+  # B) Calculated meta
+  # Todo: add date modified etc.
+  metadata["durationSeconds"] = getDurationStr2Sec(results.get("Duration", "00:00:00"))
+  metadata["dateModified"] = results.get("File Modification Date/Time")
+
+  if "AudioMoth" in results.get("Comment", ""):
+    metadata["deviceModel"] = "audiomoth"
+    metadata["deviceVersion"] = "1.0"
+    metadata["deviceId"], results["gainSetting"] = getAudiomothData(results.get("Comment"))
+
+  # Expects the only other option to be WA SM4
+  # Todo: fix if use other devices
   # Todo: Extract metadata from Wildlife acoustics devices
   # https://github.com/riggsd/guano-py/blob/master/bin/wamd2guano.py
+  else:
+    metadata["deviceModel"] = "sm4" 
+    metadata["deviceVersion"] = ""
+    metadata["deviceId"] = "HLO10"
 
-  results["x-duration-seconds"] = getDurationStr2Sec(results.get("Duration", "00:00:00"))
 
-  print(results)
-  pprint.pprint(results)
 
-  return results
+  print(metadata)
+  pprint.pprint(metadata)
+
+  return metadata
 
 
 

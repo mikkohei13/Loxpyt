@@ -12,8 +12,8 @@ import loxia_database
 debug = True # get input from this file AND use interpreter on host Linux 
 
 if debug:
-  file = "./../../_source_audio/ks/HLO10_20191102_022600.wav"
   file = "./../../_source_audio/noordwijk/5DB0E3A4.WAV"
+  file = "./../../_source_audio/ks/HLO10_20191102_022600.wav"
   segments = 1
 
 else:

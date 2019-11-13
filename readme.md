@@ -73,12 +73,12 @@ Handle audio file:
 # Data
 
 Session (can be 1...n nights)
-- Session id, dumb [string]
+- Session id, reconstructable [string]
 - Directory name [string]
-- Location code (acts as id) [string]
+- Location code (acts as location id) [string]
 
 Source file
-- Source file uuid, dumb [string]
+- Source file uuid, reconstructable [string]
 - Session id uuid
 - Directory name & filename (must not change this afterwards) [string] DONE
 - Device id [string] DONE

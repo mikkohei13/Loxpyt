@@ -22,6 +22,10 @@ class db():
     self._sessionsColl = self._db['sessions']
 
   def saveSession(self, data):
+
+    # Todo: not a session, but a file
+    # Todo: file id must be calculated manually, so that if same file entered multiple times -> no duplicates
+    
     recordId = self._sessionsColl.insert_one(data).inserted_id
     print(recordId)
     print("Finished db")
