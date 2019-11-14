@@ -29,9 +29,10 @@ else:
   segments = int(args.segments)
   location = args.location
 
+# Validate input
 # Todo: tbd: Check that dir name contains locality? To avoid errors.
-
 # Todo: check if directory/data (case-sensitivity?) exists and contains wav files, or raise error
+location = location.lower()
 
 # Todo: good place to define path structure?
 path = "/_source_audio/" + directory + "/Data"
@@ -45,7 +46,8 @@ db = loxia_database.db()
 
 # SESSION
 # Todo: tbd: What to do if save directory handled twice?
-sessionData = { "_id": directory, "directory": directory, "location": location }
+sessionId = directory
+sessionData = { "_id": sessionId, "directory": directory, "location": location }
 db.saveSession(sessionData)
 
 # FILES
@@ -55,7 +57,9 @@ for filePath in audioFileList:
   # Save file
   fileData = file_helper.parseFile(filePath)
   # File name is not necessarily unique, e.g. when multiple recorders start at the same time. Therefore need to include session to the id.
-  fileData["_id"] = directory + "__" + fileData.get("fileName")
+  fileId =directory + "/" + fileData.get("fileName")
+  fileData["_id"] = fileId
+  fileData["session_id"] = sessionId
 
   db.saveFile(fileData)
 

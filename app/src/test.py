@@ -1,6 +1,6 @@
 
-dict = {"_id": "foo", "bar": "baz", "test": 123}
+location = "Leiden CENTRAAL"
 
-_id = { "_id": dict.get("_id") }
+location = location.lower()
 
-print(_id)
+print(location)

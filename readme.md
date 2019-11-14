@@ -34,8 +34,10 @@ Handle audio file:
 
 # Todo
 
+- Normalized datetimes, UTC?
 - Upsert? What can be upserted? Not segments, since replacing can harm AI training?
 - Databasing: what should be case-insensitive? Location id? Mongodb _id's? How could the case change? (typing error on terminal, dir or file name change...?)
+  - A: location id always lowercased
 - Backup of database, automatic whenever ...
 - Conversion
   - Organize export files so that each session (night) is in its own dir. Do this when you know how the conversions will eventually be done (manually per night using terminal command, so that there would be no need to handle errors automatically).
@@ -80,23 +82,26 @@ Handle audio file:
 # Data
 
 Session (can be 1...n nights)
-- Session id, hashed directory and location [string]
-- Directory name [string]
-- Location code (acts as location id) [string]
+- Id [string] DONE
+- Directory name [string] DONE
+- Location code (acts as location id) [string] DONE
+- Entry datetime [datetime/string]
 
 Source file
-- Source file hashed sessionId and filename [string]
-- Session id uuid
-- Directory name & filename (must not change this afterwards) [string] DONE
+- Id [string] DONE
+- Session id DONE
+- Raw file metadata DONE
+- Directory name (must not change this afterwards) [string] SAME AS SESSION_ID
+- File name (must not change this afterwards) [string] DONE
 - Device id [string] DONE
-- Device type [string]
+- Device model [string] DONE
+- Device version [string] DONE
 - Start datetime, normalized, from file meta, using function for each device [datetime/string]
   - Audiomoth: UTC, winter/summer?
   - SM4: Finnish summer time
 - Night id (first day yyyymmdd), calculated from datetime [int]
-- Length in seconds [int]
-- File info [array]
-- Conversion datetime [datetime/string]
+- Length in seconds [int] DONE
+- Entry datetime [datetime/string]
 
 Segment file
 - Source file uuid, dumb [string]
