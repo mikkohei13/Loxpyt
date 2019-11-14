@@ -2,43 +2,66 @@
 # Example usage: see readme.md
 #
 
-
 import argparse
-import split_and_spectro
-import pyexifinfo
 
+import split_and_spectro
+import file_helper
 import loxia_database
+
 
 debug = True # get input from this file AND use interpreter on host Linux 
 
 if debug:
-  file = "./../../_source_audio/noordwijk/5DB0E3A4.WAV"
-  file = "./../../_source_audio/ks/HLO10_20191102_022600.wav"
+  directory = "ks"
+  directory = "noordwijk"
+  location = "Noordwijk"
   segments = 1
 
 else:
   # Get args from command line
   parser = argparse.ArgumentParser(description='Tool to create segment files and spectrograms from large audio files')
-  parser.add_argument("--file", help="Path to wav file (string, required)", required=True)
-  parser.add_argument("--segments", help="How many segments to generate (int, required)", required=True)
-  #parser.add_argument("--deviceid", help="Id of the recording device (string, required)", required=True)
+  parser.add_argument("--dir", help="Name of directory to parse audio files from, relative to _source_audio. (string, required)", required=True)
+  parser.add_argument("--segments", help="How many segments to generate. Give 0 to parse all. (int, required)", required=True)
+  parser.add_argument("--location", help="Unique location name, used as a location id. (string, required)", required=True)
 
   args = parser.parse_args()
-  file = args.file
+  directory = args.dir
   segments = int(args.segments)
-  #deviceId = args.deviceid
+  location = args.location
 
-# todo: check if file exists
+# Todo: tbd: Check that dir name contains locality? To avoid errors.
+
+# Todo: check if directory/data (case-sensitivity?) exists and contains wav files, or raise error
+
+# Todo: good place to define path structure?
+path = "/_source_audio/" + directory + "/Data"
+
+audioFileList = file_helper.getAudioFileList(path)
 
 # Get metadata for the file
-metadata = pyexifinfo.parseFile(file)
+# Todo: move this to last, so that error will prevent it from running
 
 db = loxia_database.db()
 
-db.saveSession(metadata)
+# SESSION
+# Todo: tbd: What to do if save directory handled twice?
+sessionData = { "_id": directory, "directory": directory, "location": location }
+db.saveSession(sessionData)
 
+# FILES
+for filePath in audioFileList:
 
-# Split into segments and generate spectrograms
-#split_and_spectro.parseFile(file, "/_exports/", segments)
+  # Todo: tbd: What to do if save file handled twice?
+  # Save file
+  fileData = file_helper.parseFile(filePath)
+  # File name is not necessarily unique, e.g. when multiple recorders start at the same time. Therefore need to include session to the id.
+  fileData["_id"] = directory + "__" + fileData.get("fileName")
 
-# Save into database
+  db.saveFile(fileData)
+
+  # SEGMENTS
+  # Create and loop segments
+
+  # Split into segments and generate spectrograms
+  #split_and_spectro.parseFile(file, "/_exports/", segments)
+

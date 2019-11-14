@@ -3,6 +3,8 @@
 import pprint
 import subprocess
 from bs4 import BeautifulSoup
+import os
+
 
 def getDurationStr2Sec(durationStr):
   durationList = durationStr.split(":")
@@ -44,7 +46,7 @@ def parseFile(audioFilePath):
   metadata['rawMetadata'] = results
 
   # B) Calculated meta
-  # Todo: add date modified etc.
+  metadata["fileName"] = results.get("File Name") # This is required for databasing
   metadata["durationSeconds"] = getDurationStr2Sec(results.get("Duration", "00:00:00"))
   metadata["dateModified"] = results.get("File Modification Date/Time")
 
@@ -76,3 +78,13 @@ def parseFile(audioFilePath):
 # audioFilePath = 'audio/ks/HLO10_20191102_022600.wav'
 # audioFilePath = 'audio/noordwijk/5DB0E3A4.WAV'
 # parseFile(audioFilePath)
+
+def getAudioFileList(directory):
+  audioFileList = []
+  for root, dirs, files in os.walk(directory):
+    for name in files:
+      if name.lower().endswith(".wav"):
+        audioFileList.append(directory + "/" + name)
+
+  return tuple(audioFileList)
+

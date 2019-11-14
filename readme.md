@@ -28,7 +28,8 @@ Handle audio file:
 
 # Todo
 
-
+- Upsert? What can be upserted? Not segments, since replacing can harm AI training?
+- Databasing: what should be case-insensitive? Location id? Mongodb _id's? How could the case change? (typing error on terminal, dir or file name change...?)
 - Backup of database, automatic whenever ...
 - Conversion
   - Organize export files so that each session (night) is in its own dir. Do this when you know how the conversions will eventually be done (manually per night using terminal command, so that there would be no need to handle errors automatically).
@@ -73,12 +74,12 @@ Handle audio file:
 # Data
 
 Session (can be 1...n nights)
-- Session id, reconstructable [string]
+- Session id, hashed directory and location [string]
 - Directory name [string]
 - Location code (acts as location id) [string]
 
 Source file
-- Source file uuid, reconstructable [string]
+- Source file hashed sessionId and filename [string]
 - Session id uuid
 - Directory name & filename (must not change this afterwards) [string] DONE
 - Device id [string] DONE
