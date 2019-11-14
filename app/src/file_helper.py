@@ -1,9 +1,9 @@
 # Dependency: exiftool
 
-import pprint
 import subprocess
 from bs4 import BeautifulSoup
 import os
+import datetime
 
 
 def getDurationStr2Sec(durationStr):
@@ -26,6 +26,14 @@ def getAudiomothData(string):
   return deviceId, gainSetting
 
 
+def getAudiomothTimes(filename, timespanSeconds):
+  hexTimestamp = int(filename.replace(".WAV", ""), 16)
+  dateStartUTC = datetime.datetime.utcfromtimestamp(hexTimestamp)
+  dateEndUTC = dateStartUTC + datetime.timedelta(0, timespanSeconds)
+
+  return dateStartUTC, dateEndUTC
+
+
 def parseFile(audioFilePath):
 
   html = subprocess.check_output('exiftool -h ' + audioFilePath, shell=True)
@@ -43,17 +51,18 @@ def parseFile(audioFilePath):
   metadata = {}
 
   # A) raw meta
-  metadata['rawMetadata'] = results
+  metadata['fileRawMetadata'] = results
 
   # B) Calculated meta
-  metadata["fileName"] = results.get("File Name") # This is required for databasing
-  metadata["durationSeconds"] = getDurationStr2Sec(results.get("Duration", "00:00:00"))
-  metadata["dateModified"] = results.get("File Modification Date/Time")
+  metadata["fileName"] = results.get("File Name")
+  metadata["recordDurationSeconds"] = getDurationStr2Sec(results.get("Duration", "00:00:00"))
+  metadata["fileDateModified"] = results.get("File Modification Date/Time") # Todo: Convert to datetime object?
 
   if "AudioMoth" in results.get("Comment", ""):
     metadata["deviceModel"] = "audiomoth"
     metadata["deviceVersion"] = "1.0"
     metadata["deviceId"], results["gainSetting"] = getAudiomothData(results.get("Comment"))
+    metadata["recordDateStartUTC"], metadata["recordDateEndUTC"] = getAudiomothTimes(results.get("File Name"), metadata["recordDurationSeconds"])
 
   # Expects the only other option to be WA SM4
   # Todo: fix if use other devices
@@ -65,9 +74,7 @@ def parseFile(audioFilePath):
     metadata["deviceId"] = "HLO10"
 
 
-
-  print(metadata)
-  pprint.pprint(metadata)
+#  print(metadata)
 
   return metadata
 

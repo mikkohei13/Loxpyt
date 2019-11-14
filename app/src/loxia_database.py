@@ -8,6 +8,8 @@
 # collection: sessions
 
 from pymongo import MongoClient
+import datetime
+import pprint
 
 class db():
 
@@ -22,16 +24,32 @@ class db():
     self._sessionsColl = db['sessions']
     self._filesColl = db['files']
 
+
+  def getDbMetaFields(self):
+    data = {}
+    data["recordLastModifiedUTC"] = datetime.datetime.utcnow()
+
+    # This adds and element which is not overwritten on upsert, displaying human-readable date for debugging
+    data[str(datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"))] = "recordModifiedUTC"
+    return data
+
+
   def saveSession(self, data):
     _id = { "_id": data.get("_id") }
+    data.update(self.getDbMetaFields())
+
     recordId = self._sessionsColl.update_one(_id, { "$set": data }, True)#.inserted_id
     print(recordId)
+    pprint.pprint(data)
     print("Inserted session")
 
   def saveFile(self, data):
     _id = { "_id": data.get("_id") }
+    data.update(self.getDbMetaFields())
+
     recordId = self._filesColl.update_one(_id, { "$set": data }, True)#.inserted_id
     print(recordId)
+    pprint.pprint(data)
     print("Inserted file")
 
 

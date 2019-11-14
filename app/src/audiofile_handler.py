@@ -14,7 +14,8 @@ debug = True # get input from this file AND use interpreter on host Linux
 if debug:
   directory = "ks"
   directory = "noordwijk"
-  location = "Noordwijk"
+
+  location = "noordwijk-hotel"
   segments = 1
 
 else:

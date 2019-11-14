@@ -34,10 +34,13 @@ Handle audio file:
 
 # Todo
 
+- Id's as hashes, in case dir names are corrected? Need still to be reproducible...
 - Normalized datetimes, UTC?
+  - DONE: Audiomoth
 - Upsert? What can be upserted? Not segments, since replacing can harm AI training?
+  - DONE: session and file upserted
 - Databasing: what should be case-insensitive? Location id? Mongodb _id's? How could the case change? (typing error on terminal, dir or file name change...?)
-  - A: location id always lowercased
+  - DONE: location id always lowercased
 - Backup of database, automatic whenever ...
 - Conversion
   - Organize export files so that each session (night) is in its own dir. Do this when you know how the conversions will eventually be done (manually per night using terminal command, so that there would be no need to handle errors automatically).
@@ -79,6 +82,21 @@ Handle audio file:
   - adjust size
 - slow
 
+# Dates
+
+- UTC is standard time without daylight saving time adjustments.
+- File metadata date modified cannot be trusted, it can change when file is copied?
+
+Audiomoth:
+- Comment field has time in format "22:35:00 23/10/2019 (UTC)".
+  - This seems to be *start time - 3 h* give or take few minutes. Don't use this because unclear why the difference.
+- File name has time encoded as 32-bit hexadecimal unix timestamp of seconds, e.g. "5DB0D594" = ?
+  - Forum says this is *start time*
+
+SM4
+- File name has *start* time, e.g. "HLO10_20191102_022600"
+
+
 # Data
 
 Session (can be 1...n nights)
@@ -103,13 +121,13 @@ Source file
 - Length in seconds [int] DONE
 - Entry datetime [datetime/string]
 
-Segment file
+Segment files
 - Source file uuid, dumb [string]
-- Segment file uuid [string]
-- Segment number [int]
-- Segment size in seconds [int]
-- Segment offset in seconds [int]
-- Peak amplitude [int]?
+- Segment file uuid [string] - or just use file path convention
+- Segment number [int] - or just use filename convention
+- Segment size in seconds [int] - or always 10 sec
+- Segment offset in seconds [int] - or just use filename convention
+- Peak amplitude [int]? - not needed?
 
 Segment annotation data
 - Annotation uuid, dumb
