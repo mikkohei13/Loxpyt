@@ -23,12 +23,14 @@ class db():
     self._filesColl = db['files']
 
   def saveSession(self, data):
-    recordId = self._sessionsColl.insert_one(data).inserted_id
+    _id = { "_id": data.get("_id") }
+    recordId = self._sessionsColl.update_one(_id, { "$set": data }, True)#.inserted_id
     print(recordId)
     print("Inserted session")
 
   def saveFile(self, data):
-    recordId = self._filesColl.insert_one(data).inserted_id
+    _id = { "_id": data.get("_id") }
+    recordId = self._filesColl.update_one(_id, { "$set": data }, True)#.inserted_id
     print(recordId)
     print("Inserted file")
 

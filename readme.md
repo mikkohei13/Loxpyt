@@ -24,7 +24,13 @@ Handle audio file:
   - Rule of thumb: 10-50 ms / window is usually good
   - My tests: c. 15 ms / window seems clearest
   - For NFTT "A power 2 is most efficient"
-
+- Are upserts needed or allowed?
+  - Needed: debugging
+  - Not allowed: when segments have already been annotated, since this could break the AI training process (Todo: Set to session annotationStarted: True ?)
+- How to handle when nocmig ends and morning begins? 
+  - A: Manually by deciding when processing should stop, and providing that info as processing parameter (relative to file time).
+- How to avoid hearing issues when sound starts/stops?
+  - Option: By playing back continuously and tag with "nobirds", unless user interrupts
 
 # Todo
 

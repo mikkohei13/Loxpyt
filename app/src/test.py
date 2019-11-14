@@ -1,9 +1,6 @@
 
-import os
+dict = {"_id": "foo", "bar": "baz", "test": 123}
 
-directory = "./../../_source_audio/noordwijk"
-for root, dirs, files in os.walk(directory):
-  for name in files:
-    if name.lower().endswith(".wav"):
-      print(directory + "/" + name)
+_id = { "_id": dict.get("_id") }
 
+print(_id)
