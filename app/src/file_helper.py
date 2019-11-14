@@ -7,8 +7,11 @@ import datetime
 
 
 def getDurationStr2Sec(durationStr):
-  durationList = durationStr.split(":")
-  return 3600*int(durationList[0]) + 60*int(durationList[1]) + int(durationList[2])
+  if "00:00:00" == durationStr:
+    raise ValueError("File has zero or missing duration")
+  else:
+    durationList = durationStr.split(":")
+    return 3600*int(durationList[0]) + 60*int(durationList[1]) + int(durationList[2])
 
 
 def getAudiomothData(string):
@@ -59,9 +62,9 @@ def parseFile(audioFilePath):
   metadata["fileDateModified"] = results.get("File Modification Date/Time") # Todo: Convert to datetime object?
 
   if "AudioMoth" in results.get("Comment", ""):
-    metadata["deviceModel"] = "audiomoth"
-    metadata["deviceVersion"] = "1.0"
-    metadata["deviceId"], results["gainSetting"] = getAudiomothData(results.get("Comment"))
+    metadata["deviceModel"] = "audiomoth 1.0"
+    metadata["deviceFirmwareVersion"] = ""
+    metadata["deviceId"], results["deviceGainSetting"] = getAudiomothData(results.get("Comment"))
     metadata["recordDateStartUTC"], metadata["recordDateEndUTC"] = getAudiomothTimes(results.get("File Name"), metadata["recordDurationSeconds"])
 
   # Expects the only other option to be WA SM4

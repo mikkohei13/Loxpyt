@@ -20,6 +20,7 @@ Handle audio file:
 
 # Tbd
 
+- Check what other annotated data is available, how long are the files, what format are they, what's the frequency, what kind of tags ...
 - Should we adjust NFTT (+ noverlap) to have same length for each window? Yes, so that each image is same width, despite different sampling rates. 
   - Rule of thumb: 10-50 ms / window is usually good
   - My tests: c. 15 ms / window seems clearest
@@ -34,6 +35,7 @@ Handle audio file:
 
 # Todo
 
+- Move SM4 metadata handling from test to file_helper and wamd modules
 - Id's as hashes, in case dir names are corrected? Need still to be reproducible...
 - Normalized datetimes, UTC?
   - DONE: Audiomoth
