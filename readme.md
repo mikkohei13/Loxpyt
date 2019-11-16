@@ -32,13 +32,15 @@ Handle audio file:
   - A: Manually by deciding when processing should stop, and providing that info as processing parameter (relative to file time).
 - How to avoid hearing issues when sound starts/stops?
   - Option: By playing back continuously and tag with "nobirds", unless user interrupts
+- Should this be refactored so that file metadata that is similar within session goes to session collection in deb? Things like recorder model and settings?
+  - A: No, complicates code (at least at this point) and does not bring new functionality
 
 # Todo
 
+- Refactor split and spect: var names, files in subdirs, parametrize path structure?
+- Stereo to mono
 - Double-check the time setting in SM4, is it UTC+3? And is the time value in metadata correct?
 - Id's as hashes, in case dir names are corrected? Need still to be reproducible...
-- Normalized datetimes, UTC?
-  - DONE: Audiomoth
 - Upsert? What can be upserted? Not segments, since replacing can harm AI training?
   - DONE: session and file upserted
 - Databasing: what should be case-insensitive? Location id? Mongodb _id's? How could the case change? (typing error on terminal, dir or file name change...?)
@@ -49,7 +51,7 @@ Handle audio file:
   - Issues:
     - Avoid errors when typing the command manually.
     - Make it easy to change the export path during development
-
+- Next time you change the directory structure, parametrize it
 - Spectrogram
   - Instead of fitting spec to pixel dimensions, calculate size using NFTT & noverlay?
   - Fix file dimensions pixel-perfect?

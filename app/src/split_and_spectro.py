@@ -4,6 +4,9 @@ import pylab
 import os
 from PIL import Image, ImageChops
 
+
+### AUDIO HANDLING FUNCTIONS #########################################################
+
 # Cropper
 # Crop whitespace around the image, based on colour of top right (?) pixel, and save to disk
 def trim(im):
@@ -55,8 +58,9 @@ def get_wav_info(wavFilename):
   return sound_info, frame_rate
 
 
-# Parse file
-# Parse large audio file
+### MAIN PARSER GENERATOR #########################################################
+
+# Parse single audio file
 def parseFile(audioFilePath, exportDirPath, segments = 1):
 
   newAudio = AudioSegment.from_wav(audioFilePath)
@@ -97,17 +101,27 @@ def parseFile(audioFilePath, exportDirPath, segments = 1):
     segment.export(wavFilename + ".mp3", format="mp3")
     os.remove(wavFilename)
 
-
     # Finish this loop
     t1 = t2
     t2 = t2 + length
     i = i + 1
 
+    # Create metadata to be returned
+    # Todo: parametrize file names
+    segmentMetadata = {}
+    segmentMetadata['audioFilePath'] = wavFilename + ".mp3"
+    segmentMetadata['spectroFilePath'] = spectroFilename
+    segmentMetadata['segmentNumber'] = iZeros
+    segmentMetadata['startSeconds'] = t1
+    segmentMetadata['endSeconds'] = t1
+
     print("Segment " + str(i) + " done")  
+
+    yield segmentMetadata
 
   # End while
 
   # Todo: return something useful?
-  return True
+#  return True
 
 # End function

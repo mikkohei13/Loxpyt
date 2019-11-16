@@ -8,6 +8,10 @@ import split_and_spectro
 import file_helper
 import loxia_database
 
+### INPUT #########################################################
+
+segments = 0
+segmentsLimit = 100
 
 debug = True # get input from this file AND use interpreter on host Linux 
 
@@ -16,13 +20,13 @@ if debug:
   directory = "ks"
 
   location = "Kaskisavu"
-  segments = 1
+  segments = 10
 
 else:
   # Get args from command line
   parser = argparse.ArgumentParser(description='Tool to create segment files and spectrograms from large audio files')
   parser.add_argument("--dir", help="Name of directory to parse audio files from, relative to _source_audio. (string, required)", required=True)
-  parser.add_argument("--segments", help="How many segments to generate. Give 0 to parse all. (int, required)", required=True)
+  parser.add_argument("--segments", help="How many segments to generate for debugging. Limited to " + segmentsLimit + ". Set to 0 or leave out to create as many as needeed. (int, required)")
   parser.add_argument("--location", help="Unique location name, used as a location id. (string, required)", required=True)
 
   args = parser.parse_args()
@@ -33,10 +37,17 @@ else:
 # Validate input
 # Todo: tbd: Check that dir name contains locality? To avoid errors.
 # Todo: check if directory/data (case-sensitivity?) exists and contains wav files, or raise error
+
+if segments > segmentsLimit:
+  segments = segmentsLimit
+
 location = location.lower()
 
 # Todo: good place to define path structure?
 path = "/_source_audio/" + directory + "/Data"
+
+
+### HANDLING DATA #########################################################
 
 audioFileList = file_helper.getAudioFileList(path)
 
@@ -45,13 +56,13 @@ audioFileList = file_helper.getAudioFileList(path)
 
 db = loxia_database.db()
 
-# SESSION
-# Todo: tbd: What to do if save directory handled twice?
+### SESSION
+# Todo: tbd: What to do if same directory handled twice?
 sessionId = directory
 sessionData = { "_id": sessionId, "directory": directory, "location": location }
 db.saveSession(sessionData)
 
-# FILES
+### FILES
 for filePath in audioFileList:
 
   # Todo: tbd: What to do if save file handled twice?
@@ -64,9 +75,24 @@ for filePath in audioFileList:
 
   db.saveFile(fileData)
 
-  # SEGMENTS
+  ### SEGMENTS
   # Create and loop segments
 
   # Split into segments and generate spectrograms
-  #split_and_spectro.parseFile(file, "/_exports/", segments)
+  exportDirPath = "/_exports/" + directory
+
+  """
+  Todo:
+  Save segments to database
+  a) yield
+  b) db as dependency injection
+  """
+  segmentMetaGenerator = split_and_spectro.parseFile(filePath, exportDirPath, segments)
+
+  for segmentMeta in segmentMetaGenerator:
+    print(segmentMeta)
+
+  # If segments defined for debugging, break processing
+  if segments > 0:
+    break;
 
