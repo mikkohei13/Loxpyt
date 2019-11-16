@@ -35,7 +35,6 @@ Handle audio file:
 
 # Todo
 
-- Move SM4 metadata handling from test to file_helper and wamd modules
 - Double-check the time setting in SM4, is it UTC+3? And is the time value in metadata correct?
 - Id's as hashes, in case dir names are corrected? Need still to be reproducible...
 - Normalized datetimes, UTC?

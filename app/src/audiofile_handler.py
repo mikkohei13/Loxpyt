@@ -12,10 +12,10 @@ import loxia_database
 debug = True # get input from this file AND use interpreter on host Linux 
 
 if debug:
-  directory = "ks"
   directory = "noordwijk"
+  directory = "ks"
 
-  location = "noordwijk-hotel"
+  location = "Kaskisavu"
   segments = 1
 
 else:
