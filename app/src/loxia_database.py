@@ -23,7 +23,7 @@ class db():
     db = client['loxia']
     self._sessionsColl = db['sessions']
     self._filesColl = db['files']
-    self._segmentsColl = db['files']
+    self._segmentsColl = db['segments']
 
 
   def getDbMetaFields(self):

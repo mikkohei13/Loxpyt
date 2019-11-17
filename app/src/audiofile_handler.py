@@ -3,6 +3,7 @@
 #
 
 import argparse
+import datetime
 
 import split_and_spectro
 import file_helper
@@ -57,20 +58,18 @@ audioFileList = file_helper.getAudioFileList(path)
 
 db = loxia_database.db()
 
-### SESSION
+### SESSION ###
 # Todo: tbd: What to do if same directory handled twice?
 sessionId = directory
 sessionData = { "_id": sessionId, "directory": directory, "location": location }
 db.saveSession(sessionData)
 
-### FILES
+### FILES ###
 for audioFilePath in audioFileList:
-  print("audioFilePath: " + audioFilePath) # DEBUG
-#  break
-
   # Todo: tbd: What to do if save file handled twice?
-  # Save file
+
   fileData = file_helper.parseFile(audioFilePath)
+
   # File name is not necessarily unique, e.g. when multiple recorders start at the same time. Therefore need to include session to the id.
   fileId = sessionId + "/" + fileData.get("fileName")
   fileData["_id"] = fileId
@@ -78,21 +77,22 @@ for audioFilePath in audioFileList:
 
   db.saveFile(fileData)
 
-  ### SEGMENTS
-  # Create and loop segments
-
+  ### SEGMENTS ###
   # Split into segments and generate spectrograms
   segmentMetaGenerator = split_and_spectro.parseFile(audioFilePath, exportDir, directory, segments, 10)
 
   for segmentMeta in segmentMetaGenerator:
     segmentId = fileId + "/" + segmentMeta["baseAudioFilename"]
-    segmentMeta["_id"] = segmentId
-    print("segmentId: " + segmentId)
 
-#    print(segmentMeta) # debug
+    # Additional data
+    segmentMeta["_id"] = segmentId
+    segmentMeta["file_id"] = fileId
+    segmentMeta["fileDirectory"] = directory
+
+    segmentMeta["segmentStartUTC"] = fileData["recordDateStartUTC"] + datetime.timedelta(0, segmentMeta["segmentStartSeconds"])
+
     db.saveSegment(segmentMeta)
 
-    # Todo: segment to db
 
   # If segments defined for debugging, break processing before going to next file
   if segments > 0:

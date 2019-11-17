@@ -109,7 +109,7 @@ Session (can be 1...n nights)
 - Id [string]: directory DONE
 - Directory name [string] DONE
 - Location code (acts as location id) [string] DONE
-- Entry datetime [datetime/string]
+- Entry datetime [datetime/string] --TODO--
 
 Source file
 - Id [string]: directory/sourceFilename DONE 
@@ -120,20 +120,18 @@ Source file
 - Device id [string] DONE
 - Device model [string] DONE
 - Device version [string] DONE
-- Start datetime, normalized, from file meta, using function for each device [datetime/string]
-  - Audiomoth: UTC, winter/summer?
-  - SM4: Finnish summer time
-- Night id (first day yyyymmdd), calculated from datetime [int]
+- Start datetime, normalized, from file meta, using function for each device [datetime/string] DONE
+- Night id (first day yyyymmdd), calculated from datetime [int] --TODO--
 - Length in seconds [int] DONE
-- Entry datetime [datetime/string]
+- Entry datetime [datetime/string] --TODO--
 
 Segment files
-- Source file [string]: directory/sourceFilename/baseAudioFilename
-- Segment file uuid [string] - or just use file path convention
-- Segment number [int] - or just use filename convention
-- Segment size in seconds [int] - or always 10 sec
-- Segment offset in seconds [int] - or just use filename convention
-- Peak amplitude [int]? - not needed?
+- Source file [string]
+- Segment file uuid [string]: directory/sourceFilename/baseAudioFilename DONE
+- Segment number [int] DONE
+- Segment size in seconds [int] DONE
+- Segment offset in seconds [int] DONE
+- Peak amplitude [int]? - not needed? --TODO
 
 Segment annotation data
 - Annotation uuid, dumb
