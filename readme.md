@@ -106,13 +106,13 @@ SM4
 # Data
 
 Session (can be 1...n nights)
-- Id [string] DONE
+- Id [string]: directory DONE
 - Directory name [string] DONE
 - Location code (acts as location id) [string] DONE
 - Entry datetime [datetime/string]
 
 Source file
-- Id [string] DONE
+- Id [string]: directory/sourceFilename DONE 
 - Session id DONE
 - Raw file metadata DONE
 - Directory name (must not change this afterwards) [string] SAME AS SESSION_ID
@@ -128,7 +128,7 @@ Source file
 - Entry datetime [datetime/string]
 
 Segment files
-- Source file uuid, dumb [string]
+- Source file [string]: directory/sourceFilename/baseAudioFilename
 - Segment file uuid [string] - or just use file path convention
 - Segment number [int] - or just use filename convention
 - Segment size in seconds [int] - or always 10 sec

@@ -4,6 +4,13 @@ import pylab
 import os
 from PIL import Image, ImageChops
 
+### HELPER FUNCTIONS #########################################################
+
+def createDir(dirPath):
+  if not os.path.exists(dirPath):
+    os.makedirs(dirPath)
+  return True
+
 
 ### AUDIO HANDLING FUNCTIONS #########################################################
 
@@ -70,17 +77,17 @@ def parseFile(audioFilePath, exportDir, directory, segments = 1, segmentLengthSe
   segmentEndSeconds = segmentStartSeconds + segmentLengthSeconds
   segmentNumber = 0
 
+  createDir(exportDirPath)
+
   while (segmentNumber < segments):
 
     # Create names
     segmentNumberLeadingZeroes = str("{:05d}".format(segmentNumber))
 
-    baseAudioFilename = segmentNumberLeadingZeroes + "_" + str(segmentStartSeconds) + "-" + str(segmentEndSeconds) + ".wav"
+    baseAudioFilename = segmentNumberLeadingZeroes + "_" + str(segmentStartSeconds) + "-" + str(segmentEndSeconds)
     tempAudioFilename = baseAudioFilename +  ".wav"
     spectroFilename = tempAudioFilename + ".png"
     finalAudioFilename = baseAudioFilename + ".mp3"
-
-    # Todo ABBA tempAudioFilename is not a path, needs exportDirPath
 
     # Create wav segment
     segment = newAudio[(segmentStartSeconds * 1000):(segmentEndSeconds * 1000)]
@@ -113,13 +120,13 @@ def parseFile(audioFilePath, exportDir, directory, segments = 1, segmentLengthSe
     # Create metadata to be returned
     # Todo: parametrize file names
     segmentMetadata = {}
+    segmentMetadata['baseAudioFilename'] = baseAudioFilename
     segmentMetadata['finalAudioFilename'] = finalAudioFilename
     segmentMetadata['spectroFilename'] = spectroFilename
     segmentMetadata['segmentNumber'] = segmentNumber
     segmentMetadata['segmentStartSeconds'] = segmentStartSeconds
     segmentMetadata['segmentEndSeconds'] = segmentEndSeconds
     segmentMetadata['segmentLengthSeconds'] = segmentLengthSeconds
-    segmentMetadata['segmentId'] = directory
     
     print("Segment " + str(segmentNumber) + " done")
 

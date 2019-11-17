@@ -12,6 +12,7 @@ import loxia_database
 
 segments = 0
 segmentsLimit = 100
+exportDir = "/_exports"
 
 debug = True # get input from this file AND use interpreter on host Linux 
 
@@ -20,13 +21,13 @@ if debug:
   directory = "ks"
 
   location = "Kaskisavu"
-  segments = 10
+  segments = 3
 
 else:
   # Get args from command line
   parser = argparse.ArgumentParser(description='Tool to create segment files and spectrograms from large audio files')
   parser.add_argument("--dir", help="Name of directory to parse audio files from, relative to _source_audio. (string, required)", required=True)
-  parser.add_argument("--segments", help="How many segments to generate for debugging. Limited to " + segmentsLimit + ". Set to 0 or leave out to create as many as needeed. (int, required)")
+  parser.add_argument("--segments", help="How many segments to generate for debugging. Limited to " + segmentsLimit + ". Set to 0 or leave out to create as many as needed. (int, required)")
   parser.add_argument("--location", help="Unique location name, used as a location id. (string, required)", required=True)
 
   args = parser.parse_args()
@@ -63,13 +64,15 @@ sessionData = { "_id": sessionId, "directory": directory, "location": location }
 db.saveSession(sessionData)
 
 ### FILES
-for filePath in audioFileList:
+for audioFilePath in audioFileList:
+  print("audioFilePath: " + audioFilePath) # DEBUG
+#  break
 
   # Todo: tbd: What to do if save file handled twice?
   # Save file
-  fileData = file_helper.parseFile(filePath)
+  fileData = file_helper.parseFile(audioFilePath)
   # File name is not necessarily unique, e.g. when multiple recorders start at the same time. Therefore need to include session to the id.
-  fileId = directory + "/" + fileData.get("fileName")
+  fileId = sessionId + "/" + fileData.get("fileName")
   fileData["_id"] = fileId
   fileData["session_id"] = sessionId
 
@@ -79,22 +82,19 @@ for filePath in audioFileList:
   # Create and loop segments
 
   # Split into segments and generate spectrograms
-  exportDir = "/_exports/"
-
-  """
-  Todo:
-  Save segments to database
-  a) yield
-  b) db as dependency injection
-  """
-  # Todo: refactor names, e.g. directory
-  #  
-  segmentMetaGenerator = split_and_spectro.parseFile(filePath, exportDir, directory, segments, 10)
+  segmentMetaGenerator = split_and_spectro.parseFile(audioFilePath, exportDir, directory, segments, 10)
 
   for segmentMeta in segmentMetaGenerator:
-    print(segmentMeta)
+    segmentId = fileId + "/" + segmentMeta["baseAudioFilename"]
+    segmentMeta["_id"] = segmentId
+    print("segmentId: " + segmentId)
 
-  # If segments defined for debugging, break processing
+#    print(segmentMeta) # debug
+    db.saveSegment(segmentMeta)
+
+    # Todo: segment to db
+
+  # If segments defined for debugging, break processing before going to next file
   if segments > 0:
     break;
 

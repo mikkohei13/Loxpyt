@@ -23,6 +23,7 @@ class db():
     db = client['loxia']
     self._sessionsColl = db['sessions']
     self._filesColl = db['files']
+    self._segmentsColl = db['files']
 
 
   def getDbMetaFields(self):
@@ -52,6 +53,14 @@ class db():
     pprint.pprint(data)
     print("Inserted file")
 
+  def saveSegment(self, data):
+    _id = { "_id": data.get("_id") }
+    data.update(self.getDbMetaFields())
+
+    recordId = self._segmentsColl.update_one(_id, { "$set": data }, True)#.inserted_id
+    print(recordId)
+    pprint.pprint(data)
+    print("Inserted segment")
 
 
 # testPost = {"foo": "bar"}
