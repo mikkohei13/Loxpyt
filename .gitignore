@@ -5,6 +5,7 @@ __pycache__/
 .vscode/
 _exports/
 _source_audio/
+local/ai.md
 
 mongodb-volume/*
 source_audio/*

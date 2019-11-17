@@ -69,7 +69,7 @@ for filePath in audioFileList:
   # Save file
   fileData = file_helper.parseFile(filePath)
   # File name is not necessarily unique, e.g. when multiple recorders start at the same time. Therefore need to include session to the id.
-  fileId =directory + "/" + fileData.get("fileName")
+  fileId = directory + "/" + fileData.get("fileName")
   fileData["_id"] = fileId
   fileData["session_id"] = sessionId
 
@@ -79,7 +79,7 @@ for filePath in audioFileList:
   # Create and loop segments
 
   # Split into segments and generate spectrograms
-  exportDirPath = "/_exports/" + directory
+  exportDir = "/_exports/"
 
   """
   Todo:
@@ -87,7 +87,9 @@ for filePath in audioFileList:
   a) yield
   b) db as dependency injection
   """
-  segmentMetaGenerator = split_and_spectro.parseFile(filePath, exportDirPath, segments)
+  # Todo: refactor names, e.g. directory
+  #  
+  segmentMetaGenerator = split_and_spectro.parseFile(filePath, exportDir, directory, segments, 10)
 
   for segmentMeta in segmentMetaGenerator:
     print(segmentMeta)

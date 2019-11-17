@@ -61,61 +61,67 @@ def get_wav_info(wavFilename):
 ### MAIN PARSER GENERATOR #########################################################
 
 # Parse single audio file
-def parseFile(audioFilePath, exportDirPath, segments = 1):
+def parseFile(audioFilePath, exportDir, directory, segments = 1, segmentLengthSeconds = 10):
 
   newAudio = AudioSegment.from_wav(audioFilePath)
 
-  # Slicing settings
-  length = 10 # sec
+  exportDirPath = exportDir + "/" + directory + "/"
+  segmentStartSeconds = 0
+  segmentEndSeconds = segmentStartSeconds + segmentLengthSeconds
+  segmentNumber = 0
 
-  t1 = 0
-  t2 = t1 + length
-  i = 0
+  while (segmentNumber < segments):
 
-  while (i < segments):
+    # Create names
+    segmentNumberLeadingZeroes = str("{:05d}".format(segmentNumber))
+
+    baseAudioFilename = segmentNumberLeadingZeroes + "_" + str(segmentStartSeconds) + "-" + str(segmentEndSeconds) + ".wav"
+    tempAudioFilename = baseAudioFilename +  ".wav"
+    spectroFilename = tempAudioFilename + ".png"
+    finalAudioFilename = baseAudioFilename + ".mp3"
+
+    # Todo ABBA tempAudioFilename is not a path, needs exportDirPath
 
     # Create wav segment
-    iZeros = str("{:05d}".format(i))
-    wavFilename = exportDirPath + "segment" + iZeros + "_" + str(t1) + "-" + str(t2) + ".wav"
-    spectroFilename = wavFilename + ".png"
-
-    segment = newAudio[(t1 * 1000):(t2 * 1000)]
+    segment = newAudio[(segmentStartSeconds * 1000):(segmentEndSeconds * 1000)]
 
     # Break if no more full segments
-    if segment.duration_seconds < (length / 1000):
+    if segment.duration_seconds < (segmentLengthSeconds / 1000):
       print("Reached the end")
       break
 
       # Save wav file
-    segment.export(wavFilename, format="wav")
+    segment.export(exportDirPath + tempAudioFilename, format="wav")
 
     # Create spectrogram
     # NOTE: PRESUMES MONO
     # Todo: stereo to mono
 
     # Saves the spectro image to disk
-    graph_spectrogram(wavFilename, spectroFilename)
+    graph_spectrogram(exportDirPath + tempAudioFilename, exportDirPath + spectroFilename)
 
     # Save mp3 file to disk and remove wav
     # Todo: exclude wav file extension from mp3 & spectro
-    segment.export(wavFilename + ".mp3", format="mp3")
-    os.remove(wavFilename)
+    segment.export(exportDirPath + tempAudioFilename + ".mp3", format="mp3")
+    os.remove(exportDirPath + tempAudioFilename)
 
     # Finish this loop
-    t1 = t2
-    t2 = t2 + length
-    i = i + 1
+    segmentStartSeconds = segmentEndSeconds
+    segmentEndSeconds = segmentEndSeconds + segmentLengthSeconds
+    segmentNumber = segmentNumber + 1
 
     # Create metadata to be returned
     # Todo: parametrize file names
     segmentMetadata = {}
-    segmentMetadata['audioFilePath'] = wavFilename + ".mp3"
-    segmentMetadata['spectroFilePath'] = spectroFilename
-    segmentMetadata['segmentNumber'] = iZeros
-    segmentMetadata['startSeconds'] = t1
-    segmentMetadata['endSeconds'] = t1
-
-    print("Segment " + str(i) + " done")  
+    segmentMetadata['finalAudioFilename'] = finalAudioFilename
+    segmentMetadata['spectroFilename'] = spectroFilename
+    segmentMetadata['segmentNumber'] = segmentNumber
+    segmentMetadata['segmentStartSeconds'] = segmentStartSeconds
+    segmentMetadata['segmentEndSeconds'] = segmentEndSeconds
+    segmentMetadata['segmentLengthSeconds'] = segmentLengthSeconds
+    segmentMetadata['segmentId'] = directory
+    
+    print("Segment " + str(segmentNumber) + " done")
 
     yield segmentMetadata
 

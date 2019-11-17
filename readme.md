@@ -37,6 +37,8 @@ Handle audio file:
 
 # Todo
 
+- Save all segment properties, so that segments can be reconstructed afterwards if needed 
+- Parametrize segment size -> file naming based on seconds from start, prefixed with zeroes
 - Refactor split and spect: var names, files in subdirs, parametrize path structure?
 - Stereo to mono
 - Double-check the time setting in SM4, is it UTC+3? And is the time value in metadata correct?

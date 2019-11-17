@@ -36,3 +36,15 @@ import datetime
 print(str(datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")))
 """
 
+from pydub import AudioSegment
+
+audioFilePath = ""
+wavFilename = "export.wav"
+minutes = 5
+seconds = minutes * 60
+
+newAudio = AudioSegment.from_wav(audioFilePath)
+
+segment = newAudio[0:(seconds * 1000)]
+
+segment.export(wavFilename, format="wav")
