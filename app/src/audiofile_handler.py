@@ -79,7 +79,7 @@ for audioFilePath in audioFileList:
 
   ### SEGMENTS ###
   # Split into segments and generate spectrograms
-  segmentMetaGenerator = split_and_spectro.parseFile(audioFilePath, exportDir, directory, segments, 10)
+  segmentMetaGenerator = split_and_spectro.parseFile(audioFilePath, exportDir, directory, fileData["fileName"], segments, 10)
 
   for segmentMeta in segmentMetaGenerator:
     segmentId = fileId + "/" + segmentMeta["baseAudioFilename"]

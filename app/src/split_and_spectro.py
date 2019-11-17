@@ -68,11 +68,11 @@ def get_wav_info(wavFilename):
 ### MAIN PARSER GENERATOR #########################################################
 
 # Parse single audio file
-def parseFile(audioFilePath, exportDir, directory, segments = 1, segmentLengthSeconds = 10):
+def parseFile(sourceAudioFilePath, exportDir, sessionDir, sourceAudioFileName, segments = 1, segmentLengthSeconds = 10):
 
-  newAudio = AudioSegment.from_wav(audioFilePath)
+  newAudio = AudioSegment.from_wav(sourceAudioFilePath)
 
-  exportDirPath = exportDir + "/" + directory + "/"
+  exportDirPath = exportDir + "/" + sessionDir + "/"
   segmentStartSeconds = 0
   segmentEndSeconds = segmentStartSeconds + segmentLengthSeconds
   segmentNumber = 0
@@ -84,9 +84,10 @@ def parseFile(audioFilePath, exportDir, directory, segments = 1, segmentLengthSe
     # Create names
     segmentNumberLeadingZeroes = str("{:05d}".format(segmentNumber))
 
-    baseAudioFilename = segmentNumberLeadingZeroes + "_" + str(segmentStartSeconds) + "-" + str(segmentEndSeconds)
+#    baseAudioFilename = segmentNumberLeadingZeroes + "_" + str(segmentStartSeconds) + "-" + str(segmentEndSeconds)
+    baseAudioFilename = sourceAudioFileName + "." + segmentNumberLeadingZeroes
     tempAudioFilename = baseAudioFilename +  ".wav"
-    spectroFilename = tempAudioFilename + ".png"
+    spectroFilename = baseAudioFilename + ".png"
     finalAudioFilename = baseAudioFilename + ".mp3"
 
     # Create wav segment
