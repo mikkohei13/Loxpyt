@@ -20,10 +20,11 @@ def getDurationStr2Sec(durationStr):
 
 def getAudioFileList(directory):
   audioFileList = []
-  for root, dirs, files in os.walk(directory):
-    for name in files:
-      if name.lower().endswith(".wav"):
-        audioFileList.append(directory + "/" + name)
+  objects = os.listdir(directory)
+  print(objects)
+  for name in objects:
+    if name.lower().endswith(".wav"):
+      audioFileList.append(directory + "/" + name)
 
   return tuple(audioFileList)
 
@@ -129,6 +130,8 @@ def parseFile(audioFilePath):
     metadata["deviceVersion"] = ""
     metadata["deviceId"] = "HLO10"
     """
+
+  # Todo: Night id
 
 #  print(metadata)
 
