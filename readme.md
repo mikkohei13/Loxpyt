@@ -160,21 +160,54 @@ How to find the original file later, if needed?
 
 # Logic
 
-- Convert bunch of files to 10 sec segments
-  - Save data to database (mysql/nosql?)
-  - Calculate filenames, so that files can potentially be kept in same directory, and ordered reasonably
-    - device id + datetime normalized + segment
-  - Save wavs
-  - Save spectros
+Annotate
 
-- Annotate
-  - List of nights, group by device id, night id
-  - One night
-  ...
+- Sessions
+- Files / Segments
+- Get data of single segment
+- Open
+  - spectro
+  - audio
+  - next spectro in the background, async
+  - next audio in the background, async
+- Display player & scale to spectro width?
+- Autoplay audio
+- Display
+  - file & segment info
+  - buttons
+  - fields for observations (taxon, calls x3-4)
+  - notes
+- Parse field data to json
+- POST json to API
+- API
+  - Get POST
+  - Sanitize
+  - Save to db, appending to existing
+  - Respond with code
+- When ok response code
+  - Open new data
 
-- Train AI
-  - make spectros with different settings (decrease/increase volume) and augmentation
+Batch annotate?
+- Command line tool to add data to range of annotations
 
+Train AI
+
+- Make spectros with different settings (decrease/increase volume) and augmentation
+
+
+# AI
+
+## How to annotate the files
+
+Priority
+- nocmig / not-nocmig / uncertain (= leave out from training?)
+- rain
+- wind
+- human
+- bird song / local bird sound (e.g. Turpil or Turmer)
+- bird-like sound (= leave out, since we cannot expect the AI to learn to distinquish these -> better tpo have them show up than have false negatives?)
+- taxon & call count & individual count estimate & flock count estimate
+- bat
 
 
 # Links

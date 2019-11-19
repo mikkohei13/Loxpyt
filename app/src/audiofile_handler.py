@@ -20,8 +20,9 @@ debug = True # get input from this file AND use interpreter on host Linux
 if debug:
   directory = "ks"
   directory = "noordwijk"
+  directory = "20190422-26-Harmaakallio"
 
-  location = "Noordwijk"
+  location = "Harmaakallio"
   segments = 0
 
 else:
@@ -52,9 +53,6 @@ path = "/_source_audio/" + directory + "/Data"
 ### HANDLING DATA #########################################################
 
 audioFileList = file_helper.getAudioFileList(path)
-print(path)
-print(audioFileList)
-exit() # debug
 
 # Get metadata for the file
 # Todo: move this to last, so that error will prevent it from running
