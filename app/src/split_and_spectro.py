@@ -48,6 +48,7 @@ def graph_spectrogram(wavFilename, spectroFilename):
 
   # Saves temp version - todo: send the image directly to trimmer?
   pylab.savefig(spectroFilename)
+  pylab.close()
 
   # Remove whitespace  
   im = Image.open(spectroFilename)
@@ -69,6 +70,10 @@ def get_wav_info(wavFilename):
 
 # Parse single audio file
 def parseFile(sourceAudioFilePath, exportDir, sessionDir, sourceAudioFileName, segments = 1, segmentLengthSeconds = 10):
+
+  # Todo: More elegant way to do this?
+  if 0 == segments:
+    segments = 10000
 
   newAudio = AudioSegment.from_wav(sourceAudioFilePath)
 

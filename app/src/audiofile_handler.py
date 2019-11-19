@@ -18,11 +18,11 @@ exportDir = "/_exports"
 debug = True # get input from this file AND use interpreter on host Linux 
 
 if debug:
-  directory = "noordwijk"
   directory = "ks"
+  directory = "noordwijk"
 
-  location = "Kaskisavu"
-  segments = 3
+  location = "Noordwijk"
+  segments = 0
 
 else:
   # Get args from command line
@@ -52,6 +52,9 @@ path = "/_source_audio/" + directory + "/Data"
 ### HANDLING DATA #########################################################
 
 audioFileList = file_helper.getAudioFileList(path)
+print(path)
+print(audioFileList)
+exit() # debug
 
 # Get metadata for the file
 # Todo: move this to last, so that error will prevent it from running

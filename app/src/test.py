@@ -36,6 +36,9 @@ import datetime
 print(str(datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")))
 """
 
+"""
+# Split audio file
+
 from pydub import AudioSegment
 
 audioFilePath = ""
@@ -48,3 +51,32 @@ newAudio = AudioSegment.from_wav(audioFilePath)
 segment = newAudio[0:(seconds * 1000)]
 
 segment.export(wavFilename, format="wav")
+"""
+
+import os
+
+def getAudioFileList(directory):
+  audioFileList = []
+  objects = os.listdir(directory)
+  print(objects)
+  for name in objects:
+    if name.lower().endswith(".wav"):
+      audioFileList.append(directory + "/" + name)
+
+  return tuple(audioFileList)
+
+  """
+  for root, dirs, files in os.walk(directory):
+    print(files)
+    for name in files:
+      if name.lower().endswith(".wav"):
+        audioFileList.append(directory + "/" + name)
+
+  return tuple(audioFileList)
+  """
+
+print("Test")
+#getAudioFileList("/_source_audio/noordwijk/Data")
+
+fl = getAudioFileList("/_source_audio/noordwijk/Data")
+print(fl)

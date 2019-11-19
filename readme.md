@@ -109,7 +109,7 @@ Session (can be 1...n nights)
 - Id [string]: directory DONE
 - Directory name [string] DONE
 - Location code (acts as location id) [string] DONE
-- Entry datetime [datetime/string] --TODO--
+- Entry datetime [datetime/string] DONE
 
 Source file
 - Id [string]: directory/sourceFilename DONE 
@@ -123,15 +123,15 @@ Source file
 - Start datetime, normalized, from file meta, using function for each device [datetime/string] DONE
 - Night id (first day yyyymmdd), calculated from datetime [int] --TODO--
 - Length in seconds [int] DONE
-- Entry datetime [datetime/string] --TODO--
+- Entry datetime [datetime/string] DONE
 
 Segment files
-- Source file [string]
 - Segment file uuid [string]: directory/sourceFilename/baseAudioFilename DONE
 - Segment number [int] DONE
 - Segment size in seconds [int] DONE
 - Segment offset in seconds [int] DONE
-- Peak amplitude [int]? - not needed? --TODO
+- Peak amplitude [int]? - not needed? --TODO--
+- Entry datetime [datetime/string] DONE
 
 Segment annotation data
 - Annotation uuid, dumb
