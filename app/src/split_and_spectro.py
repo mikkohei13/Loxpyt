@@ -115,7 +115,7 @@ def parseFile(sourceAudioFilePath, exportDir, sessionDir, sourceAudioFileName, s
 
     # Save mp3 file to disk and remove wav
     # Todo: exclude wav file extension from mp3 & spectro
-    segment.export(exportDirPath + tempAudioFilename + ".mp3", format="mp3")
+    segment.export(exportDirPath + finalAudioFilename, format="mp3")
     os.remove(exportDirPath + tempAudioFilename)
 
     # Finish this loop
