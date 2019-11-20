@@ -37,7 +37,7 @@ Handle audio file:
 
 # Todo
 
-- Size of spectrograms? grayscale?
+- Size of spectrograms? All should be exactly the same. grayscale?
 - Backup mongodb, when? docker-compose down?
 - CHECK Save all segment properties, so that segments can be reconstructed afterwards if needed 
 - CHECK Parametrize segment size -> file naming based on seconds from start, prefixed with zeroes
