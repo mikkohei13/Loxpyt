@@ -1,11 +1,16 @@
 
 # Ignore these dirs anywhere
 OLDs/
-__pycache__/
 .vscode/
 _exports/
 _source_audio/
 local/ai.md
 
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Data
 mongodb-volume/*
 source_audio/*

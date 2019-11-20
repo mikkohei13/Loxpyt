@@ -199,15 +199,43 @@ Train AI
 
 ## How to annotate the files
 
-Priority
-- nocmig / not-nocmig / uncertain (= leave out from training?)
+Primary
+- no species TRAIN NEGATIVE
+- uncertain, skip (= leave out from training)
+
+Birds:
+- nocmig, one (Single or few sounds passes by - nfc's) TRAIN
+- nocmig, many (Multiple similar sounds passes by - Melnig, Clahye, Braleu...) TRAIN
+- wandering, one (Single or few sounds passes by, but not interpreted as nocmig - Scorus) TRAIN
+- wandering, many (rare case?) MAYBE TRAIN
+- stationary, one (Few distincg sounds - Turpil, Turmer, first singer...) - TRAIN
+- stationary, many (Continuous sounds - morning chorus) MAYBE TRAIN
+- owl MAYBE TRAIN
+
+Mammals:
+- bat NO TRAIN
+- mammal MAYBE TRAIN
+- mystery animal MAYBE TRAIN
+
+Other, specify in notes
+
+Disturbance
+- single sound (drops, cracks, etc.)
 - rain
 - wind
+- rustle
 - human
-- bird song / local bird sound (e.g. Turpil or Turmer)
-- bird-like sound (= leave out, since we cannot expect the AI to learn to distinquish these -> better tpo have them show up than have false negatives?)
-- taxon & call count & individual count estimate & flock count estimate
-- bat
+- plane
+- vehicle
+
+Observations
+- Species
+- NFC count
+- Individual count estimate
+- Flock count estimate
+- Notes
+
+Notes
 
 
 # Links
