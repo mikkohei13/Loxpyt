@@ -6,6 +6,8 @@ _exports/
 _source_audio/
 local/ai.md
 
+fail.html
+*.log
 
 # Python
 __pycache__/

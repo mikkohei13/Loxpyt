@@ -82,7 +82,18 @@ h1 {
     margin: 10px 0;
 }
 
+#spectrogram {
+    height: 100px;
+}
+
 audio {
     display: block;
     width: 900px;
 }
+
+#save {
+    padding: 5px;
+    background-color: #ccc;
+    cursor: pointer;
+}
+

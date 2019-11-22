@@ -7,10 +7,11 @@
 	<link rel="stylesheet" href="/static/styles.css?{{ cacheb }}">
 </head>
 
+
 <body id="segment">
 
 	<div id="wrapper">
-		<h1>Segment {{ segment }}</h1>
+		<h1>Segment {{ segment }} <a id="save">Save</a></h1>
 
 		<img src="http://localhost:8080/noordwijk/5DB0D594.WAV.00359.png" id="spectrogram">
 
@@ -25,7 +26,28 @@
 							<code>audio</code> element.
 			</audio>
 		</figure>
+
+
+		<!--FORM-->
+
+
+		<form id="form">
+
+			<!-- TODO: Make sure that each form element has name == id == value-->
+			<label><input name="tags" id="alpha" type="checkbox" value="alpha" />Alpha</label>
+			<label><input name="tags" id="beta" type="checkbox" value="beta" />Beta</label>
+
+			<label>Keywords:  
+				<input name="keywords" id="keywords" type="text" value="" /> 
+			</label>
+
+		</form>
+
+
 	</div>
 
+	
+	<script src="/static/jquery-3.4.1.js?"></script>
+	<script src="/static/segment.js?{{ cacheb }}"></script>
 </body>
 </html>
