@@ -1,16 +1,19 @@
 
 var segmentNumberGlobal;
-init()
 
-/*
 window.onload = function() {
   console.log("Calling init...")
+  init()
 }
-*/
 
 let saveElement = document.getElementById("save");
 if (saveElement) {
-  saveElement.addEventListener('click', save, false);
+  saveElement.addEventListener('click', function() { sendAnnotation("save"); }, false);
+}
+
+let carryElement = document.getElementById("carry");
+if (carryElement) {
+  carryElement.addEventListener('click', function() { sendAnnotation("carry"); }, false);
 }
 
 // Todo: Something wrong with session number handling durng save. hash and vr mismatch, hash skips numbers. 
@@ -26,6 +29,9 @@ w = wind
 //----------------------------------------------------
 
 function init() {
+  console.log("INIT FUNCTION");
+  clearAlert();
+
   let hash = window.location.hash;
   segmentNumberGlobal = parseInt(hash.replace("#", ""), 10);
 
@@ -38,6 +44,8 @@ function init() {
 }
 
 function getSegmentData(file_id, segmentNumber) {
+  console.log("GETSEGMENTDATA FUNCTION");
+
   var url = "/api/segment?file_id=" + file_id + "&segmentNumber=" + segmentNumber;
   $.getJSON( url, {
     format: "json"
@@ -58,7 +66,8 @@ function getSegmentData(file_id, segmentNumber) {
   });
 }
 
-function save() {
+function sendAnnotation(mode) {
+  console.log("SENDANNOTATION FUNCTION");
 
   // Base data
   var annotation = {}
@@ -111,7 +120,19 @@ function save() {
     })
     .done(function() {
       console.log("SUCCESS: API responded with success!");
-      moveToNextSegment();
+
+      if ("save" == mode) {
+        clearAlert();
+        clearForm(); // This is the difference between save and carry
+        clearContent();
+        moveToNextSegment();
+      }
+      else if ("carry" == mode) {
+        clearAlert();
+        clearContent();
+        moveToNextSegment();
+      }
+
     })
     .fail(function() {
       error("API responded with failure!")
@@ -139,27 +160,31 @@ function error(message) {
 }
 
 function clearAlert() {
+  console.log("CLEARALERT FUNCTION");
+
   $("#alert").text("");
   $("#alert").removeClass("warning");
   $("#alert").removeClass("error"); // Todo: remove all classes?
 }
 
 function clearContent() {
+  console.log("CLEARCONTENT FUNCTION");
+
   $("#title").text("");
   $("#spectrogram").attr("src", "");
   $("#audio").attr("src", "");
 }
 
 function clearForm() {
+  console.log("CLEARFORM FUNCTION");
+
   $('#form').find('input:text, input:password, input:file, select, textarea').val('');
   $('#form').find('input:radio').prop('selected', false);
   $('#form').find('input:checkbox').prop('checked', false);
 }
 
 function moveToNextSegment() {
-  clearAlert();
-  clearForm();
-  clearContent();
+  console.log("MOVETONEXTSEGMENT FUNCTION");
 
   let nextSegmentNumber = segmentNumberGlobal + 1;
   window.location.hash = "#" + nextSegmentNumber;
