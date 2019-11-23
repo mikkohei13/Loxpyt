@@ -19,9 +19,9 @@ def index():
 
 @app.route("/segment")
 def segment():
-  segment = request.args.get("segment", "0")
+  file_id = request.args.get("file_id")
   cacheb = random.randint(0,10000) # debug/dev
-  return render_template("segment.html", segment=segment, cacheb=cacheb)
+  return render_template("segment.html", file_id=file_id, cacheb=cacheb)
 
 
 # http://localhost/api/segment?file_id=ks/HLO10_20191102_022600.wav&segmentNumber=150

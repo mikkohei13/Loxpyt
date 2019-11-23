@@ -29,7 +29,7 @@ function init() {
   let hash = window.location.hash;
   segmentNumberGlobal = parseInt(hash.replace("#", ""), 10);
 
-  getSegmentData("20190422-26-Harmaakallio/5CBE7FB8.WAV", segmentNumberGlobal); // Todo: File id from get param
+  getSegmentData(file_idGlobal, segmentNumberGlobal);
 
   // Todo: set spectro & audio
   // Todo: get segment data from API & db
