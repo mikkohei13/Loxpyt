@@ -91,14 +91,20 @@ audio {
     width: 900px;
 }
 
-#save {
+#save, #clear {
     padding: 5px;
     background-color: #ccc;
     cursor: pointer;
 }
 
-.alert {
+.error {
     background-color: #d00;
     color: #fff;
+    padding: 5px;
+}
+
+.warning {
+    background-color: #fd0;
+    color: #000;
     padding: 5px;
 }

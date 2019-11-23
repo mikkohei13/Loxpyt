@@ -95,7 +95,7 @@ function save() {
 
   // Validate tags
   if (0 == allTags.length) {
-    warn("Must set at least one tag or keyword!")
+    warning("Must set at least one tag or keyword!")
   }
   else {
     // Combine all data
@@ -114,7 +114,7 @@ function save() {
       moveToNextSegment();
     })
     .fail(function() {
-      warn("API responded with failure!")
+      error("API responded with failure!")
     })
     .always(function(response) {
       console.log("annotation after send: ")
@@ -126,15 +126,22 @@ function save() {
 
 }
 
-function warn(warning) {
-  console.log("WARNING: " + warning)
-  $("#warn").html(warning);
-  $("#warn").addClass("alert");
+function warning(message) {
+  console.log("WARNING: " + message)
+  $("#alert").text(message);
+  $("#alert").addClass("warning");
 }
 
-function clearWarning() {
-  $("#warn").html();
-  $("#warn").removeClass("alert");
+function error(message) {
+  console.log("ERROR: " + message)
+  $("#alert").text(message);
+  $("#alert").addClass("error");
+}
+
+function clearAlert() {
+  $("#alert").text("");
+  $("#alert").removeClass("warning");
+  $("#alert").removeClass("error"); // Todo: remove all classes?
 }
 
 function clearContent() {
@@ -144,13 +151,15 @@ function clearContent() {
 }
 
 function clearForm() {
-  // Todo
+  $('#form').find('input:text, input:password, input:file, select, textarea').val('');
+  $('#form').find('input:radio').prop('selected', false);
+  $('#form').find('input:checkbox').prop('checked', false);
 }
 
 function moveToNextSegment() {
-  clearWarning();
+  clearAlert();
   clearForm();
-  clearContent()
+  clearContent();
 
   let nextSegmentNumber = segmentNumberGlobal + 1;
   window.location.hash = "#" + nextSegmentNumber;
