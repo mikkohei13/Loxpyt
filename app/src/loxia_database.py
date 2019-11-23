@@ -21,9 +21,12 @@ class db():
     client = MongoClient('mongodb://%s:%s@mongodb:27017/' % ("root", "example"))
 
     db = client['loxia']
+
+    # Todo: move to methods?
     self._sessionsColl = db['sessions']
     self._filesColl = db['files']
     self._segmentsColl = db['segments']
+    self._annotationsColl = db['annotations']
 
 
   def getDbMetaFields(self):
@@ -44,6 +47,7 @@ class db():
     pprint.pprint(data)
     print("Inserted session")
 
+
   def saveFile(self, data):
     _id = { "_id": data.get("_id") }
     data.update(self.getDbMetaFields())
@@ -52,6 +56,7 @@ class db():
     print(recordId)
     pprint.pprint(data)
     print("Inserted file")
+
 
   def saveSegment(self, data):
     _id = { "_id": data.get("_id") }
@@ -62,6 +67,10 @@ class db():
     pprint.pprint(data)
     print("Inserted segment")
 
+
+  def saveAnnotation(self, data):
+#    _id = { "_id": data.get("_id") }
+    return "FAKE RECORD ID"
 
 # testPost = {"foo": "bar"}
 

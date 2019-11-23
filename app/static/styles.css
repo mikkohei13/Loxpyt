@@ -97,3 +97,8 @@ audio {
     cursor: pointer;
 }
 
+.alert {
+    background-color: #d00;
+    color: #fff;
+    padding: 5px;
+}
