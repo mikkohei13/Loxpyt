@@ -24,8 +24,27 @@ def segment():
   return render_template("segment.html", segment=segment, cacheb=cacheb)
 
 
+# http://localhost/api/segment?file_id=ks/HLO10_20191102_022600.wav&segmentNumber=150
+@app.route("/api/segment", methods=['GET'])
+def apiSegment():
+  # Todo: input sanitization
+  file_id = str(request.args.get("file_id")) # Todo: try removing str
+  segmentNumber = int(request.args.get("segmentNumber")) # Todo: try removing int
+
+#  res = "FOOBAR" + fileId + segmentNumber
+#  res = "DEBUG: "
+
+  db = loxia_database.db()
+  resultJson = db.getSegment(file_id, segmentNumber)
+
+#  resultJson = json.dumps(resultDict)
+#  res = res + str(type(result)) 
+
+  return resultJson, 200
+
+
 @app.route("/api/annotation", methods=['POST'])
-def api():
+def apiAnnotation():
   # Todo: move logic to a module. But how, to avoid import troubles?
   logging.basicConfig(filename='api.log',level=logging.DEBUG)
 

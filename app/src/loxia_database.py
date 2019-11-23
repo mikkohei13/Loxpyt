@@ -11,6 +11,7 @@ from pymongo import MongoClient
 import datetime
 import pprint
 import uuid
+import json
 
 class db():
 
@@ -69,6 +70,24 @@ class db():
     print("Inserted segment")
 
 
+  def datetimeToJson(self, datetimeObject):
+    if isinstance(datetimeObject, datetime.datetime):
+      return datetimeObject.__str__()
+
+
+  def getSegment(self, file_id, segmentNumber):
+#    _id = { "_id": data.get("_id") }
+
+#    where = {"file_id": file_id, "segmentNumber": segmentNumber}
+    where = {"file_id": "ks/HLO10_20191102_022600.wav", "segmentNumber": 1}
+
+    resultDict = self._segmentsColl.find_one(where)
+
+    resultJson = json.dumps(resultDict, default = self.datetimeToJson)
+
+    return resultJson
+
+
   def saveAnnotation(self, data):
     data.update(self.getDbMetaFields())
 
@@ -81,11 +100,5 @@ class db():
     # Todo: how to return the id?
     # result.inserted_id is object
 
-#    return data
-
-# testPost = {"foo": "bar"}
-
-
-# print(recordId)
 
 
