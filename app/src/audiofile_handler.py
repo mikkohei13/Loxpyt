@@ -83,7 +83,7 @@ for audioFilePath in audioFileList:
   segmentMetaGenerator = split_and_spectro.parseFile(audioFilePath, exportDir, directory, fileData["fileName"], segments, 10)
 
   for segmentMeta in segmentMetaGenerator:
-    segmentId = fileId + "/" + segmentMeta["baseAudioFilename"]
+    segmentId = fileId + "/" + segmentMeta["segmentNumber"]
 
     # Additional data
     segmentMeta["_id"] = segmentId

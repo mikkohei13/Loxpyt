@@ -27,26 +27,21 @@ Handle audio file:
   - For NFTT "A power 2 is most efficient"
 - Are upserts needed or allowed?
   - Needed: debugging
-  - Not allowed: when segments have already been annotated, since this could break the AI training process (Todo: Set to session annotationStarted: True ?)
+  - Allowed: production for most entities
+  - Not allowed: when segments have already been annotated, since this could break the AI training process
 - How to handle when nocmig ends and morning begins? 
   - A: Manually by deciding when processing should stop, and providing that info as processing parameter (relative to file time).
 - How to avoid hearing issues when sound starts/stops?
   - Option: By playing back continuously and tag with "nobirds", unless user interrupts
 - Should this be refactored so that file metadata that is similar within session goes to session collection in deb? Things like recorder model and settings?
   - A: No, complicates code (at least at this point) and does not bring new functionality
+- Should we use segment number or segment start time in segment_id?
+  - A: Segment number. Using segment start time would not allow having segments with different lengths in the same system, as there would be id collisions anyway. If segment lenght is changed, a fresh database and _exports directory are needed.
 
 # Todo
 
-- Saving annotations
-  - problem with hashes
-  - generate unique id. needs to be tied to annotation session, if want to edit on ui
-  - get segment data
-    - show the data on ui
-    - save parent segment id to annotation
 - Size of spectrograms? All should be exactly the same. grayscale?
 - Backup mongodb, when? docker-compose down?
-- CHECK Save all segment properties, so that segments can be reconstructed afterwards if needed 
-- CHECK Parametrize segment size -> file naming based on seconds from start, prefixed with zeroes
 - CHECK Refactor split and spect: var names, files in subdirs, parametrize path structure?
 - Stereo to mono
 - Double-check the time setting in SM4, is it UTC+3? And is the time value in metadata correct?
@@ -71,7 +66,7 @@ Handle audio file:
 - Audio
   - Limit all to same freq (~16 kHz)
   - All to mono
-
+- UI: List of sessions and files to annotate
 
 - Where time data: start time, day 
 - Where metadata: recorded model, recorder id, original filename, original path, conversion datetime, peak amplitude

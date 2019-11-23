@@ -2,7 +2,6 @@
 var segmentNumberGlobal;
 
 window.onload = function() {
-  console.log("Calling init...")
   init()
 }
 
@@ -37,10 +36,7 @@ function init() {
 
   getSegmentData(file_idGlobal, segmentNumberGlobal);
 
-  // Todo: set spectro & audio
-  // Todo: get segment data from API & db
   // Todo: if spectro & audio not found, return to main
-//  console.log("segmentNumberGlobal: " + segmentNumberGlobal);
 }
 
 function getSegmentData(file_id, segmentNumber) {
@@ -62,7 +58,6 @@ function getSegmentData(file_id, segmentNumber) {
     let titleText = "Segment: " + data._id + ", number " + data.segmentNumber + " - Start: " + data.segmentStartUTC;
     $("#title").text(titleText);
     
-
   });
 }
 
@@ -71,7 +66,9 @@ function sendAnnotation(mode) {
 
   // Base data
   var annotation = {}
-  annotation['segment'] = segmentNumberGlobal; // or segment_id?
+  annotation['segmentNumber'] = segmentNumberGlobal;
+  annotation['file_id'] = file_idGlobal;
+  annotation['segment_id'] = file_idGlobal + "/" + segmentNumberGlobal;
 
 //  annotation['_id'] = ;
 
@@ -187,7 +184,7 @@ function moveToNextSegment() {
   console.log("MOVETONEXTSEGMENT FUNCTION");
 
   let nextSegmentNumber = segmentNumberGlobal + 1;
-  window.location.hash = "#" + nextSegmentNumber;
+  window.location.hash = ("#" + nextSegmentNumber);
 
   init();
 }
