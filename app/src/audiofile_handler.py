@@ -23,7 +23,7 @@ if debug:
   directory = "20190422-26-Harmaakallio"
 
   location = "Harmaakallio"
-  segments = 0
+  segments = 10
 
 else:
   # Get args from command line

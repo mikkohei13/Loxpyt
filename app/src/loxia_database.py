@@ -75,11 +75,12 @@ class db():
       return datetimeObject.__str__()
 
 
+  # Todo: handle if no records found, in both this and api endpoint
   def getSegment(self, file_id, segmentNumber):
 #    _id = { "_id": data.get("_id") }
 
-#    where = {"file_id": file_id, "segmentNumber": segmentNumber}
-    where = {"file_id": "ks/HLO10_20191102_022600.wav", "segmentNumber": 1}
+    where = {"file_id": file_id, "segmentNumber": segmentNumber}
+#    where = {"file_id": "ks/HLO10_20191102_022600.wav", "segmentNumber": 1}
 
     resultDict = self._segmentsColl.find_one(where)
 

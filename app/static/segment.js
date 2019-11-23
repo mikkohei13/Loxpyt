@@ -29,10 +29,33 @@ function init() {
   let hash = window.location.hash;
   segmentNumberGlobal = parseInt(hash.replace("#", ""), 10);
 
+  getSegmentData("20190422-26-Harmaakallio/5CBE7FB8.WAV", segmentNumberGlobal); // Todo: File id from get param
+
   // Todo: set spectro & audio
   // Todo: get segment data from API & db
   // Todo: if spectro & audio not found, return to main
 //  console.log("segmentNumberGlobal: " + segmentNumberGlobal);
+}
+
+function getSegmentData(file_id, segmentNumber) {
+  var url = "/api/segment?file_id=" + file_id + "&segmentNumber=" + segmentNumber;
+  $.getJSON( url, {
+    format: "json"
+  })
+  .done(function(data) {
+    console.log("FROM API");
+    console.log(data.spectroFilename); // ok
+
+    let basePath = "http://localhost:8080/";
+    let spectrogramPath = basePath + data.fileDirectory + "/" + data.spectroFilename;
+    $("#spectrogram").attr("src", spectrogramPath);
+    let audioPath = basePath + data.fileDirectory + "/" + data.finalAudioFilename;
+    $("#audio").attr("src", audioPath);
+    let titleText = "Segment: " + data._id + ", number " + data.segmentNumber + " - Start: " + data.segmentStartUTC;
+    $("#title").text(titleText);
+    
+
+  });
 }
 
 function save() {
@@ -114,6 +137,12 @@ function clearWarning() {
   $("#warn").removeClass("alert");
 }
 
+function clearContent() {
+  $("#title").text("");
+  $("#spectrogram").attr("src", "");
+  $("#audio").attr("src", "");
+}
+
 function clearForm() {
   // Todo
 }
@@ -121,6 +150,7 @@ function clearForm() {
 function moveToNextSegment() {
   clearWarning();
   clearForm();
+  clearContent()
 
   let nextSegmentNumber = segmentNumberGlobal + 1;
   window.location.hash = "#" + nextSegmentNumber;

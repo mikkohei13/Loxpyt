@@ -11,17 +11,19 @@
 <body id="segment">
 
 	<div id="wrapper">
-		<h1>Segment {{ segment }} <a id="save">Save</a></h1>
+		<h1 id="title"></h1>
+		<a id="save">Save</a>
 
-		<img src="http://localhost:8080/noordwijk/5DB0D594.WAV.00359.png" id="spectrogram">
+		<img src="" id="spectrogram">
 
 		<figure>
 <!--			<figcaption>figcaption</figcaption>-->
 			<audio
+					id="audio"
 					controls
 					loop="true"
 					preload="auto"
-					src="http://localhost:8080/noordwijk/5DB0D594.WAV.00359.wav.mp3"><!-- Fix file name, when mp3's regenerated -->
+					src="">
 							Your browser does not support the
 							<code>audio</code> element.
 			</audio>
