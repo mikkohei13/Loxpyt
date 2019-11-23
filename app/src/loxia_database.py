@@ -10,6 +10,7 @@
 from pymongo import MongoClient
 import datetime
 import pprint
+import random # debug
 
 class db():
 
@@ -69,8 +70,11 @@ class db():
 
 
   def saveAnnotation(self, data):
-#    _id = { "_id": data.get("_id") }
-    return "FAKE RECORD ID"
+    _id = { "_id": data.get("segment") }
+    data.update(self.getDbMetaFields())
+
+    recordId = self._annotationsColl.update_one(_id, { "$set": data }, True)#.inserted_id
+    return _id
 
 # testPost = {"foo": "bar"}
 

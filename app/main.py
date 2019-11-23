@@ -1,6 +1,9 @@
 from flask import Flask, escape, request, render_template, send_from_directory
-import random
+import random # debug/dev
 import logging
+
+import sys
+sys.dont_write_bytecode = True # debug
 
 #from SUBDIRECTORY import FILE - requires the subdir to have __init__.,py file. Delete .pyc files before trying this!
 from src import loxia_database
@@ -17,23 +20,27 @@ def index():
 @app.route("/segment")
 def segment():
   segment = request.args.get("segment", "0")
-  cacheb = random.randint(0,10000)
+  cacheb = random.randint(0,10000) # debug/dev
   return render_template("segment.html", segment=segment, cacheb=cacheb)
 
 
-@app.route("/api/annotation", methods=['POST', 'GET'])
+@app.route("/api/annotation", methods=['POST'])
 def api():
   # Todo: move logic to a module. But how, to avoid import troubles?
   logging.basicConfig(filename='api.log',level=logging.DEBUG)
 
-  json = request.json
-  logging.info("allTags: ")
-  logging.info(json)
+  recordId = "FAKE"
+  # logging.info("is_json: ")
+  # logging.info(request.is_json) # True
+
+  dataDict = request.get_json()
+#  logging.info(type(json)) # list !!!
 
   db = loxia_database.db()
-  recordId = db.saveAnnotation("FOO")
+  recordId = db.saveAnnotation(dataDict)
 
   return {
+        "debug": dataDict,
         "status": "ok",
         "insertedRecordId": recordId
   }, 200

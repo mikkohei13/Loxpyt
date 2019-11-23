@@ -13,6 +13,8 @@ if (saveElement) {
   saveElement.addEventListener('click', save, false);
 }
 
+// Todo: Something wrong with session number handling durng save. hash and vr mismatch, hash skips numbers. 
+
 // Todo: shortcut keys
 /*
 enter / arrow-right = save
@@ -35,14 +37,20 @@ function init() {
 
 function save() {
 
-  // Get data from form, format as array
+  // Base data
+  var annotation = {}
+  annotation['segment'] = segmentNumberGlobal; // or segment_id?
+
+//  annotation['_id'] = ;
+
+  // Get data from form
   let formData = $("#form").serializeArray();
-//  console.log(formData);
 
-    var tags = [];
-    var keywords = [];
+  // Format keywords as array
+  var tags = [];
+  var keywords = [];
 
-    for (let i = 0; i < formData.length; i++) {
+  for (let i = 0; i < formData.length; i++) {
 //    console.log(formData[i])
     if ("tags" == formData[i]['name']) {
       tags[i] = formData[i]['value'];
@@ -62,15 +70,21 @@ function save() {
   let allTags = tags.concat(keywords);
   console.log(allTags);
 
-  // Validate array and send to API
+  // Validate tags
   if (0 == allTags.length) {
     warn("Must set at least one tag or keyword!")
   }
   else {
+    // Combine all data
+    annotation['tags'] = allTags;
+//    console.log("annotation: ")
+//    console.log(annotation);
+
+    // Send to API
     $.ajax("/api/annotation", {
       type: "POST",
-      data: JSON.stringify(allTags),
-      contentType: "application/json"
+      data: JSON.stringify(annotation),
+      contentType: "application/json; charset=utf-8"
     })
     .done(function() {
       console.log("SUCCESS: API responded with success!");
@@ -80,6 +94,9 @@ function save() {
       warn("API responded with failure!")
     })
     .always(function(response) {
+      console.log("annotation after send: ")
+      console.log(annotation);
+  
       console.log("API response: "); console.log(response);
     });
   }

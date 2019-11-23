@@ -37,6 +37,12 @@ Handle audio file:
 
 # Todo
 
+- Saving annotations
+  - problem with hashes
+  - generate unique id. needs to be tied to annotation session, if want to edit on ui
+  - get segment data
+    - show the data on ui
+    - save parent segment id to annotation
 - Size of spectrograms? All should be exactly the same. grayscale?
 - Backup mongodb, when? docker-compose down?
 - CHECK Save all segment properties, so that segments can be reconstructed afterwards if needed 
@@ -127,25 +133,20 @@ Source file
 - Length in seconds [int] DONE
 - Entry datetime [datetime/string] DONE
 
-Segment files
-- Segment file uuid [string]: directory/sourceFilename/baseAudioFilename DONE
+Segment
+- Id [string]: directory/sourceFilename/baseAudioFilename DONE
 - Segment number [int] DONE
 - Segment size in seconds [int] DONE
 - Segment offset in seconds [int] DONE
 - Peak amplitude [int]? - not needed? --TODO--
 - Entry datetime [datetime/string] DONE
 
-Segment annotation data
-- Annotation uuid, dumb
-- Segment file uuid, dumb [string]
-- Annotation datetime [string]
-- Annotator, MA id [string]
-- Birds [boolean]
-- Taxa [array]
-  - taxon [string] (or use MX id's?)
-  - individual count [int]
-  - sound count [int]
-  - sound type [string]
+Annotation
+- Id [string]: directory/sourceFilename/baseAudioFilename --TODO--
+- Tags [array of strings] --TODO--
+- Observations --TODO--
+- Entry datetime [datetime/string] 
+
 
 Segment AI data TBD later
 - AI id uuid
