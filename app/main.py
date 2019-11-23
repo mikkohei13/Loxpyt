@@ -34,15 +34,17 @@ def api():
   # logging.info(request.is_json) # True
 
   dataDict = request.get_json()
-#  logging.info(type(json)) # list !!!
+  logging.info(type(dataDict))
 
   db = loxia_database.db()
-  recordId = db.saveAnnotation(dataDict)
+
+  result = {}
+  result = db.saveAnnotation(dataDict)
 
   return {
         "debug": dataDict,
         "status": "ok",
-        "insertedRecordId": recordId
+        "result": result
   }, 200
 
 

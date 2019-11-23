@@ -10,7 +10,7 @@
 from pymongo import MongoClient
 import datetime
 import pprint
-import random # debug
+import uuid
 
 class db():
 
@@ -70,11 +70,18 @@ class db():
 
 
   def saveAnnotation(self, data):
-    _id = { "_id": data.get("segment") }
     data.update(self.getDbMetaFields())
 
-    recordId = self._annotationsColl.update_one(_id, { "$set": data }, True)#.inserted_id
-    return _id
+    # Flask does not like object id, so we'll create our own
+    data["_id"] = str(uuid.uuid1())
+
+    result = self._annotationsColl.insert_one(data)
+    return result.inserted_id
+
+    # Todo: how to return the id?
+    # result.inserted_id is object
+
+#    return data
 
 # testPost = {"foo": "bar"}
 
