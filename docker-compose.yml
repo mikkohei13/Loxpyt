@@ -12,6 +12,7 @@ services:
       - ./app:/app
       - ./_source_audio:/_source_audio
       - ./_exports:/_exports
+      - ./_temp:/_temp
     ports:
       - 80:80
     # networks:

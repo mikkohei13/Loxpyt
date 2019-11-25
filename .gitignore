@@ -4,6 +4,7 @@ OLDs/
 .vscode/
 _exports/
 _source_audio/
+_temp/
 local/ai.md
 
 fail.html

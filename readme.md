@@ -40,6 +40,13 @@ Handle audio file:
 
 # Todo
 
+- Audio file handling
+  - stereo to mono
+  - bitrate to 32 kHz
+  - cust to segments
+  - spectro and mp3
+  - adjust spectro size to 450, if needed for the AI?
+
 - Cap spectrograms at 16 kHz or so
 - Size of spectrograms? All should be exactly the same. grayscale?
 - Backup mongodb, when? docker-compose down?
