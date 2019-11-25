@@ -18,12 +18,12 @@ exportDir = "/_exports"
 debug = True # get input from this file AND use interpreter on host Linux 
 
 if debug:
-  directory = "ks"
   directory = "noordwijk"
+  directory = "ks"
   directory = "20190422-26-Harmaakallio"
 
   location = "Harmaakallio"
-  segments = 10
+  segments = 100
 
 else:
   # Get args from command line
@@ -83,7 +83,7 @@ for audioFilePath in audioFileList:
   segmentMetaGenerator = split_and_spectro.parseFile(audioFilePath, exportDir, directory, fileData["fileName"], segments, 10)
 
   for segmentMeta in segmentMetaGenerator:
-    segmentId = fileId + "/" + segmentMeta["segmentNumber"]
+    segmentId = fileId + "/" + str(segmentMeta["segmentNumber"])
 
     # Additional data
     segmentMeta["_id"] = segmentId

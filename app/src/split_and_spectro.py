@@ -3,6 +3,7 @@ import wave
 import pylab
 import os
 from PIL import Image, ImageChops
+import math
 
 ### HELPER FUNCTIONS #########################################################
 
@@ -30,14 +31,28 @@ def trim(im):
 # https://github.com/cgoldberg/audiotools/blob/master/visualization/spectrogram_matplotlib.py
 def graph_spectrogram(wavFilename, spectroFilename):
   sound_info, frame_rate = get_wav_info(wavFilename)
-  pylab.figure(num=None, figsize=(10, 7))
 
-  # Spectrogram settings
+  pylab.figure(num=None, figsize=(5.42, 3.8)) # About 450 * 321 px
+
+  # Spectrogram settings for 900 px wide spectrograms:
+  #  pylab.figure(num=None, figsize=(10, 7)) # Size in inches, 1. version
   # Cleaner, less contrast, visually good noverlap value: 512 / 2
   # Noisier, sharper, more contrast: 1024 / 8
+  #  NFTT = 512
 
-  NFTT = 512
-  noverlap = NFTT / 2
+  # Noordwijk audio files, 32 kHz
+  # target: 10 sec = 450px
+  # noverlap 50 %
+  # NFTT = 32000 * 10 / 450 * 2 
+  # = 1422
+
+  # This will adjust NFTT to have approximately 450 px wide spectrograms. Actual width can vary +-20 pixels, possibly due to pylab's margin settings.  
+  segmentLengthSeconds = 10
+  spectroWidth = 450
+  noverlapRatio = 2
+  NFTT = math.floor( frame_rate * segmentLengthSeconds / spectroWidth * noverlapRatio )
+
+  noverlap = NFTT / noverlapRatio
   cmap = "viridis" # jet | viridis | RdBu | cubehelix
 
   pylab.specgram(sound_info, Fs=frame_rate, NFFT=NFTT, noverlap=noverlap, scale_by_freq=False, cmap=cmap)

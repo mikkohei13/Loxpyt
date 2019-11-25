@@ -40,6 +40,7 @@ Handle audio file:
 
 # Todo
 
+- Cap spectrograms at 16 kHz or so
 - Size of spectrograms? All should be exactly the same. grayscale?
 - Backup mongodb, when? docker-compose down?
 - CHECK Refactor split and spect: var names, files in subdirs, parametrize path structure?
