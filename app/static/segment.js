@@ -15,6 +15,17 @@ if (carryElement) {
   carryElement.addEventListener('click', function() { sendAnnotation("carry"); }, false);
 }
 
+$(".tag").change(function() {
+  if (this.checked) {
+    console.log("Checkbox checked")
+    $(this).parent().addClass("checkedlabel");
+  }
+  else {
+    console.log("Checkbox unchecked")
+    $(this).parent().removeClass("checkedlabel");
+  }
+});
+
 // Todo: Something wrong with session number handling durng save. hash and vr mismatch, hash skips numbers. 
 
 // Todo: shortcut keys

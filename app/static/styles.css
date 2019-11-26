@@ -100,7 +100,7 @@ audio {
 
 
 #wrapper2 {
-    width: 1200px;
+    width: 1400px;
     margin: 0 auto;
 }
 
@@ -142,21 +142,22 @@ audio {
 }
 
 form {
-    font-size: 200%;
-    margin: 1em 0 3em 0;
+    font-size: 170%;
+    margin: 0.5em 0 3em 0;
 }
 
 #tags {
     display: flex;
 }
 
-#tags1, #tags2, #tags3 {
-    width: 32%;
+#tags1, #tags2, #tags3, #tags4 {
+    width: 25%;
 }
 
 #tags1 label,
 #tags2 label,
-#tags3 label {
+#tags3 label,
+#tags4 label {
     background-color: #046B29;
     display: block;
     padding: 3px;
@@ -167,9 +168,12 @@ form {
     margin-top: 0.5em;
     font-size: 70%;
     padding: 5px;
-    width: 900px;
+    width: 1100px;
 }
 
+.checkedlabel {
+    background-color: rgb(62, 218, 23) !important;
+}
 
 #debug {
     margin-top: 2em;
