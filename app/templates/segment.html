@@ -13,10 +13,8 @@
 
 <body id="segment">
 
-	<div id="wrapper">
+	<div id="wrapper1">
 		<h1 id="title"></h1>
-		<a id="save">Save</a>
-		<a id="carry">Carry on</a>
 
 		<img src="" id="spectrogram">
 
@@ -34,20 +32,60 @@
 		</figure>
 
 
-		<!--FORM-->
+	</div>
+	<div id="wrapper2">
 
+		<div id="alertwrapper">
+			<div id="alert"></div>
+		</div>
 
+		<div id="savebuttons">
+			<a id="save">Save</a>
+			<a id="carry">Carry on</a>
+		</div>
+		
 		<form id="form">
 
-			<div id="alert"></div>
-
 			<!-- TODO: Make sure that each form element has name == id == value-->
-			<label><input name="tags" id="alpha" type="checkbox" value="alpha" />Alpha</label>
-			<label><input name="tags" id="beta" type="checkbox" value="beta" />Beta</label>
-
-			<label>Keywords:  
-				<input name="keywords" id="keywords" type="text" value="" /> 
-			</label>
+			<div id="tags">
+				<div id="tags1">
+					<label><input name="tags" id="" type="checkbox" value="" />Bat</label>
+					<label><input name="tags" id="" type="checkbox" value="" />Mammal</label>
+					<label><input name="tags" id="" type="checkbox" value="" />Other_animal</label>
+					<label><input name="tags" id="" type="checkbox" value="" />Mystery</label>
+					<p>&nbsp;</p>
+					<label><input name="tags" id="" type="checkbox" value="" />Loud_rain</label>
+					<label><input name="tags" id="" type="checkbox" value="" />Loud_wind</label>
+				</div>
+				<div id="tags2">
+	
+					<label><input name="tags" id="" type="checkbox" value="" />Faint</label>
+					<label><input name="tags" id="" type="checkbox" value="" />Strong</label>
+					<p>&nbsp;</p>
+					<label><input name="tags" id="" type="checkbox" value="" />Migrant_1</label>
+					<label><input name="tags" id="" type="checkbox" value="" />Migrant_multi</label>
+					<label><input name="tags" id="" type="checkbox" value="" />Wander_1</label>
+					<label><input name="tags" id="" type="checkbox" value="" />Wander_multi</label>
+					<label><input name="tags" id="" type="checkbox" value="" />Local_individual</label>
+					<label><input name="tags" id="" type="checkbox" value="" />Local_chorus</label>
+				</div>
+				<div id="tags3">
+					<label><input name="tags" id="" type="checkbox" value="" />Silence</label>
+					<label><input name="tags" id="" type="checkbox" value="" />Single_noise</label>
+					<p>&nbsp;</p>
+					<label><input name="tags" id="" type="checkbox" value="" />Loud_plane</label>
+					<label><input name="tags" id="" type="checkbox" value="" />Loud_vehicle</label>
+					<label><input name="tags" id="" type="checkbox" value="" />Noise</label>
+					<p>&nbsp;</p>
+					<label><input name="tags" id="" type="checkbox" value="" />Human_speech</label>
+					<label><input name="tags" id="" type="checkbox" value="" />Ignore</label>
+				</div>
+			</div>
+			<div id="keywords1">
+				<label>Keywords:  
+					<input name="keywords" id="keywords" type="text" value="" /> 
+				</label>
+			</div>
 
 		</form>
 
