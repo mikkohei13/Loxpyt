@@ -32,7 +32,8 @@ def trim(im):
 def graph_spectrogram(wavFilename, spectroFilename, maxFrequency = 16000):
   sound_info, frame_rate = get_wav_info(wavFilename)
 
-  pylab.figure(num=None, figsize=(5.42, 3.8)) # About 450 * 321 px
+#  pylab.figure(num=None, figsize=(5.42, 3.8)) # About 450 * 321 px
+  pylab.figure(num=None, figsize=(45.8, 32.6), dpi=100)
 
   # Spectrogram settings for 900 px wide spectrograms:
   #  pylab.figure(num=None, figsize=(10, 7)) # Size in inches, 1. version
@@ -58,19 +59,19 @@ def graph_spectrogram(wavFilename, spectroFilename, maxFrequency = 16000):
   pylab.specgram(sound_info, Fs=frame_rate, NFFT=NFTT, noverlap=noverlap, scale_by_freq=False, cmap=cmap)
 
   # Remove chart axis etc.
-#  pylab.tight_layout() # Todo: Will this work in new versions of pylab? 
-#  pylab.axis('off')
+  pylab.tight_layout() # Todo: Will this work in new versions of pylab? 
+  pylab.axis('off')
 
   pylab.axis(ymin = 0, ymax = maxFrequency)
 
   # Saves temp version - todo: send the image directly to trimmer?
-  pylab.savefig(spectroFilename)
+  pylab.savefig(spectroFilename, dpi = 10)
   pylab.close()
 
   # Remove whitespace  
-#  im = Image.open(spectroFilename)
-#  im = trim(im)
-#  im.save(spectroFilename)
+  im = Image.open(spectroFilename)
+  im = trim(im)
+  im.save(spectroFilename)
 
 # Info
 # Returns audio data and info
