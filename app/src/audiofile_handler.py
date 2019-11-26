@@ -21,11 +21,11 @@ debug = True # get input from this file AND use interpreter on host Linux
 
 if debug:
   directory = "20190422-26-Harmaakallio"
-  directory = "noordwijk"
   directory = "ks"
 #  directory = "normalized"
+  directory = "noordwijk"
 
-  location = "Ks"
+  location = directory
   segments = 10
 
 else:
@@ -82,13 +82,12 @@ for audioFilePath in audioFileList:
 
   db.saveFile(fileData)
 
-  # File to mono & 32 kHz
-#  normalizedTempFilePath = file_normalizer.normalize(audioFilePath)
-  normalizedTempFilePath = file_normalizer.mono(audioFilePath)
+  # File to mono
+  deleteMonoFile, monoFilePath = file_normalizer.mono(audioFilePath)
 
   ### SEGMENTS ###
   # Split into segments and generate spectrograms
-  segmentMetaGenerator = split_and_spectro.parseFile(normalizedTempFilePath, exportDir, directory, fileData["fileName"], segments, 10)
+  segmentMetaGenerator = split_and_spectro.parseFile(monoFilePath, exportDir, directory, fileData["fileName"], segments, 10)
 
   for segmentMeta in segmentMetaGenerator:
     segmentId = fileId + "/" + str(segmentMeta["segmentNumber"])
@@ -103,7 +102,8 @@ for audioFilePath in audioFileList:
     db.saveSegment(segmentMeta)
 
   # Remove temp file
- # file_normalizer.deleteTempFile(normalizedTempFilePath)
+  if deleteMonoFile:
+    file_normalizer.deleteTempFile(monoFilePath)
 
   # If segments defined for debugging, break processing before going to next file
   if segments > 0:

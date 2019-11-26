@@ -33,7 +33,7 @@ def graph_spectrogram(wavFilename, spectroFilename, maxFrequency = 16000):
   sound_info, frame_rate = get_wav_info(wavFilename)
 
 #  pylab.figure(num=None, figsize=(5.42, 3.8)) # About 450 * 321 px
-  pylab.figure(num=None, figsize=(45.8, 32.6), dpi=100)
+  pylab.figure(num=None, figsize=(45.8, 32.6))
 
   # Spectrogram settings for 900 px wide spectrograms:
   #  pylab.figure(num=None, figsize=(10, 7)) # Size in inches, 1. version
