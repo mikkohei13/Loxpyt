@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>List of sessions</title>
+	<link rel="stylesheet" href="/static/styles.css?{{ cacheb }}">
+	<script>
+		let foo = bar;
+	</script>
+</head>
+
+
+<body id="sessions">
+
+	<div id="wrapper">
+		<h1 id="title">Files</h1>
+
+		{% for id, doc in documents.items() %}
+
+		<p class="file">
+			<a href="segment?file_id={{ id }}#1">{{ id }}</a>
+			-
+			<span>{{ doc["recordDurationSeconds"] }} seconds</span>
+		</p>
+				
+		{% endfor %}
+
+	</div>
+
+	<div id="debug">{{ debug }}</div>
+	
+	<script src="/static/jquery-3.4.1.js?"></script>
+</body>
+</html>

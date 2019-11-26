@@ -70,6 +70,7 @@ def graph_spectrogram(wavFilename, spectroFilename, maxFrequency = 16000):
   im = Image.open(spectroFilename)
   im = trim(im)
   im.save(spectroFilename)
+  im.close()
 
 # Info
 # Returns audio data and info

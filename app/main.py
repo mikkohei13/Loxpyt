@@ -1,6 +1,9 @@
 from flask import Flask, escape, request, render_template, send_from_directory
 import random # debug/dev
 import logging
+import json
+import datetime
+import collections
 
 import sys
 sys.dont_write_bytecode = True # debug
@@ -11,10 +14,31 @@ from src import loxia_database
 app = Flask(__name__)
 
 
+def datetimeToJson(datetimeObject):
+  if isinstance(datetimeObject, datetime.datetime):
+    return datetimeObject.__str__()
+
+
 @app.route("/")
 def index():
   name = request.args.get("name", "World")
   return f'Hello, {escape(name)}!'
+
+
+@app.route("/sessions")
+def sessions():
+  cacheb = random.randint(0,10000) # debug/dev
+
+  db = loxia_database.db()
+  resultDict = db.getFiles()
+
+  # Creating a sorted dictionary. 
+  # Todo: Check sorting: which filed is sorted by?
+  orderedDict = collections.OrderedDict(sorted(resultDict.items(), reverse=False))
+#  resultDict.sort()
+  debug = json.dumps(resultDict, default = datetimeToJson)
+
+  return render_template("sessions.html", cacheb=cacheb, documents=orderedDict, debug=debug)
 
 
 @app.route("/segment")
@@ -65,6 +89,7 @@ def apiAnnotation():
         "status": "ok",
         "result": result
   }, 200
+
 
 
 

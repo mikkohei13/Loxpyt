@@ -42,10 +42,12 @@
 # Todo
 
 - Todo's in the files
+- Why spectro creation is slo slow?
 - UI:
   - List of sessions and files to annotate
   - All buttons -> keywords
   - Warning if anotation already exists?
+  - Preload next spectro & audio
 - CHECK Are all spectrograms same size, despite of source bitrate?
 - Backup mongodb, when? docker-compose down?
 - CHECK Refactor split and spect: var names, files in subdirs, parametrize path structure?

@@ -70,6 +70,7 @@ class db():
     print("Inserted segment")
 
 
+  # Todo: Move to main / helpers??
   def datetimeToJson(self, datetimeObject):
     if isinstance(datetimeObject, datetime.datetime):
       return datetimeObject.__str__()
@@ -77,8 +78,6 @@ class db():
 
   # Todo: handle if no records found, in both this and api endpoint
   def getSegment(self, file_id, segmentNumber):
-#    _id = { "_id": data.get("_id") }
-
     where = {"file_id": file_id, "segmentNumber": segmentNumber}
 #    where = {"file_id": "ks/HLO10_20191102_022600.wav", "segmentNumber": 1}
 
@@ -87,6 +86,27 @@ class db():
     resultJson = json.dumps(resultDict, default = self.datetimeToJson)
 
     return resultJson
+
+
+  # Todo: Later handle if no records found
+  def getFiles(self):
+    resultDict = {}
+    cursor = self._filesColl.find({})
+
+    for document in cursor:
+      resultDict[document['_id']] = document
+
+    return resultDict
+
+
+  # Todo: Later handle if no records found
+  # UNTESTED
+  # def getSegmentCount(self, file_id):
+  #   resultDict = {}
+  #   filter = { "file_id": file_id }
+  #   count = self._segmentsColl.count_documents(filter)
+
+  #   return count
 
 
   def saveAnnotation(self, data):

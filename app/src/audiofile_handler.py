@@ -20,12 +20,12 @@ exportDir = "/_exports"
 debug = True # get input from this file
 
 if debug:
-  directory = "20190422-26-Harmaakallio"
   directory = "ks"
   directory = "noordwijk"
+  directory = "20190422-26-Harmaakallio"
 
   location = "DEBUG"
-  segments = 10
+  segments = 0
 
 else:
   # Get args from command line
