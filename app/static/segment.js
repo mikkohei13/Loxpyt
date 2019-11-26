@@ -5,26 +5,97 @@ window.onload = function() {
   init()
 }
 
+// Save buttons
+
 let saveElement = document.getElementById("save");
 if (saveElement) {
-  saveElement.addEventListener('click', function() { sendAnnotation("save"); }, false);
+  saveElement.addEventListener('click', function() { 
+    sendAnnotation("save"); 
+  }, false);
 }
 
 let carryElement = document.getElementById("carry");
 if (carryElement) {
-  carryElement.addEventListener('click', function() { sendAnnotation("carry"); }, false);
+  carryElement.addEventListener('click', function() { 
+    sendAnnotation("carry"); 
+  }, false);
 }
 
+
+// Checkbox styles
+// Seems that this gets invoked only chen checkbox is checked/unchecked directly, not when done using jQuery prop
 $(".tag").change(function() {
   if (this.checked) {
-    console.log("Checkbox checked")
     $(this).parent().addClass("checkedlabel");
   }
   else {
-    console.log("Checkbox unchecked")
     $(this).parent().removeClass("checkedlabel");
   }
 });
+
+
+// Keyboard shortcuts
+
+document.onkeyup = function(e) {
+  if (e.which == 77) {
+    $("#migrant").prop("checked", true);
+    $("#migrant").parent().addClass("checkedlabel");
+  }
+  else if (e.which == 188) {
+    $("#migrant_multi").prop("checked", true);
+    $("#migrant_multi").parent().addClass("checkedlabel");
+  }
+  else if (e.which == 87) {
+    $("#wander").prop("checked", true);
+    $("#wander").parent().addClass("checkedlabel");
+  }
+  else if (e.which == 69) {
+    $("#wander_multi").prop("checked", true);
+    $("#wander_multi").parent().addClass("checkedlabel");
+  }
+  else if (e.which == 76) {
+    $("#local_individual").prop("checked", true);
+    $("#local_individual").parent().addClass("checkedlabel");
+  }
+  else if (e.which == 192) {
+    $("#local_choir").prop("checked", true);
+    $("#local_choir").parent().addClass("checkedlabel");
+  }
+  else if (e.which == 70) {
+    $("#faint").prop("checked", true);
+    $("#faint").parent().addClass("checkedlabel");
+  }
+  else if (e.which == 71) {
+    $("#strong").prop("checked", true);
+    $("#strong").parent().addClass("checkedlabel");
+  }
+  else if (e.which == 73) {
+    $("#silence").prop("checked", true);
+    $("#silence").parent().addClass("checkedlabel");
+  }
+  else if (e.which == 78) {
+    $("#single_noise").prop("checked", true);
+    $("#single_noise").parent().addClass("checkedlabel");
+  }
+  else if (e.which == 82) {
+    $("#loud_rain").prop("checked", true);
+    $("#loud_rain").parent().addClass("checkedlabel");
+  }
+  else if (e.which == 89) {
+    $("#loud_wind").prop("checked", true);
+    $("#loud_wind").parent().addClass("checkedlabel");
+  }
+
+  // Save and carry on
+  else if (e.which == 13) {
+    console.log("save");
+    sendAnnotation("save");
+  }
+  else if (e.which == 39) {
+    console.log("carry");
+    sendAnnotation("carry");
+  }
+};
 
 // Todo: Something wrong with session number handling durng save. hash and vr mismatch, hash skips numbers. 
 
@@ -41,6 +112,11 @@ w = wind
 function init() {
   console.log("INIT FUNCTION");
   clearAlert();
+
+  $("#alert").addClass("ready");
+  $("#alert").fadeIn("slow", function() {
+    $(this).removeClass("ready");
+});
 
   let hash = window.location.hash;
   segmentNumberGlobal = parseInt(hash.replace("#", ""), 10);
@@ -189,6 +265,9 @@ function clearForm() {
   $('#form').find('input:text, input:password, input:file, select, textarea').val('');
   $('#form').find('input:radio').prop('selected', false);
   $('#form').find('input:checkbox').prop('checked', false);
+
+  $('#form').find('label').removeClass("checkedlabel");
+
 }
 
 function moveToNextSegment() {
