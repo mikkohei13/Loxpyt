@@ -29,7 +29,7 @@ def trim(im):
 # Spectro
 # Creates a spectrogram and saves to disk
 # https://github.com/cgoldberg/audiotools/blob/master/visualization/spectrogram_matplotlib.py
-def graph_spectrogram(wavFilename, spectroFilename):
+def graph_spectrogram(wavFilename, spectroFilename, maxFrequency = 16000):
   sound_info, frame_rate = get_wav_info(wavFilename)
 
   pylab.figure(num=None, figsize=(5.42, 3.8)) # About 450 * 321 px
@@ -58,17 +58,19 @@ def graph_spectrogram(wavFilename, spectroFilename):
   pylab.specgram(sound_info, Fs=frame_rate, NFFT=NFTT, noverlap=noverlap, scale_by_freq=False, cmap=cmap)
 
   # Remove chart axis etc.
-  pylab.tight_layout() # Todo: Will this work in new versions of pylab? 
-  pylab.axis('off')
+#  pylab.tight_layout() # Todo: Will this work in new versions of pylab? 
+#  pylab.axis('off')
+
+  pylab.axis(ymin = 0, ymax = maxFrequency)
 
   # Saves temp version - todo: send the image directly to trimmer?
   pylab.savefig(spectroFilename)
   pylab.close()
 
   # Remove whitespace  
-  im = Image.open(spectroFilename)
-  im = trim(im)
-  im.save(spectroFilename)
+#  im = Image.open(spectroFilename)
+#  im = trim(im)
+#  im.save(spectroFilename)
 
 # Info
 # Returns audio data and info
@@ -78,6 +80,7 @@ def get_wav_info(wavFilename):
   sound_info = pylab.fromstring(frames, 'int16')
   frame_rate = wav.getframerate()
   wav.close()
+  print("Frame rate: " + str(frame_rate))
   return sound_info, frame_rate
 
 
@@ -122,9 +125,6 @@ def parseFile(sourceAudioFilePath, exportDir, sessionDir, sourceAudioFileName, s
     segment.export(exportDirPath + tempAudioFilename, format="wav")
 
     # Create spectrogram
-    # NOTE: PRESUMES MONO
-    # Todo: stereo to mono
-
     # Saves the spectro image to disk
     graph_spectrogram(exportDirPath + tempAudioFilename, exportDirPath + spectroFilename)
 

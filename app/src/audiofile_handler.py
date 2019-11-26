@@ -23,6 +23,7 @@ if debug:
   directory = "20190422-26-Harmaakallio"
   directory = "noordwijk"
   directory = "ks"
+#  directory = "normalized"
 
   location = "Ks"
   segments = 10
@@ -82,7 +83,8 @@ for audioFilePath in audioFileList:
   db.saveFile(fileData)
 
   # File to mono & 32 kHz
-  normalizedTempFilePath = file_normalizer.normalize(audioFilePath)
+#  normalizedTempFilePath = file_normalizer.normalize(audioFilePath)
+  normalizedTempFilePath = file_normalizer.mono(audioFilePath)
 
   ### SEGMENTS ###
   # Split into segments and generate spectrograms
@@ -101,7 +103,7 @@ for audioFilePath in audioFileList:
     db.saveSegment(segmentMeta)
 
   # Remove temp file
-#  file_normalizer.deleteTempFile(normalizedTempFilePath)
+ # file_normalizer.deleteTempFile(normalizedTempFilePath)
 
   # If segments defined for debugging, break processing before going to next file
   if segments > 0:

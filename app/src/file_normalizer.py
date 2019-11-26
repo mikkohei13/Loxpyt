@@ -12,6 +12,19 @@ import librosa
 
 # fullPath = filepath + filename
 
+from pydub import AudioSegment
+
+def mono(filePath):
+  print("Loading file " + filePath + " to pydub")
+  sound = AudioSegment.from_wav(filePath)
+
+  print("Converting to mono")
+  sound = sound.set_channels(1)
+
+  tempFilePath = "/_exports/temp/normalized.wav"
+  sound.export(tempFilePath, format="wav")
+  return tempFilePath
+
 
 def normalize(filePath):
   # Todo: check if mono & 32 kHz already

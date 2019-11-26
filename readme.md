@@ -40,15 +40,22 @@ Handle audio file:
 
 # Todo
 
+- Find out why spectros won't look ok for file converted to mono 32 kHz
+  - TRY: Set NFTT manually to 512: does not help
+  - CHECK: Why loading normalized file is slow
+
+- Do the conversions only if needed
+
 - Audio file handling
   - stereo to mono
   - bitrate to 32 kHz
   - cust to segments
   - spectro and mp3
-  - adjust spectro size to 450, if needed for the AI?
+  - crop top part off (see test.py)
+  - adjust spectro size to 450 and height to uniform
 
-- Cap spectrograms at 16 kHz or so
-- Size of spectrograms? All should be exactly the same. grayscale?
+- Try out spectros with framerate / 2
+- Grayscale spectros?
 - Backup mongodb, when? docker-compose down?
 - CHECK Refactor split and spect: var names, files in subdirs, parametrize path structure?
 - Stereo to mono
