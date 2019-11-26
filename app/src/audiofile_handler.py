@@ -4,9 +4,11 @@
 
 import argparse
 import datetime
+import os
 
 import split_and_spectro
 import file_helper
+import file_normalizer
 import loxia_database
 
 ### INPUT #########################################################
@@ -18,12 +20,12 @@ exportDir = "/_exports"
 debug = True # get input from this file AND use interpreter on host Linux 
 
 if debug:
+  directory = "20190422-26-Harmaakallio"
   directory = "noordwijk"
   directory = "ks"
-  directory = "20190422-26-Harmaakallio"
 
-  location = "Harmaakallio"
-  segments = 1
+  location = "Ks"
+  segments = 10
 
 else:
   # Get args from command line
@@ -69,6 +71,7 @@ db.saveSession(sessionData)
 for audioFilePath in audioFileList:
   # Todo: tbd: What to do if save file handled twice?
 
+  # File metadata
   fileData = file_helper.parseFile(audioFilePath)
 
   # File name is not necessarily unique, e.g. when multiple recorders start at the same time. Therefore need to include session to the id.
@@ -78,9 +81,12 @@ for audioFilePath in audioFileList:
 
   db.saveFile(fileData)
 
+  # File to mono & 32 kHz
+  normalizedTempFilePath = file_normalizer.normalize(audioFilePath)
+
   ### SEGMENTS ###
   # Split into segments and generate spectrograms
-  segmentMetaGenerator = split_and_spectro.parseFile(audioFilePath, exportDir, directory, fileData["fileName"], segments, 10)
+  segmentMetaGenerator = split_and_spectro.parseFile(normalizedTempFilePath, exportDir, directory, fileData["fileName"], segments, 10)
 
   for segmentMeta in segmentMetaGenerator:
     segmentId = fileId + "/" + str(segmentMeta["segmentNumber"])
@@ -94,6 +100,8 @@ for audioFilePath in audioFileList:
 
     db.saveSegment(segmentMeta)
 
+  # Remove temp file
+#  file_normalizer.deleteTempFile(normalizedTempFilePath)
 
   # If segments defined for debugging, break processing before going to next file
   if segments > 0:

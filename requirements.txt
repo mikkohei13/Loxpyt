@@ -7,3 +7,4 @@ Pillow==6.2.1
 beautifulsoup4==4.8.1
 lxml==4.4.1
 pymongo==3.9.0
+librosa==0.7.1

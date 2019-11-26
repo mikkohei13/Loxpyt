@@ -22,13 +22,28 @@ print("Test")
 
 # -------------------------------------------------------
 
-from pydub import AudioSegment
 
-filepath = "/_source_audio/20190506-07-Ks-SM4/Data/"
-filename = "HLO10_20190506_220000.wav" # stereo, 48 kHz
+from PIL import Image 
+  
+# Opens a image in RGB mode 
+# 908 x 640 px
 
-fullPath = filepath + filename
+im = Image.open(r"/_exports/test.png")
+width, height = im.size
 
-sound = AudioSegment.from_wav(fullPath)
-sound = sound.set_channels(1)
-sound.export("/_temp/" + filename, format="wav")
+newWidth = 900
+newHeight = 595 # about 93 % of original
+
+left = 0
+top = height - newHeight
+right = width
+bottom = height
+
+im_cropped = im.crop((left, top, right, bottom)) 
+
+newsize = (newWidth, newHeight) 
+im_resized = im_cropped.resize(newsize) 
+
+im_resized.save("/_exports/cropped.png") 
+
+# "/_exports/cropped.png"
