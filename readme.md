@@ -2,25 +2,30 @@
 
 # Usage
 
-After adding pip requirements to requirements.txt, rebuild Docker image with:
+## Setup (not tested)
 
-  docker-compose up --build
-
-Terminal to container:
-
-  docker exec -ti loxia_web bash
-
-Handle audio file:
-
-  cd /app/src/
-  python3 audiofile_handler.py --segments 1 --file /_source_audio/noordwijk/5DB0E3A4.WAV
-
-
+- Install Docker
+- Clone this repository
+- Create directories for audio files:
+  - _exports
+  - _source_audio
+- Place audio (.wav) files to _source_audio/{DIRECTORY_NAME}/Data
+- Start containers:
+  - `docker-compose up --build`
+- Terminal to container:
+  - `docker exec -ti loxia_web bash`
+- Handle audio file inside the container:
+  - `cd /app/src/`
+  - `python3 audiofile_handler.py --dir DIRECTORY_NAME --location LOCATION_ID`
+- Annotate at localhost
+- TODO...
 
 
 # Tbd
 
 - Check what other annotated data is available, how long are the files, what format are they, what's the frequency, what kind of tags ...
+  - https://zenodo.org/record/1298604
+  - https://zenodo.org/record/1208080
 - Should we adjust NFTT (+ noverlap) to have same length for each window? Yes, so that each image is same width, despite different sampling rates. 
   - Rule of thumb: 10-50 ms / window is usually good
   - My tests: c. 15 ms / window seems clearest
