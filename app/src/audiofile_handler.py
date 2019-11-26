@@ -17,15 +17,14 @@ segments = 0
 segmentsLimit = 100
 exportDir = "/_exports"
 
-debug = True # get input from this file AND use interpreter on host Linux 
+debug = True # get input from this file
 
 if debug:
   directory = "20190422-26-Harmaakallio"
   directory = "ks"
-#  directory = "normalized"
   directory = "noordwijk"
 
-  location = directory
+  location = "DEBUG"
   segments = 10
 
 else:
@@ -41,8 +40,8 @@ else:
   location = args.location
 
 # Validate input
-# Todo: tbd: Check that dir name contains locality? To avoid errors.
-# Todo: check if directory/data (case-sensitivity?) exists and contains wav files, or raise error
+# Todo: tbd: Check that dir name contains locality string? To avoid errors.
+# Todo: check if directory/data (case-sensitivity?) exists and contains wav files, or raise error. What happens now?
 
 if segments > segmentsLimit:
   segments = segmentsLimit

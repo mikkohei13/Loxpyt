@@ -26,10 +26,6 @@
 - Check what other annotated data is available, how long are the files, what format are they, what's the frequency, what kind of tags ...
   - https://zenodo.org/record/1298604
   - https://zenodo.org/record/1208080
-- Should we adjust NFTT (+ noverlap) to have same length for each window? Yes, so that each image is same width, despite different sampling rates. 
-  - Rule of thumb: 10-50 ms / window is usually good
-  - My tests: c. 15 ms / window seems clearest
-  - For NFTT "A power 2 is most efficient"
 - Are upserts needed or allowed?
   - Needed: debugging
   - Allowed: production for most entities
@@ -45,71 +41,34 @@
 
 # Todo
 
-- Find out why spectros won't look ok for file converted to mono 32 kHz
-  - TRY: Set NFTT manually to 512: does not help
-  - CHECK: Why loading normalized file is slow
-
-- Do the conversions only if needed
-
-- Audio file handling
-  - stereo to mono
-  - bitrate to 32 kHz
-  - cust to segments
-  - spectro and mp3
-  - crop top part off (see test.py)
-  - adjust spectro size to 450 and height to uniform
-
-- Try out spectros with framerate / 2
-- Grayscale spectros?
+- Todo's in the files
+- UI:
+  - List of sessions and files to annotate
+  - All buttons -> keywords
+  - Warning if anotation already exists?
+- CHECK Are all spectrograms same size, despite of source bitrate?
 - Backup mongodb, when? docker-compose down?
 - CHECK Refactor split and spect: var names, files in subdirs, parametrize path structure?
-- Stereo to mono
-- Double-check the time setting in SM4, is it UTC+3? And is the time value in metadata correct?
-- Id's as hashes, in case dir names are corrected? Need still to be reproducible...
-- Upsert? What can be upserted? Not segments, since replacing can harm AI training?
-  - DONE: session and file upserted
+- CHECK Double-check the time setting in SM4, is it UTC+3? And is the time value in metadata correct?
 - Databasing: what should be case-insensitive? Location id? Mongodb _id's? How could the case change? (typing error on terminal, dir or file name change...?)
   - DONE: location id always lowercased
-- Backup of database, automatic whenever ...
 - Conversion
-  - Organize export files so that each session (night) is in its own dir. Do this when you know how the conversions will eventually be done (manually per night using terminal command, so that there would be no need to handle errors automatically).
-  - Issues:
-    - Avoid errors when typing the command manually.
-    - Make it easy to change the export path during development
-- Next time you change the directory structure, parametrize it
 - Spectrogram
-  - Instead of fitting spec to pixel dimensions, calculate size using NFTT & noverlay?
-  - Fix file dimensions pixel-perfect?
-  - Should not scale colors of each plot separately for AI?
-  - More contrast for higher amplitudes? https://towardsdatascience.com/getting-to-know-the-mel-spectrogram-31bca3e2d9d0
+  - Should not scale colors of each plot separately for AI? Can this be prevented in pylab?
+  - More contrast for higher amplitudes? How?
   - Greyscale? https://jakevdp.github.io/PythonDataScienceHandbook/04.07-customizing-colorbars.html
 - Audio
-  - Limit all to same freq (~16 kHz)
-  - All to mono
-- UI: List of sessions and files to annotate
 
 - Where time data: start time, day 
 - Where metadata: recorded model, recorder id, original filename, original path, conversion datetime, peak amplitude
 
 # Spectrograms
 
-## pylab
+- Calculating NFTT so that the spectro is close to the desired size seems to produce clearest results, despite pylab's instruction to have "A power 2 is most efficient" for the NFTT. This avoids blurring due to image resizing.
+  - With 32 KhZ recording and 450 px wide 10 sec segments this means 22 ms segments and NFTT of ~1400 
+- MR: Rule of thumb: 10-50 ms / window is usually good
+- Youtube: "standard" is 25 ms window size and 10 ms step (= 15 ms noverlap)
 
-+ some options available
-
-## scipy
-
-- could not get it to work properly
-
-## pyspectrum
-
-+ nice colors
-+ seems sharp
-- no options for
-  - remove legend etc.
-  - remove frames
-  - adjust size
-- slow
 
 # Dates
 

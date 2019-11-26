@@ -32,9 +32,6 @@ def trim(im):
 def graph_spectrogram(wavFilename, spectroFilename, maxFrequency = 16000):
   sound_info, frame_rate = get_wav_info(wavFilename)
 
-#  pylab.figure(num=None, figsize=(5.42, 3.8)) # About 450 * 321 px
-  pylab.figure(num=None, figsize=(45.8, 32.6))
-
   # Spectrogram settings for 900 px wide spectrograms:
   #  pylab.figure(num=None, figsize=(10, 7)) # Size in inches, 1. version
   # Cleaner, less contrast, visually good noverlap value: 512 / 2
@@ -47,15 +44,16 @@ def graph_spectrogram(wavFilename, spectroFilename, maxFrequency = 16000):
   # NFTT = 32000 * 10 / 450 * 2 
   # = 1422
 
-  # This will adjust NFTT to have approximately 450 px wide spectrograms. Actual width can vary +-20 pixels, possibly due to pylab's margin settings.  
   segmentLengthSeconds = 10
-  spectroWidth = 450
+  spectroWidth = 450 # If this is changed, also change figsize below
   noverlapRatio = 2
   NFTT = math.floor( frame_rate * segmentLengthSeconds / spectroWidth * noverlapRatio )
 
   noverlap = NFTT / noverlapRatio
   cmap = "viridis" # jet | viridis | RdBu | cubehelix
 
+  # Size of the spectrogram, adjusted for margings added by pylab
+  pylab.figure(num=None, figsize=(45.8, 32.6)) 
   pylab.specgram(sound_info, Fs=frame_rate, NFFT=NFTT, noverlap=noverlap, scale_by_freq=False, cmap=cmap)
 
   # Remove chart axis etc.
