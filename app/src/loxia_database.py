@@ -31,12 +31,14 @@ class db():
     self._annotationsColl = db['annotations']
 
 
-  def getDbMetaFields(self):
+  def getDbMetaFields(self, includeUniqueEditedField = True):
     data = {}
     data["recordLastModifiedUTC"] = datetime.datetime.utcnow()
 
     # This adds and element which is not overwritten on upsert, displaying human-readable date for debugging
-    data[str(datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"))] = "recordModifiedUTC"
+    if True == includeUniqueEditedField:
+      data[str(datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"))] = "recordModifiedUTC"
+
     return data
 
 
@@ -110,7 +112,7 @@ class db():
 
 
   def saveAnnotation(self, data):
-    data.update(self.getDbMetaFields())
+    data.update(self.getDbMetaFields(False))
 
     # Flask does not like object id, so we'll create our own
     data["_id"] = str(uuid.uuid1())
@@ -121,5 +123,13 @@ class db():
     # Todo: how to return the id?
     # result.inserted_id is object
 
+
+  def getAnnotationCount(self, file_id, segmentNumber):
+
+    where = {"file_id": file_id, "segmentNumber": segmentNumber}
+
+    count = self._annotationsColl.count_documents(where)
+
+    return count
 
 

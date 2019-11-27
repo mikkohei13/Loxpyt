@@ -61,10 +61,24 @@ def apiSegment():
   db = loxia_database.db()
   resultJson = db.getSegment(file_id, segmentNumber)
 
-#  resultJson = json.dumps(resultDict)
-#  res = res + str(type(result)) 
-
   return resultJson, 200
+
+
+# http://localhost/api/annotation/count?file_id=ks/HLO10_20191102_022600.wav&segmentNumber=150
+@app.route("/api/annotation/count", methods=['GET'])
+def apiAnnotationCount():
+  # Todo: input sanitization
+  file_id = str(request.args.get("file_id")) # Todo: try removing str
+  segmentNumber = int(request.args.get("segmentNumber")) # Todo: try removing int
+
+  db = loxia_database.db()
+  count = db.getAnnotationCount(file_id, segmentNumber)
+
+  countDict = {}
+  countDict['count'] = count
+  countJson = json.dumps(countDict)
+
+  return countJson, 200
 
 
 @app.route("/api/annotation", methods=['POST'])
@@ -72,6 +86,7 @@ def apiAnnotation():
   # Todo: move logic to a module. But how, to avoid import troubles?
   logging.basicConfig(filename='api.log',level=logging.DEBUG)
 
+  # Todo: Add real id
   recordId = "FAKE"
   # logging.info("is_json: ")
   # logging.info(request.is_json) # True

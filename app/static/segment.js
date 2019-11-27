@@ -111,15 +111,11 @@ function init() {
   console.log("INIT FUNCTION");
   clearAlert();
 
-  $("#alert").addClass("ready");
-  $("#alert").fadeIn("slow", function() {
-    $(this).removeClass("ready");
-});
-
   let hash = window.location.hash;
   segmentNumberGlobal = parseInt(hash.replace("#", ""), 10);
 
   getSegmentData(file_idGlobal, segmentNumberGlobal);
+  showAnnotationCount();
 
   // Todo: if spectro & audio not found, return to main
 }
@@ -239,6 +235,22 @@ function error(message) {
   console.log("ERROR: " + message)
   $("#alert").text(message);
   $("#alert").addClass("error");
+}
+
+function showAnnotationCount() {
+  // ABBA
+  $.getJSON("http://localhost/api/annotation/count?file_id=" + file_idGlobal + "&segmentNumber=" + segmentNumberGlobal)
+  .done(function(data) {
+    console.log("HERE x1");
+    console.log(data.count)
+    if (data.count > 0) {
+      $("#alert").text("Already " + data.count + " annotation(s) of this segment!");
+      $("#alert").addClass("notice");
+    }
+  })
+  .fail(function() {
+    error("api/annotation/count responded with failure!")
+  });
 }
 
 function clearAlert() {

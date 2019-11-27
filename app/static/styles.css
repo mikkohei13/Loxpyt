@@ -128,8 +128,8 @@ audio {
     cursor: pointer;
 }
 
-.error {
-    background-color: #d00;
+.notice {
+    background-color: rgb(234, 0, 255);
     color: #fff;
     padding: 5px;
 }
@@ -140,8 +140,8 @@ audio {
     padding: 5px;
 }
 
-.ready {
-    background-color: rgb(0, 183, 255);
+.error {
+    background-color: #d00;
     color: #fff;
     padding: 5px;
 }
