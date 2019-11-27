@@ -78,10 +78,12 @@ def graph_spectrogram(wavFilename, spectroFilename, maxFrequency = 16000):
   prof("layout", startTime)
 
   # Saves temp version - todo: send the image directly to trimmer?
-  # This takes 1-6 seconds
   pylab.savefig(spectroFilename, dpi = 10)
+  prof("save temp image", startTime)
+  pylab.cla() # Without this, looping figures will get really slow.
+  prof("cla temp image", startTime)
   pylab.close()
-  prof("temp", startTime)
+  prof("close temp image", startTime)
 
   # Remove whitespace  
   im = Image.open(spectroFilename)
