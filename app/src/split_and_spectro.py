@@ -5,6 +5,15 @@ import os
 from PIL import Image, ImageChops
 import math
 
+import time # debug
+startTime = time.time()
+
+def prof(position, startTime):
+  now = time.time()
+  elapsed = now - startTime
+  print("PROFILER: " + position + " " + str(elapsed));
+
+
 ### HELPER FUNCTIONS #########################################################
 
 def createDir(dirPath):
@@ -30,8 +39,10 @@ def trim(im):
 # Creates a spectrogram and saves to disk
 # https://github.com/cgoldberg/audiotools/blob/master/visualization/spectrogram_matplotlib.py
 def graph_spectrogram(wavFilename, spectroFilename, maxFrequency = 16000):
+  prof("graphSpectrogram start", startTime)
   sound_info, frame_rate = get_wav_info(wavFilename)
 
+  prof("sound_info", startTime)
   # Spectrogram settings for 900 px wide spectrograms:
   #  pylab.figure(num=None, figsize=(10, 7)) # Size in inches, 1. version
   # Cleaner, less contrast, visually good noverlap value: 512 / 2
@@ -51,26 +62,34 @@ def graph_spectrogram(wavFilename, spectroFilename, maxFrequency = 16000):
 
   noverlap = NFTT / noverlapRatio
   cmap = "viridis" # jet | viridis | RdBu | cubehelix
+  prof("settings", startTime)
 
   # Size of the spectrogram, adjusted for margings added by pylab
   pylab.figure(num=None, figsize=(45.8, 32.6)) 
+  prof("figure", startTime)
   pylab.specgram(sound_info, Fs=frame_rate, NFFT=NFTT, noverlap=noverlap, scale_by_freq=False, cmap=cmap)
+  prof("specgram", startTime)
 
   # Remove chart axis etc.
   pylab.tight_layout() # Todo: Will this work in new versions of pylab? 
   pylab.axis('off')
 
   pylab.axis(ymin = 0, ymax = maxFrequency)
+  prof("layout", startTime)
 
   # Saves temp version - todo: send the image directly to trimmer?
+  # This takes 1-6 seconds
   pylab.savefig(spectroFilename, dpi = 10)
   pylab.close()
+  prof("temp", startTime)
 
   # Remove whitespace  
   im = Image.open(spectroFilename)
   im = trim(im)
   im.save(spectroFilename)
   im.close()
+  prof("final", startTime)
+
 
 # Info
 # Returns audio data and info
@@ -88,12 +107,14 @@ def get_wav_info(wavFilename):
 
 # Parse single audio file
 def parseFile(sourceAudioFilePath, exportDir, sessionDir, sourceAudioFileName, segments = 1, segmentLengthSeconds = 10):
+  prof("parseFile start", startTime)
 
   # Todo: More elegant way to do this?
   if 0 == segments:
     segments = 10000
 
   newAudio = AudioSegment.from_wav(sourceAudioFilePath)
+  prof("newAudio", startTime)
 
   exportDirPath = exportDir + "/" + sessionDir + "/"
   segmentStartSeconds = 0
@@ -103,6 +124,7 @@ def parseFile(sourceAudioFilePath, exportDir, sessionDir, sourceAudioFileName, s
   createDir(exportDirPath)
 
   while (segmentNumber < segments):
+    prof("while", startTime)
 
     # Create names
     segmentNumberLeadingZeroes = str("{:05d}".format(segmentNumber))
@@ -115,6 +137,7 @@ def parseFile(sourceAudioFilePath, exportDir, sessionDir, sourceAudioFileName, s
 
     # Create wav segment
     segment = newAudio[(segmentStartSeconds * 1000):(segmentEndSeconds * 1000)]
+    prof("segment", startTime)
 
     # Break if no more full segments
     if segment.duration_seconds < (segmentLengthSeconds / 1000):
@@ -123,15 +146,18 @@ def parseFile(sourceAudioFilePath, exportDir, sessionDir, sourceAudioFileName, s
 
       # Save wav file
     segment.export(exportDirPath + tempAudioFilename, format="wav")
+    prof("wav export", startTime)
 
     # Create spectrogram
     # Saves the spectro image to disk
     graph_spectrogram(exportDirPath + tempAudioFilename, exportDirPath + spectroFilename)
+    prof("spectro", startTime)
 
     # Save mp3 file to disk and remove wav
     # Todo: exclude wav file extension from mp3 & spectro
     segment.export(exportDirPath + finalAudioFilename, format="mp3")
     os.remove(exportDirPath + tempAudioFilename)
+    prof("mp3 export", startTime)
 
     # Finish this loop
     segmentStartSeconds = segmentEndSeconds
@@ -150,6 +176,7 @@ def parseFile(sourceAudioFilePath, exportDir, sessionDir, sourceAudioFileName, s
     segmentMetadata['segmentLengthSeconds'] = segmentLengthSeconds
     
     print("Segment " + str(segmentNumber) + " done")
+    prof("meta", startTime)
 
     yield segmentMetadata
 
