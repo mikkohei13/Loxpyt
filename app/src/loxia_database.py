@@ -131,5 +131,19 @@ class db():
     count = self._annotationsColl.count_documents(where)
 
     return count
+    
+
+  def getAnnotationsPerFile(self):
+    aggr = [{"$group": {"_id": "$file_id", "count": {"$sum": 1}}}]
+    
+    result = self._annotationsColl.aggregate(aggr)
+
+    return result
 
 
+  def getSegmentsPerFile(self):
+    aggr = [{"$group": {"_id": "$file_id", "count": {"$sum": 1}}}]
+    
+    result = self._segmentsColl.aggregate(aggr)
+
+    return result

@@ -84,12 +84,8 @@ def apiAnnotationCount():
 @app.route("/api/annotation", methods=['POST'])
 def apiAnnotation():
   # Todo: move logic to a module. But how, to avoid import troubles?
+  # Todo: remove logging here?
   logging.basicConfig(filename='api.log',level=logging.DEBUG)
-
-  # Todo: Add real id
-  recordId = "FAKE"
-  # logging.info("is_json: ")
-  # logging.info(request.is_json) # True
 
   dataDict = request.get_json()
   logging.info(type(dataDict))
@@ -105,6 +101,15 @@ def apiAnnotation():
         "result": result
   }, 200
 
+@app.route("/api/agg", methods=['GET'])
+def apiAgg():
+  import pprint
+  db = loxia_database.db()
+  result = db.getSegmentsPerFile()
+
+#  return "RESULT: " + str(result)
+#  return str(type(result))
+  return json.dumps(list(result))
 
 
 
