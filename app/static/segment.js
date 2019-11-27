@@ -41,17 +41,9 @@ document.onkeyup = function(e) {
     $("#migrant").prop("checked", true);
     $("#migrant").parent().addClass("checkedlabel");
   }
-  else if (e.which == 188) {
-    $("#migrant_multi").prop("checked", true);
-    $("#migrant_multi").parent().addClass("checkedlabel");
-  }
   else if (e.which == 87) {
     $("#wander").prop("checked", true);
     $("#wander").parent().addClass("checkedlabel");
-  }
-  else if (e.which == 69) {
-    $("#wander_multi").prop("checked", true);
-    $("#wander_multi").parent().addClass("checkedlabel");
   }
   else if (e.which == 76) {
     $("#local_individual").prop("checked", true);
@@ -84,6 +76,12 @@ document.onkeyup = function(e) {
   else if (e.which == 89) {
     $("#loud_wind").prop("checked", true);
     $("#loud_wind").parent().addClass("checkedlabel");
+  }
+
+  // Clear all
+  else if (e.which == 27) {
+    $('#form').find('input:checkbox').prop('checked', false);
+    $('#form').find('label').removeClass("checkedlabel");
   }
 
   // Save and carry on
