@@ -9,7 +9,7 @@ import sys
 sys.dont_write_bytecode = True # debug
 
 #from SUBDIRECTORY import FILE - requires the subdir to have __init__.,py file. Delete .pyc files before trying this!
-from src import loxia_database
+from src import loxia_database, data_helper
 
 app = Flask(__name__)
 
@@ -25,20 +25,23 @@ def index():
   return f'Hello, {escape(name)}!'
 
 
-@app.route("/sessions")
-def sessions():
+@app.route("/files")
+def files():
   cacheb = random.randint(0,10000) # debug/dev
 
   db = loxia_database.db()
-  resultDict = db.getFiles()
+  segments = db.getSegmentsPerFile()
+  annotations = db.getAnnotationsPerFile()
+
+  fileData = data_helper.combineLists(list(segments), list(annotations))
 
   # Creating a sorted dictionary. 
   # Todo: Check sorting: which filed is sorted by?
-  orderedDict = collections.OrderedDict(sorted(resultDict.items(), reverse=False))
+#  orderedDict = collections.OrderedDict(sorted(resultDict.items(), reverse=False))
 #  resultDict.sort()
-  debug = json.dumps(resultDict, default = datetimeToJson)
+  debug = json.dumps(fileData, default = datetimeToJson)
 
-  return render_template("sessions.html", cacheb=cacheb, documents=orderedDict, debug=debug)
+  return render_template("files.html", cacheb=cacheb, fileData=fileData, debug=debug)
 
 
 @app.route("/segment")
@@ -101,15 +104,18 @@ def apiAnnotation():
         "result": result
   }, 200
 
-@app.route("/api/agg", methods=['GET'])
-def apiAgg():
+@app.route("/api/files", methods=['GET'])
+def apiFiles():
   import pprint
   db = loxia_database.db()
-  result = db.getSegmentsPerFile()
+  segments = db.getSegmentsPerFile()
+  annotations = db.getAnnotationsPerFile()
+
+  fileData = data_helper.combineLists(list(segments), list(annotations))
 
 #  return "RESULT: " + str(result)
 #  return str(type(result))
-  return json.dumps(list(result))
+  return json.dumps(fileData)
 
 
 

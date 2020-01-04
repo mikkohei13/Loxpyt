@@ -3,17 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>List of sessions</title>
+	<title>List of files</title>
 	<link rel="stylesheet" href="/static/styles.css?{{ cacheb }}">
 	<script>
 		let foo = bar;
 	</script>
 </head>
-<!--
-
-THIS IS NOT USED ANYMORE; REPLACED BY FILES.HTML
-
--->
 
 
 <body id="sessions">
@@ -21,12 +16,13 @@ THIS IS NOT USED ANYMORE; REPLACED BY FILES.HTML
 	<div id="wrapper">
 		<h1 id="title">Files</h1>
 
-		{% for id, doc in documents.items() %}
+		{% for id, counts in fileData.items() %}
 
 		<p class="file">
 			<a href="segment?file_id={{ id }}#1">{{ id }}</a>
 			-
-			<span>{{ doc["recordDurationSeconds"] }} seconds</span>
+			<span>{{ counts["segments"] }} segments</span>,
+			<span>{{ counts["annotations"] }} annotations</span>,
 		</p>
 				
 		{% endfor %}

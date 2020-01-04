@@ -39,8 +39,57 @@
 - Should we use segment number or segment start time in segment_id?
   - A: Segment number. Using segment start time would not allow having segments with different lengths in the same system, as there would be id collisions anyway. If segment lenght is changed, a fresh database and _exports directory are needed.
 
+# Annotate
+
+- Bosmalm: single noises
+- Ks: humans
+- Noorwijk: birds
+- Owls
+- F-mäki: wind
+- Suvisaaristo: wind
+- aamukuoro
+- noises recorded for this purpose
+
+# Annotation guidelines
+
+- Use vechile, wind, rain, human tags only if especially loud, when it might be better to check these segments manually.
+- Tag silence only if no other tags. In practice, I have used this also when other sounds except animals.
+- Strong/Faint refers to bird sound
+- Tag dogs as mammals
+
+REMOVE
+- mopo from keywords
+
+WHEN TRAINING
+- remove most bats? Or learn to give positives on bats also?
+- include dog, mammal & other animal as positives?
+- remove faints that also have bats, noise or loud things
+- don't use loud vehicles (at leas from ks training recording), expect that recorded is not near roads. But use loud planes.
+
+BIASES
+- no birds when loud vehicles (training data from winter)
+- most birds from noordwijk, with seashore wave sounds
+- many birds during good migration -> multiple calls in each segment
+
+
+
 # Todo
 
+- highlight keyword field when contains something
+- Shortcuts toggle
+- add keys
+  - dog
+  - migrant-low
+  - insect
+  - rain (r) vs loud_rain (loud = cannot listen/hear birds -> just give up)
+  - wind (w) vs loud_wind
+- Adjust volume to create augmented training data
+- Handle also mp3 files -> can use xeno-canto data
+- Highlight keyword field if contains something
+- Disable submitting the form normally when pressing enter on keywords field
+- Preload?
+- Add buttons to move prev / next
+- Try put better mongodb admin tool (easier to fix tags and move to next segement)
 - Todo's in the files
 - Why spectro creation is slo slow?
 - UI:

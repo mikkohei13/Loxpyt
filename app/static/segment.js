@@ -35,8 +35,13 @@ $(".tag").change(function() {
 
 
 // Keyboard shortcuts
+// Todo: disable when cursor in keywords field. Remove comment also on /*else*/ below
 
 document.onkeyup = function(e) {
+
+  // If cursor in input field
+  if (e.target.id == 'keywords') return;
+
   if (e.which == 77) {
     $("#migrant").prop("checked", true);
     $("#migrant").parent().addClass("checkedlabel");
@@ -70,12 +75,12 @@ document.onkeyup = function(e) {
     $("#single_noise").parent().addClass("checkedlabel");
   }
   else if (e.which == 82) {
-    $("#loud_rain").prop("checked", true);
-    $("#loud_rain").parent().addClass("checkedlabel");
+    $("#rain").prop("checked", true);
+    $("#rain").parent().addClass("checkedlabel");
   }
   else if (e.which == 89) {
-    $("#loud_wind").prop("checked", true);
-    $("#loud_wind").parent().addClass("checkedlabel");
+    $("#wind").prop("checked", true);
+    $("#wind").parent().addClass("checkedlabel");
   }
 
   // Clear all
@@ -238,7 +243,6 @@ function error(message) {
 }
 
 function showAnnotationCount() {
-  // ABBA
   $.getJSON("http://localhost/api/annotation/count?file_id=" + file_idGlobal + "&segmentNumber=" + segmentNumberGlobal)
   .done(function(data) {
     console.log("HERE x1");

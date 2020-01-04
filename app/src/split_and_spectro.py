@@ -61,7 +61,7 @@ def graph_spectrogram(wavFilename, spectroFilename, maxFrequency = 16000):
   NFTT = math.floor( frame_rate * segmentLengthSeconds / spectroWidth * noverlapRatio )
 
   noverlap = NFTT / noverlapRatio
-  cmap = "viridis" # jet | viridis | RdBu | cubehelix
+  cmap = "gray" # jet | viridis | RdBu | cubehelix | gray
   prof("settings", startTime)
 
   # Size of the spectrogram, adjusted for margings added by pylab

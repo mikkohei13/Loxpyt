@@ -21,10 +21,16 @@ debug = True # get input from this file
 
 if debug:
   directory = "ks"
-  directory = "noordwijk"
   directory = "20190422-26-Harmaakallio"
+  directory = "20190512-15-Söderskoginmetsä-jyrkänne"
+  directory = "20190505-11-Nötkärrinkallio-N"
+  directory = "noordwijk"
+  directory = "20190421-22-Nötkärrinkallio"
+  directory = "20190926-1002-Ks-SM4"
+  directory = "Noise-training-data"
+  directory = "20190427-28-Hanikka"
 
-  location = "DEBUG"
+  location =  "Hanikka"
   segments = 0
 
 else:

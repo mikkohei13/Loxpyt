@@ -75,6 +75,14 @@ body {
     color: #eee;
 }
 
+a:link {
+    color: #ffe;
+}
+
+a:visited {
+    color: #ccb;
+}
+
 #wrapper1 {
     width: 450px;
     margin: 0 auto;
