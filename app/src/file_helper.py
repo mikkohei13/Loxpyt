@@ -23,6 +23,7 @@ def getAudioFileList(directory):
   objects = os.listdir(directory)
   print(objects)
   for name in objects:
+    # Todo: from mp3
     if name.lower().endswith(".wav"):
       audioFileList.append(directory + "/" + name)
 
@@ -80,8 +81,8 @@ def getSM4Times(timestamp, timespanSeconds):
 
 def parseFile(audioFilePath):
 
-  html = subprocess.check_output('exiftool -h ' + audioFilePath, shell=True)
-#  print(html)
+  html = subprocess.check_output("exiftool -h '" + audioFilePath + "'", shell=True)
+#  print(html) # debug
 #  print(len(html))
 
   # Parse html to dict
@@ -103,6 +104,8 @@ def parseFile(audioFilePath):
   metadata["fileDateModified"] = results.get("File Modification Date/Time") # Todo: Convert to datetime object?
 
   # C) Device model -specific metadata
+
+  # AUDIOMOTH
   if "AudioMoth" in results.get("Comment", ""):
     metadata["deviceModel"] = "audiomoth 1.0"
     metadata["deviceFirmwareVersion"] = ""
@@ -111,8 +114,14 @@ def parseFile(audioFilePath):
     
     metadata["recordDateStartUTC"], metadata["recordDateEndUTC"] = getAudiomothTimes(results.get("File Name"), metadata["recordDurationSeconds"])
 
+  # XENO-CANTO
+  elif results.get("Product") == "xeno-canto":
+    metadata["deviceModel"] = "xeno-canto"
+    metadata["recordDateStartUTC"] = datetime.datetime.utcfromtimestamp(0); # Fake time, since real time is not known for xeno-canto files
+
+  # WILDLIFE ACOUSTICS SM4
   # Expects the only other option to be SM4
-  # Todo: Raise error if other device
+  # Todo: Raise error if other device. Problem: SM4 file metadata does not contain info about the device. 
   else:
     wamdMetadata = wamd(audioFilePath)
     metadata['fileRawMetadata'].update(wamdMetadata)

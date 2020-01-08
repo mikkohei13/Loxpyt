@@ -115,6 +115,7 @@ def parseFile(sourceAudioFilePath, exportDir, sessionDir, sourceAudioFileName, s
   if 0 == segments:
     segments = 10000
 
+  # Todo: from mp3
   newAudio = AudioSegment.from_wav(sourceAudioFilePath)
   prof("newAudio", startTime)
 

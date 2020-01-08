@@ -4,6 +4,8 @@ from pydub import AudioSegment
 
 def mono(filePath):
   print("Loading file " + filePath + " to pydub")
+
+  # Todo: from mp3
   sound = AudioSegment.from_wav(filePath)
   if sound.channels > 1:
     print("Converting to mono")

@@ -55,7 +55,7 @@
 - Use vechile, wind, rain, human tags only if especially loud, when it might be better to check these segments manually.
 - Tag silence only if no other tags. In practice, I have used this also when other sounds except animals.
 - Strong/Faint refers to bird sound
-- Tag dogs as mammals
+- Dogs tagged as mammals in the beginning
 
 REMOVE
 - mopo from keywords
@@ -65,26 +65,53 @@ WHEN TRAINING
 - include dog, mammal & other animal as positives?
 - remove faints that also have bats, noise or loud things
 - don't use loud vehicles (at leas from ks training recording), expect that recorded is not near roads. But use loud planes.
+- If augmenting
+- Cannot skip
+- Adjust volume only for non-faint recordings (otherwise sounds can disappear, due to volume decrease or audio increase)
 
 BIASES
 - no birds when loud vehicles (training data from winter)
 - most birds from noordwijk, with seashore wave sounds
 - many birds during good migration -> multiple calls in each segment
 
-
+XC Sounds
+- FFMPEG
+  - ffmpeg -ss 5 -i "XC504108 - Redwing - Turdus iliacus.mp3" -filter:a "volume=1.5" XC1-SUFFIX.wav
+  - for i in *.mp3; do ffmpeg -ss 2 -i "$i" -filter:a "volume=0.7" "${i%.*}-SUFFIX.wav"; done
+- Augmentation:
+  - ?? Always skip different number of seconds (for the same source file), so that AI won't learn location of the sounds?
+  - Skip 2-5 sec
+  - Filter volume 0.5 and 1.5 sec
+  - Basic augmentation sets:
+    - Nonmodified
+        for i in *.mp3; do ffmpeg -i "$i" "${i%.*}.wav"; done
+    - Skip 2 sec, volume 1.3
+        for i in *.mp3; do ffmpeg -ss 2 -i "$i" -filter:a "volume=1.3" "${i%.*}-ss2vol13.wav"; done
+    - Skip 5 sec, volume 0.7
+        for i in *.mp3; do ffmpeg -ss 5 -i "$i" -filter:a "volume=0.7" "${i%.*}-ss5vol07.wav"; done
+    - REPLACE SPACES IN FILENAMES WITH 
+        rename 's/ /_/g' *
+- What to get
+  - >=10 sec recordings
+  - European
+  - At least C-E class recordings
+- Annotate
+  - Ignore those with malformed spectrogram
+  - Ignore faade in & fade out recordings
 
 # Todo
 
+- Validate that file names dont have spaces
 - highlight keyword field when contains something
 - Shortcuts toggle
 - add keys
-  - dog
-  - migrant-low
   - insect
   - rain (r) vs loud_rain (loud = cannot listen/hear birds -> just give up)
   - wind (w) vs loud_wind
 - Adjust volume to create augmented training data
-- Handle also mp3 files -> can use xeno-canto data
+- Handle also mp3 files -> can use xeno-canto data. Options:
+  - Handle mp3 same way as wav (See Todo: from mp3)
+  - PRAGMATIC? Convert mp3 first to wav, using a separate tool
 - Highlight keyword field if contains something
 - Disable submitting the form normally when pressing enter on keywords field
 - Preload?

@@ -29,8 +29,9 @@ if debug:
   directory = "20190926-1002-Ks-SM4"
   directory = "Noise-training-data"
   directory = "20190427-28-Hanikka"
+  directory = "xctest"
 
-  location =  "Hanikka"
+  location =  "test"
   segments = 0
 
 else:
@@ -78,6 +79,7 @@ for audioFilePath in audioFileList:
   # Todo: tbd: What to do if save file handled twice?
 
   # File metadata
+
   fileData = file_helper.parseFile(audioFilePath)
 
   # File name is not necessarily unique, e.g. when multiple recorders start at the same time. Therefore need to include session to the id.
