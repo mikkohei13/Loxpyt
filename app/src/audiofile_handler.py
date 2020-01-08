@@ -79,7 +79,6 @@ for audioFilePath in audioFileList:
   # Todo: tbd: What to do if save file handled twice?
 
   # File metadata
-
   fileData = file_helper.parseFile(audioFilePath)
 
   # File name is not necessarily unique, e.g. when multiple recorders start at the same time. Therefore need to include session to the id.

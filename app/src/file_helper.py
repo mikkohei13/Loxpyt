@@ -11,7 +11,10 @@ from wamd import wamd
 ### HELPERS #########################################################
 
 def getDurationStr2Sec(durationStr):
-  if "00:00:00" == durationStr:
+  # Xeno-Canto duration string, e.g. "24.02 s"
+  if durationStr.find(" s") > -1:
+    return -1
+  elif "00:00:00" == durationStr:
     raise ValueError("File has zero or missing duration")
   else:
     durationList = durationStr.split(":")
@@ -80,6 +83,12 @@ def getSM4Times(timestamp, timespanSeconds):
 ### MAIN PARSER #########################################################
 
 def parseFile(audioFilePath):
+
+  # Check if filename contains spaces
+  if audioFilePath.find(" ") > -1:
+    exit("Spaces not allowed in filename: " + audioFilePath)
+  else:
+    print("Filename ok: " + audioFilePath)
 
   html = subprocess.check_output("exiftool -h '" + audioFilePath + "'", shell=True)
 #  print(html) # debug
