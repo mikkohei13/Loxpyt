@@ -17,6 +17,8 @@ services:
       - 80:80
     # networks:
     #   - loxia_net
+    depends_on: 
+      - 'mongodb'
     environment:
       - FLASK_APP=main.py
       - FLASK_DEBUG=1

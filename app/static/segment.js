@@ -142,7 +142,9 @@ function getSegmentData(file_id, segmentNumber) {
     let audioPath = basePath + data.fileDirectory + "/" + data.finalAudioFilename;
     $("#audio").attr("src", audioPath);
     let titleText = "Segment: " + data._id + ", number " + data.segmentNumber + " - Start: " + data.segmentStartUTC;
-    $("#title").text(titleText);
+    $("#titletext").text(titleText);
+//    $("#prev").text(data.segmentNumber - 1);
+//    $("#next").text(data.segmentNumber + 1);
     
   });
 }
@@ -268,7 +270,7 @@ function clearAlert() {
 function clearContent() {
   console.log("CLEARCONTENT FUNCTION");
 
-  $("#title").text("");
+  $("#titletext").text("");
   $("#spectrogram").attr("src", "");
   $("#audio").attr("src", "");
 }

@@ -41,6 +41,8 @@
 
 # Annotate
 
+- Use Low-pass filter for silent clips
+- Use fade in for silent clips. Long and short, e.g. http://localhost/segment?file_id=XC-Set-2/XC461226_-_European_Golden_Plover_-_Pluvialis_apricaria.wav#1
 - Bosmalm: single noises
 - Ks: humans
 - Noorwijk: birds
@@ -50,17 +52,53 @@
 - aamukuoro
 - noises recorded for this purpose
 
-# Annotation guidelines
+- XC:
+  - Anthus, Phoen...
+  - emberiza
+  - branta, anser, anatidae 
+  - chahia, chadub, tringa, calidris
 
+- oma
+  - morning chorus, also with buzzing sound 
+  - clahye
+
+
+
+25.1.2020:
+4376 annotations
+647 migrant's (14,8 %)
+578 migrant-low's (13,2 %)
+
+31.1.2020:
+5587 annotations
+694 migrant's (15,9 %)
+725 migrant-low's (13,0 %)
+
+Analyze
+- remove: ignore, distortion2, faded, (high-pass?)
+- bird: migrant, migrant-low, wander, local_individual, local_choir, owl, bat, mammal, dog, other_animal, mystery
+- nobird: the rest
+
+# Annotation guidelines & notes
+
+- Use distortion2 for real distortions, not filters or fading.
+- Distortion contains distortion and filters.
+- Use high-pass and fade for filtered segments. Sometimes it's not clear if filters have applied, e.g. http://localhost/segment?file_id=XC-Set-2/XC501502_-_Whimbrel_-_Numenius_phaeopus.wav#4
 - Use vechile, wind, rain, human tags only if especially loud, when it might be better to check these segments manually.
 - Tag silence only if no other tags. In practice, I have used this also when other sounds except animals.
 - Strong/Faint refers to bird sound
 - Dogs tagged as mammals in the beginning
+- Local choir / individual and migrants can be tagged in same annotation
+- Annotations are often lacking dogs etc, if there are only birds. So cannot be used for learning absence of dogs.
+- Kannattaako augmentaatiota käyttää
+- Kannattaako distorted/filtered -tiedostoja käyttää? http://localhost/segment?file_id=XC-Set-1/XC459718_-_Eurasian_Coot_-_Fulica_atra-ss5vol07.wav#11
+- Faint and strong have not been used systematically. They can be considered as good examples of faint and strong sounds.
 
 REMOVE
 - mopo from keywords
 
 WHEN TRAINING
+- Clip top 15% away? -> faster handling, high-freq noise does not bother.
 - remove most bats? Or learn to give positives on bats also?
 - include dog, mammal & other animal as positives?
 - remove faints that also have bats, noise or loud things
@@ -74,30 +112,43 @@ BIASES
 - most birds from noordwijk, with seashore wave sounds
 - many birds during good migration -> multiple calls in each segment
 
+DOWNLOAD
+- common sandpiper
+- green sandpiper
+- tringa's
+- charadrius'
+- geese
+- gulls
+- thrushes
+- buntings
+- flycathers
+- robin
+
+Tips
+- Sijoita äänitin niin ettei sade osu suoraan mikrofonin edesäs olevaan muoviin -> paljon häiriöääntä
+
 XC Sounds
-- FFMPEG
-  - ffmpeg -ss 5 -i "XC504108 - Redwing - Turdus iliacus.mp3" -filter:a "volume=1.5" XC1-SUFFIX.wav
-  - for i in *.mp3; do ffmpeg -ss 2 -i "$i" -filter:a "volume=0.7" "${i%.*}-SUFFIX.wav"; done
-- Augmentation:
-  - ?? Always skip different number of seconds (for the same source file), so that AI won't learn location of the sounds?
-  - Skip 2-5 sec
-  - Filter volume 0.5 and 1.5 sec
+- ALWAYS DO
+  - Replace spaces with underscores in filenames
+      rename 's/ /_/g' *
+  - Create nonmodified wav's
+      for i in *.mp3; do ffmpeg -i "$i" "${i%.*}.wav"; done
+
+- MAYBE DO
   - Basic augmentation sets:
-    - Nonmodified
-        for i in *.mp3; do ffmpeg -i "$i" "${i%.*}.wav"; done
     - Skip 2 sec, volume 1.3
         for i in *.mp3; do ffmpeg -ss 2 -i "$i" -filter:a "volume=1.3" "${i%.*}-ss2vol13.wav"; done
     - Skip 5 sec, volume 0.7
         for i in *.mp3; do ffmpeg -ss 5 -i "$i" -filter:a "volume=0.7" "${i%.*}-ss5vol07.wav"; done
-    - REPLACE SPACES IN FILENAMES WITH 
-        rename 's/ /_/g' *
-- What to get
-  - >=10 sec recordings
-  - European
-  - At least C-E class recordings
+
 - Annotate
   - Ignore those with malformed spectrogram
   - Ignore faade in & fade out recordings
+
+- Crop images
+    EXAMPLE: chop 50 pixels from top
+    ../_portable/magick example.png -gravity North -chop 0x50 result.png
+
 
 # Todo
 

@@ -29,9 +29,17 @@ if debug:
   directory = "20190926-1002-Ks-SM4"
   directory = "Noise-training-data"
   directory = "20190427-28-Hanikka"
+  directory = "XC-Set-1"
   directory = "xctest"
+  directory = "20190506-07-Ks-SM4" # TODO!
+  directory = "20200126-27-Ks-häiriöjasade"
+  directory = "XC-Set-5"
 
-  location =  "test"
+  location =  "xctest"
+  location =  "kaskisavu" # TODO!
+  location =  "kaskisavu"
+  location =  "xeno-canto"
+
   segments = 0
 
 else:
@@ -78,8 +86,20 @@ db.saveSession(sessionData)
 for audioFilePath in audioFileList:
   # Todo: tbd: What to do if save file handled twice?
 
+  # File to mono
+  # Todo: log
+  try:
+    deleteMonoFile, monoFilePath = file_normalizer.mono(audioFilePath)
+  except:
+    print("   WARNING: Skipping due to normalization problem " + audioFilePath)
+    continue
+
   # File metadata
   fileData = file_helper.parseFile(audioFilePath)
+  if False == fileData:
+    # Todo: log
+    print("   WARNING: Skipping file with unknown origin " + audioFilePath)
+    continue
 
   # File name is not necessarily unique, e.g. when multiple recorders start at the same time. Therefore need to include session to the id.
   fileId = sessionId + "/" + fileData.get("fileName")
@@ -87,9 +107,6 @@ for audioFilePath in audioFileList:
   fileData["session_id"] = sessionId
 
   db.saveFile(fileData)
-
-  # File to mono
-  deleteMonoFile, monoFilePath = file_normalizer.mono(audioFilePath)
 
   ### SEGMENTS ###
   # Split into segments and generate spectrograms

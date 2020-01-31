@@ -130,9 +130,9 @@ def parseFile(audioFilePath):
 
   # WILDLIFE ACOUSTICS SM4
   # Expects the only other option to be SM4
-  # Todo: Raise error if other device. Problem: SM4 file metadata does not contain info about the device. 
-  else:
-    wamdMetadata = wamd(audioFilePath)
+  # Todo: Handle identifying SM4 better than from file name 
+  elif audioFilePath.find("HLO10") > -1:
+
     metadata['fileRawMetadata'].update(wamdMetadata)
 
     metadata["deviceModel"] = wamdMetadata['model']
@@ -148,6 +148,9 @@ def parseFile(audioFilePath):
     metadata["deviceVersion"] = ""
     metadata["deviceId"] = "HLO10"
     """
+
+  else:
+    return False
 
   # Todo: Night id
 

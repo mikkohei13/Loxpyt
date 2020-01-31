@@ -95,8 +95,8 @@ h1 {
     text-align: center;
 }
 
-.file {
-    margin: 0.5em 0;
+#files td {
+    padding: 0.5em;
 }
 
 #spectrogram {
@@ -125,13 +125,12 @@ audio {
 
 
 #savebuttons {
-    font-size: 200%;
-    padding: 5px;
+    font-size: 140%;
     text-align: center;
 }
 
 #save, #carry {
-    padding: 5px;
+    padding: 3px;
     background-color: #000000;
     cursor: pointer;
 }
@@ -163,15 +162,12 @@ form {
     display: flex;
 }
 
-#tags1, #tags2, #tags3, #tags4 {
-    width: 24%;
+#tags div {
+    width: 19%;
     margin-right: 3px;
 }
 
-#tags1 label,
-#tags2 label,
-#tags3 label,
-#tags4 label {
+#tags div label {
     background-color: #046B29;
     display: block;
     padding: 3px;

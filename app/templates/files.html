@@ -15,22 +15,28 @@
 
 	<div id="wrapper">
 		<h1 id="title">Files</h1>
+		<table id="files">
+			<tr><th>File</th><th>Segm.</th><th>Annot.</th></tr>
 
 		{% for id, counts in fileData.items() %}
 
-		<p class="file">
-			<a href="segment?file_id={{ id }}#1">{{ id }}</a>
-			-
-			<span>{{ counts["segments"] }} segments</span>,
-			<span>{{ counts["annotations"] }} annotations</span>,
-		</p>
+		<tr class="file">
+			<td><a href="segment?file_id={{ id }}#1">{{ id }}</a></td>
+			<td><span>{{ counts["segments"] }}</span></td>
+			<td><span>{{ counts["annotations"] }}</span></td>
+		</tr>
 				
 		{% endfor %}
+		</table>
 
 	</div>
-
+	<!--
 	<div id="debug">{{ debug }}</div>
-	
-	<script src="/static/jquery-3.4.1.js?"></script>
+	-->
+	<script src="/static/jquery-3.4.1.js"></script>
+	<script src="/static/jquery.filtertable.js"></script>
+	<script>
+		$('#files').filterTable();
+	</script>
 </body>
 </html>
