@@ -9,7 +9,7 @@
 - Create directories for audio files:
   - _exports
   - _source_audio
-- Place audio (.wav) files to _source_audio/{DIRECTORY_NAME}/Data
+- Place audio (.wav) files to _source_audio/{RECORDING SESSION NAME}/Data
 - Start containers:
   - `docker-compose up --build`
 - Terminal to container:
@@ -17,52 +17,90 @@
 - Handle audio file inside the container:
   - `cd /app/src/`
   - `python3 audiofile_handler.py --dir DIRECTORY_NAME --location LOCATION_ID`
-- Annotate at localhost
-- TODO...
+
+## Annotating
+
+- Annotate at http://localhost/files
+- See & manage data at http://localhost:8081/
 
 
-# Tbd
+### Annotation guidelines & notes
+
+- Use distortion2 for real distortions, not filters or fading.
+  - The old term distortion is used for both distortion and filters.
+- Use high-pass and fade for filtered segments.
+  - Note that sometimes it's not clear if filters have applied, e.g. http://localhost/segment?file_id=XC-Set-2/XC501502_-_Whimbrel_-_Numenius_phaeopus.wav#4
+- Use vechile, wind, rain, human tags only if especially loud, when it might be better to check these segments manually.
+- Tag silence only if no other tags. In practice, I have used this also with other sounds except animals.
+- Faint and strong have not been used systematically. They can be considered as good examples of faint and strong sounds.
+- Some dogs have been tagged as mammals.
+- Local_choir / individual and migrants can be tagged in same annotation.
+- Annotations are often lacking dogs etc, if there are only birds. So cannot be used for learning absence of dogs.
+
+??
+
+- Kannattaako augmentaatiota käyttää
+- Kannattaako distorted/filtered -tiedostoja käyttää? http://localhost/segment?file_id=XC-Set-1/XC459718_-_Eurasian_Coot_-_Fulica_atra-ss5vol07.wav#11
+
+
+# Some design principles:
+
+- All data except annotations are upserted, so that there won't be duplicates.-
+- Annotations are not upserted, because this might lose work and/or break the AI training process
+- How to handle when nocmig ends and morning begins? The system should recognize alo local birds. Then user decides which segments they want to handle.
+  - Due to this, cannot easily create a migration index for the night?
+- File metadata (such as recorder device info) will be duplicated for each file, due to simplicity.
+- All times are UTC.
+- Segments are identified by an incremented integer. 
+- Due to this, if segment length changes, this requires fresh database and _exports directory.
+
+
+# Todo
+
+## Background
 
 - Check what other annotated data is available, how long are the files, what format are they, what's the frequency, what kind of tags ...
   - https://zenodo.org/record/1298604
   - https://zenodo.org/record/1208080
-- Are upserts needed or allowed?
-  - Needed: debugging
-  - Allowed: production for most entities
-  - Not allowed: when segments have already been annotated, since this could break the AI training process
-- How to handle when nocmig ends and morning begins? 
-  - A: Manually by deciding when processing should stop, and providing that info as processing parameter (relative to file time).
-- How to avoid hearing issues when sound starts/stops?
-  - Option: By playing back continuously and tag with "nobirds", unless user interrupts
-- Should this be refactored so that file metadata that is similar within session goes to session collection in deb? Things like recorder model and settings?
-  - A: No, complicates code (at least at this point) and does not bring new functionality
-- Should we use segment number or segment start time in segment_id?
-  - A: Segment number. Using segment start time would not allow having segments with different lengths in the same system, as there would be id collisions anyway. If segment lenght is changed, a fresh database and _exports directory are needed.
+- Nocmig literature, e.g. Poland/Pamula
 
-# Annotate
+
+## Sounds
 
 - Use Low-pass filter for silent clips
-- Use fade in for silent clips. Long and short, e.g. http://localhost/segment?file_id=XC-Set-2/XC461226_-_European_Golden_Plover_-_Pluvialis_apricaria.wav#1
-- Bosmalm: single noises
-- Ks: humans
-- Noorwijk: birds
-- Owls
-- F-mäki: wind
-- Suvisaaristo: wind
-- aamukuoro
-- noises recorded for this purpose
+- MAYBE: Use fade in for silent clips. Long and short, e.g. http://localhost/segment?file_id=XC-Set-2/XC461226_-_European_Golden_Plover_-_Pluvialis_apricaria.wav#1
 
 - XC:
+  - owls
   - Anthus, Phoen...
   - emberiza
-  - branta, anser, anatidae 
   - chahia, chadub, tringa, calidris
 
-- oma
-  - morning chorus, also with buzzing sound 
-  - clahye
+- Omat
+  - Morning chorus with buzzing sound 
+  - Clahye
+  - Noorwijk: birds
+  - Suvisaaristo: wind
+  - Aamukuoro
 
 
+## AI Training
+
+- Classification
+  - remove: ignore, distortion2, faded, (high-pass?)
+  - animal: migrant, migrant-low, wander, local_individual, local_choir, owl, bat, mammal, dog, other_animal, mystery
+  - no-animal: the rest
+
+- TBD
+  - Clip top 15% away? -> faster handling, high-freq noise does not bother. Might affect negatively in recognizing spikes?
+  - Remove most bats? Or learn to give positives on bats also?
+  - include dog, mammal & other animal as positives?
+  - remove faints that also have bats, noise or loud things?
+
+- don't use loud vehicles (at least from ks training recording), expect that recorded is not near roads. But use loud planes.
+
+
+# Misc
 
 25.1.2020:
 4376 annotations
@@ -74,38 +112,8 @@
 694 migrant's (15,9 %)
 725 migrant-low's (13,0 %)
 
-Analyze
-- remove: ignore, distortion2, faded, (high-pass?)
-- bird: migrant, migrant-low, wander, local_individual, local_choir, owl, bat, mammal, dog, other_animal, mystery
-- nobird: the rest
 
-# Annotation guidelines & notes
 
-- Use distortion2 for real distortions, not filters or fading.
-- Distortion contains distortion and filters.
-- Use high-pass and fade for filtered segments. Sometimes it's not clear if filters have applied, e.g. http://localhost/segment?file_id=XC-Set-2/XC501502_-_Whimbrel_-_Numenius_phaeopus.wav#4
-- Use vechile, wind, rain, human tags only if especially loud, when it might be better to check these segments manually.
-- Tag silence only if no other tags. In practice, I have used this also when other sounds except animals.
-- Strong/Faint refers to bird sound
-- Dogs tagged as mammals in the beginning
-- Local choir / individual and migrants can be tagged in same annotation
-- Annotations are often lacking dogs etc, if there are only birds. So cannot be used for learning absence of dogs.
-- Kannattaako augmentaatiota käyttää
-- Kannattaako distorted/filtered -tiedostoja käyttää? http://localhost/segment?file_id=XC-Set-1/XC459718_-_Eurasian_Coot_-_Fulica_atra-ss5vol07.wav#11
-- Faint and strong have not been used systematically. They can be considered as good examples of faint and strong sounds.
-
-REMOVE
-- mopo from keywords
-
-WHEN TRAINING
-- Clip top 15% away? -> faster handling, high-freq noise does not bother.
-- remove most bats? Or learn to give positives on bats also?
-- include dog, mammal & other animal as positives?
-- remove faints that also have bats, noise or loud things
-- don't use loud vehicles (at leas from ks training recording), expect that recorded is not near roads. But use loud planes.
-- If augmenting
-- Cannot skip
-- Adjust volume only for non-faint recordings (otherwise sounds can disappear, due to volume decrease or audio increase)
 
 BIASES
 - no birds when loud vehicles (training data from winter)
