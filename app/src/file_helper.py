@@ -133,6 +133,7 @@ def parseFile(audioFilePath):
   # Todo: Handle identifying SM4 better than from file name 
   elif audioFilePath.find("HLO10") > -1:
 
+    wamdMetadata = wamd(audioFilePath)
     metadata['fileRawMetadata'].update(wamdMetadata)
 
     metadata["deviceModel"] = wamdMetadata['model']
