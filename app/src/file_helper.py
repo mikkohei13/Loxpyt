@@ -151,7 +151,9 @@ def parseFile(audioFilePath):
     """
 
   else:
-    return False
+    metadata["deviceModel"] = "training"
+    metadata["recordDateStartUTC"] = datetime.datetime.utcfromtimestamp(0); # Fake time, since real time is not known for xeno-canto files
+#    return False
 
   # Todo: Night id
 

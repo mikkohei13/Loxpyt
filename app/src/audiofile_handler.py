@@ -34,11 +34,12 @@ if debug:
   directory = "20200126-27-Ks-häiriöjasade"
   directory = "XC-Set-6"
   directory = "20190506-07-Ks-SM4"
-  directory = "20190505-06-Ks-SM4"
+  directory = "Noise-training-data"
 
   location =  "xctest"
   location =  "xeno-canto"
   location =  "kaskisavu"
+  location =  "training"
 
   segments = 0
 

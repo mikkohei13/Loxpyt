@@ -99,6 +99,38 @@
 
 - don't use loud vehicles (at least from ks training recording), expect that recorded is not near roads. But use loud planes.
 
+# Google Cloud AI
+
+Searching files with regex/wildcard in mongodb:
+
+  { file_id: { $in: [ /^noordwijk*/ ] } }
+
+
+Create bucket:
+
+  gsutil mb -l europe-north1 gs://spectro-us/
+
+
+Copy single file:
+
+  gsutil cp *.png gs://spectro-us/
+
+
+Copies files from current dir to bucket, but does not create folder structure:
+
+  gsutil cp -r $(find . -name "*.png") gs://spectro-us/
+
+
+Rsync all subdirs, excluding mp3-files:
+
+  gsutil -m rsync -r -x ".*.mp3$" . gs://spectro-us
+
+
+Move bucket ...
+
+  gsutil mb -l us-central1 gs://spectro-us/
+  gsutil cp -r gs://spectro-1/ gs://spectro-us/
+
 
 # Misc
 
