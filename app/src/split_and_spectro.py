@@ -122,7 +122,7 @@ def parseFile(sourceAudioFilePath, exportDir, sessionDir, sourceAudioFileName, s
   exportDirPath = exportDir + "/" + sessionDir + "/"
   segmentStartSeconds = 0
   segmentEndSeconds = segmentStartSeconds + segmentLengthSeconds
-  segmentNumber = 0
+  segmentNumber = 0 # This affects audio and spectrogram file numbering. Starts from 0.
 
   createDir(exportDirPath)
 
@@ -168,6 +168,11 @@ def parseFile(sourceAudioFilePath, exportDir, sessionDir, sourceAudioFileName, s
 #    prof("mp3 export", startTime)
 
     # Finish this loop
+    # NOTE: Bug, which must not be removed, since then new data would be in different format than old data. 
+    # Correct way to do this would be to first create medata to be saved to db, and only after that finish the loop.
+    # Due to this bug: 
+    # - Segment numbering starts from 1, even though file numbering starts from 0. (It should be 1 less.)
+    # - Start seconds start from 10 and end seconds from 20. (They should be 10 less.)
     segmentStartSeconds = segmentEndSeconds
     segmentEndSeconds = segmentEndSeconds + segmentLengthSeconds
     segmentNumber = segmentNumber + 1

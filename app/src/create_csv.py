@@ -4,7 +4,8 @@ import json
 sourceFile = "../../_data/annotations.json"
 targetFile = "../../_data/target_annotations.csv"
 
-def leadingZeros(number):
+def formatFileNumber(number):
+  number = number -1 # NOTE! This is due to bug of mismatching segmentNumber and file numbering.
   number = str(number)
   number = number.zfill(5)
   return number
@@ -19,9 +20,9 @@ def ignoreSegment(tagList):
 
 def tagNormalizer(tagList):
   if "migrant" in tagList or "migrant-low" in tagList or "migrant-low" in tagList or "wander" in tagList or "local_individual" in tagList or "local_choir" in tagList or "owl" in tagList or "mystery" in tagList or "mammal" in tagList or "dog" in tagList or "other_animal" in tagList:
-    return "bird-like"
+    return "animal"
   elif "bat" in tagList:
-    return "bat"
+    return "animal"
   else:
     return "no-animal"
 
@@ -33,7 +34,7 @@ with open(sourceFile, "r") as infile, open(targetFile, "w") as outfile:
     if ignoreSegment(dictData["tags"]):
       continue
 
-    spectroFileName = "gs://spectro-1/" + dictData['file_id'] + "." + leadingZeros(dictData['segmentNumber']) + ".png"  # noordwijk/5DB12FD0.WAV.00344.png"
+    spectroFileName = "gs://spectro-us/spectro-1/" + dictData['file_id'] + "." + formatFileNumber(dictData['segmentNumber']) + ".png"
     tag = tagNormalizer(dictData["tags"])
 
     outfile.write(spectroFileName + "," + tag + "\n");

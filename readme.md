@@ -132,6 +132,53 @@ Move bucket ...
   gsutil cp -r gs://spectro-1/ gs://spectro-us/
 
 
+Error: Cannot find the specified file: gs://spectro-us/spectro-1/XC-Set-2/XC501499_-_Whimbrel_-_Numenius_phaeopus.wav.00013.png.
+Error: Cannot find the specified file: gs://spectro-us/spectro-1/XC-Set-4/XC465612_-_Greater_White-fronted_Goose_-_Anser_albifrons.wav.00001.png.
+Error: Cannot find the specified file: gs://spectro-us/spectro-1/XC-Set-6/XC468592_-_Barnacle_Goose_-_Branta_leucopsis.wav.00003.png.
+Error: Cannot find the specified file: gs://spectro-us/spectro-1/XC-Set-6/XC450496_-_Barnacle_Goose_-_Branta_leucopsis.wav.00002.png.
+Error: Cannot find the specified file: gs://spectro-us/spectro-1/XC-Set-4/XC467572_-_European_Robin_-_Erithacus_rubecula.wav.00001.png.
+Error: Cannot find the specified file: gs://spectro-us/spectro-1/XC-Set-4/XC429361_-_Northern_Shoveler_-_Spatula_clypeata.wav.00001.png.
+Error: Cannot find the specified file: gs://spectro-us/spectro-1/XC-Set-2/XC489824_-_Eurasian_Curlew_-_Numenius_arquata.wav.00002.png.
+Error: Cannot find the specified file: gs://spectro-us/spectro-1/XC-Set-4/XC465567_-_Little_Owl_-_Athene_noctua.wav.00005.png.
+Error: Cannot find the specified file: gs://spectro-us/spectro-1/XC-Set-3/XC481741_-_Black-crowned_Night_Heron_-_Nycticorax_nycticorax.wav.00004.png.
+Error: Cannot find the specified file: gs://spectro-us/spectro-1/20190926-1002-Ks-SM4/HLO10_20190929_010500.wav.00354.png.
+Error: Cannot find the specified file: gs://spectro-us/spectro-1/XC-Set-3/XC467243_-_Black-crowned_Night_Heron_-_Nycticorax_nycticorax.wav.00002.png.
+Error: Cannot find the specified file: gs://spectro-us/spectro-1/XC-Set-3/XC503221_-_Little_Grebe_-_Tachybaptus_ruficollis.wav.00002.png.
+Error: Cannot find the specified file: gs://spectro-us/spectro-1/XC-Set-3/XC433197_-_Black-crowned_Night_Heron_-_Nycticorax_nycticorax.wav.00003.png.
+Error: Cannot find the specified file: gs://spectro-us/spectro-1/XC-Set-1/XC400521_-_Eurasian_Coot_-_Fulica_atra_atra.wav.00002.png.
+Error: Cannot find the specified file: gs://spectro-us/spectro-1/XC-Set-3/XC500213_-_Little_Grebe_-_Tachybaptus_ruficollis_ruficollis.wav.00006.png.
+Error: Cannot find the specified file: gs://spectro-us/spectro-1/XC-Set-3/XC432922_-_Grey_Heron_-_Ardea_cinerea.wav.00002.png.
+Error: Cannot find the specified file: gs://spectro-us/spectro-1/XC-Set-6/XC500659_-_Barnacle_Goose_-_Branta_leucopsis.wav.00002.png.
+Error: Cannot find the specified file: gs://spectro-us/spectro-1/XC-Set-2/XC461226_-_European_Golden_Plover_-_Pluvialis_apricaria.wav.00002.png.
+Error: Cannot find the specified file: gs://spectro-us/spectro-1/XC-Set-2/XC487134_-_Eurasian_Dotterel_-_Charadrius_morinellus.wav.00004.png.
+Error: Cannot find the specified file: gs://spectro-us/spectro-1/XC-Set-6/XC441695_-_Brant_Goose_-_Branta_bernicla.wav.00004.png.
+
+
+
+
+Error: Cannot find the specified file: gs://spectro-us/spectro-1/XC-Set-6/XC447974_-_Snow_Bunting_-_Plectrophenax_nivalis.wav.00002.png.
+Error: Cannot find the specified file: gs://spectro-us/spectro-1/20190926-1002-Ks-SM4/HLO10_20190929_010500.wav.00354.png.
+Error: Cannot find the specified file: gs://spectro-us/spectro-1/Noise-training-data/HLO10_20200103_173712.wav.00360.png.
+Error: Cannot find the specified file: gs://spectro-us/spectro-1/XC-Set-4/XC423405_-_Barnacle_Goose_-_Branta_leucopsis.wav.00001.png.
+Error: Cannot find the specified file: gs://spectro-us/spectro-1/XC-Set-3/XC481741_-_Black-crowned_Night_Heron_-_Nycticorax_nycticorax.wav.00004.png.
+Error: Cannot find the specified file: gs://spectro-us/spectro-1/XC-Set-6/XC500376_-_Taiga_Bean_Goose_-_Anser_fabalis.wav.00002.png.
+Error: Cannot find the specified file: gs://spectro-us/spectro-1/XC-Set-2/XC500492_-_Eurasian_Dotterel_-_Charadrius_morinellus.wav.00003.png.
+Error: Cannot find the specified file: gs://spectro-us/spectro-1/XC-Set-6/XC501687_-_Barnacle_Goose_-_Branta_leucopsis.wav.00004.png.
+Error: Cannot find the specified file: gs://spectro-us/spectro-1/XC-Set-3/XC507966_-_Black-crowned_Night_Heron_-_Nycticorax_nycticorax.wav.00005.png.
+Error: Cannot find the specified file: gs://spectro-us/spectro-1/20190427-28-Hanikka/5CC4A6B0.WAV.00360.png.
+Error: Cannot find the specified file: gs://spectro-us/spectro-1/XC-Set-6/XC493877_-_Common_Snipe_-_Gallinago_gallinago.wav.00002.png.
+Error: Cannot find the specified file: gs://spectro-us/spectro-1/XC-Set-2/XC501501_-_Whimbrel_-_Numenius_phaeopus.wav.00012.png.
+Error: Cannot find the specified file: gs://spectro-us/spectro-1/XC-Set-3/XC493356_-_Little_Bittern_-_Ixobrychus_minutus.wav.00002.png.
+Error: Cannot find the specified file: gs://spectro-us/spectro-1/XC-Set-4/XC468906_-_Eurasian_Oystercatcher_-_Haematopus_ostralegus.wav.00002.png.
+Error: Cannot find the specified file: gs://spectro-us/spectro-1/XC-Set-3/XC473159_-_Little_Grebe_-_Tachybaptus_ruficollis.wav.00001.png.
+Error: Cannot find the specified file: gs://spectro-us/spectro-1/XC-Set-6/XC501519_-_Brambling_-_Fringilla_montifringilla.wav.00002.png.
+Error: Cannot find the specified file: gs://spectro-us/spectro-1/XC-Set-4/XC465603_-_Common_Blackbird_-_Turdus_merula.wav.00001.png.
+Error: Cannot find the specified file: gs://spectro-us/spectro-1/XC-Set-4/XC465573_-_Song_Thrush_-_Turdus_philomelos.wav.00001.png.
+Error: Cannot find the specified file: gs://spectro-us/spectro-1/20200126-27-Ks-häiriöjasade/5E2E6040.WAV.00360.png.
+Error: Cannot find the specified file: gs://spectro-us/spectro-1/20190512-15-Söderskoginmetsä-jyrkänne/5CD9DAD2.WAV.00360.png.
+
+
+
 # Misc
 
 25.1.2020:
@@ -143,8 +190,6 @@ Move bucket ...
 5587 annotations
 694 migrant's (15,9 %)
 725 migrant-low's (13,0 %)
-
-
 
 
 BIASES
@@ -189,45 +234,55 @@ XC Sounds
     EXAMPLE: chop 50 pixels from top
     ../_portable/magick example.png -gravity North -chop 0x50 result.png
 
+## Update data in MongoDB
+
+How to increment values in db:
+
+  mongo --username root --password
+  use loxia
+  db.segments.updateMany({}, { $inc: { segmentNumber: 1 } })
+  db.segments.updateMany({}, { $inc: { segmentStartSeconds: -10 } })
+  db.segments.updateMany({}, { $inc: { segmentEndSeconds: -10 } })
+
+**Documents have not been updated**, since should also update segment _id, which is string
+
+
+Cloud hosted / Host your model on Google Cloud for online predictions
+Edge / Download your model for offline/mobile use
+- optimize for higher accuracy / 360ms latency for Google Pixel 2 ... Best trade-off / 150 ms latency ... Faster predictions / 56 ms latency
+
+
+
 
 # Todo
 
+1) Audiofile handling:
 - Validate that file names dont have spaces
+- Adjust volume to create augmented training data
+
+2) UI
 - highlight keyword field when contains something
 - Shortcuts toggle
 - add keys
   - insect
   - rain (r) vs loud_rain (loud = cannot listen/hear birds -> just give up)
   - wind (w) vs loud_wind
-- Adjust volume to create augmented training data
-- Handle also mp3 files -> can use xeno-canto data. Options:
-  - Handle mp3 same way as wav (See Todo: from mp3)
-  - PRAGMATIC? Convert mp3 first to wav, using a separate tool
-- Highlight keyword field if contains something
-- Disable submitting the form normally when pressing enter on keywords field
-- Preload?
 - Add buttons to move prev / next
-- Try put better mongodb admin tool (easier to fix tags and move to next segement)
+- Preload next spectro & audio
+
+3) Misc
 - Todo's in the files
-- Why spectro creation is slo slow?
+- Try better mongodb admin tool (CRUD, easier to fix tags and move to next segement)
 - UI:
-  - List of sessions and files to annotate
-  - All buttons -> keywords
-  - Warning if anotation already exists?
-  - Preload next spectro & audio
 - CHECK Are all spectrograms same size, despite of source bitrate?
 - Backup mongodb, when? docker-compose down?
 - CHECK Refactor split and spect: var names, files in subdirs, parametrize path structure?
 - CHECK Double-check the time setting in SM4, is it UTC+3? And is the time value in metadata correct?
 - Databasing: what should be case-insensitive? Location id? Mongodb _id's? How could the case change? (typing error on terminal, dir or file name change...?)
   - DONE: location id always lowercased
-- Conversion
 - Spectrogram
   - Should not scale colors of each plot separately for AI? Can this be prevented in pylab?
-  - More contrast for higher amplitudes? How?
-  - Greyscale? https://jakevdp.github.io/PythonDataScienceHandbook/04.07-customizing-colorbars.html
-- Audio
-
+  - More contrast? How?
 - Where time data: start time, day 
 - Where metadata: recorded model, recorder id, original filename, original path, conversion datetime, peak amplitude
 
