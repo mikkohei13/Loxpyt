@@ -32,14 +32,19 @@ if debug:
   directory = "XC-Set-1"
   directory = "xctest"
   directory = "20200126-27-Ks-häiriöjasade"
-  directory = "XC-Set-6"
   directory = "20190506-07-Ks-SM4"
   directory = "Noise-training-data"
-
+  directory = "20200201-07-Lilla-Bodö"
+  directory = "20190831-0901-Hässelholmen-SM4"
+  directory = "20190926-1002-Ks-SM4"
+  directory = "XC-Set-8"
+  directory = "20190505-06-Ks-SM4"
+  
   location =  "xctest"
+  location =  "training"
+  location =  "hässelholmen"
   location =  "xeno-canto"
   location =  "kaskisavu"
-  location =  "training"
 
   segments = 0
 
