@@ -32,12 +32,11 @@
   - flycathers
 
 - Omat
+  - Clahye
+  - Aamukuoro pihasta ja metsästä, erityisesti ekat rastaat
   - Mössenkärr
   - Morning chorus with buzzing sound 
-  - Clahye
-  - Noorwijk: birds
-  - Suvisaaristo: wind
-  - Aamukuoro
+  - Noorwijk
   - Wind + aamukuoro
 
 
