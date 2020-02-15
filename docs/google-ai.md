@@ -22,7 +22,7 @@ Labels:
 
 Edge
 High-precision
-max 10 node hours, c. 3 used
+max 10 node hours, c. 2,5 hours used
 
 
 ## DATASET: 
@@ -33,7 +33,7 @@ max 10 node hours, c. 3 used
 
 Edge
 High-precision
-max 20 node hours
+max 20 node hours, c. 2,5 hours used
 
   Error: gs://spectro-us/spectro-1/_data/target_annotations_animals_full.csv line 4076: The label is already a ground truth.
   Error: gs://spectro-us/spectro-1/_data/target_annotations_animals_full.csv line 5802: The label is already a ground truth.
@@ -43,6 +43,16 @@ max 20 node hours
   Error: gs://spectro-us/spectro-1/_data/target_annotations_animals_full.csv line 4719: The label is already a ground truth.
   Error: gs://spectro-us/spectro-1/_data/target_annotations_animals_full.csv line 5825: The label is already a ground truth.
   Error: gs://spectro-us/spectro-1/_data/target_annotations_animals_full.csv line 2921: The label is already a ground truth.
+
+AUC c. 0.96
+Precison & recall: 92.57 %
+Animals: c. 91.8 %
+
+
+Problem cases:
+- Clahye's
+- Faint migrants
+- Some local fieldfares
 
 
 ## Possible datasets & models
