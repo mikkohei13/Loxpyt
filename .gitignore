@@ -6,7 +6,7 @@ _exports/
 _source_audio/
 _TEST_exports/
 _temp/
-local/ai.md
+_models/
 
 fail.html
 *.log

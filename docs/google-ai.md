@@ -54,6 +54,8 @@ Problem cases:
 - Faint migrants
 - Some local fieldfares
 
+Exportted model birdmig1_animals_full_20200212.pb
+
 
 ## Possible datasets & models
 

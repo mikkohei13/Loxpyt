@@ -63,5 +63,18 @@ services:
     ports:
       - 8080:80
 
+  automl-model:
+    image: gcr.io/automl-vision-ondevice/gcloud-container-1.12.0:latest
+    container_name: loxia_automl-model
+    ports:
+      - 8501:8501
+    volumes:
+      - ./_models/birdmig1_animals_full_20200212/:/tmp/mounted_model/0001
+
 volumes: 
   mongodb-volume:
+  automl-volume: 
+
+
+# docker run --rm --name loxia_automl-model -p 8501:8501 -v /home/mikko/code/Loxpyt/_models/birdmig1_animals_full_20200212/:/tmp/mounted_model/0001 -t gcr.io/automl-vision-ondevice/gcloud-container-1.12.0:latest
+
