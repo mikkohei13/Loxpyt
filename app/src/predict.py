@@ -5,6 +5,7 @@ import requests
 
 import pprint
 import math
+import os
 
 
 # Based on https://cloud.google.com/vision/automl/docs/containers-gcs-tutorial
@@ -79,18 +80,25 @@ def toHumanReadable(predictionDict):
 
 #  scoreBar = scoreBar.ljust(22, " ")
 
-  text += scoreBar + "   animal: " + str(round(predictionDict["labels"]["animal"], 2)) + ",  no-animal: " + str(round(predictionDict["labels"]["no-animal"], 2))
+  text += scoreBar + "   " + str(round(predictionDict["labels"]["animal"], 2)) + " / " + str(round(predictionDict["labels"]["no-animal"], 2))
   return text
 
 
 # --------------------------------------------
 
-print("Start\n")
+print("Start")
+baseFilePath = "../../_exports/20190522-27-Harmaakallio/5CE725F3.WAV"
+print(baseFilePath + "\n")
 
-for x in range(0, 36):
+for x in range(0, 400):
   fileNumberString = leadingZeros(x)
-  filePath = "../../_exports/20190505-06-Ks-SM4/HLO10_20190505_230000.wav." + fileNumberString + ".png"
+  filePath = baseFilePath + "." + fileNumberString + ".png"
   fileKey = fileNumberString
+
+  # Check if file = segments exists
+  if not os.path.exists(filePath):
+    print("\nNo more segments")
+    break
 
   # Predict
   predictionJson = container_predict(filePath, fileKey)

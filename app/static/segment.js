@@ -37,10 +37,19 @@ $(".tag").change(function() {
 // Keyboard shortcuts
 // Todo: disable when cursor in keywords field. Remove comment also on /*else*/ below
 
+// https://keycode.info/
+
 document.onkeyup = function(e) {
 
   // If cursor in input field
   if (e.target.id == 'keywords') return;
+
+  if (e.which == 49) { // 1
+    moveToNextSegment();
+  }
+  if (e.which == 50) { // 2
+    moveToNextSegment(10);
+  }
 
   if (e.which == 77) {
     $("#migrant").prop("checked", true);
@@ -141,7 +150,7 @@ function getSegmentData(file_id, segmentNumber) {
     $("#spectrogram").attr("src", spectrogramPath);
     let audioPath = basePath + data.fileDirectory + "/" + data.finalAudioFilename;
     $("#audio").attr("src", audioPath);
-    let titleText = "Segment: " + data._id + ", number " + data.segmentNumber + " - Start: " + data.segmentStartUTC;
+    let titleText = "File number: " + (data.segmentNumber - 1) + " - Segment: " + data._id + ", number " + data.segmentNumber + " - Start: " + data.segmentStartUTC;
     $("#titletext").text(titleText);
 //    $("#prev").text(data.segmentNumber - 1);
 //    $("#next").text(data.segmentNumber + 1);
@@ -286,10 +295,10 @@ function clearForm() {
 
 }
 
-function moveToNextSegment() {
+function moveToNextSegment(skip = 1) {
   console.log("MOVETONEXTSEGMENT FUNCTION");
 
-  let nextSegmentNumber = segmentNumberGlobal + 1;
+  let nextSegmentNumber = segmentNumberGlobal + skip;
   window.location.hash = ("#" + nextSegmentNumber);
 
   init();
