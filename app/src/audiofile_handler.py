@@ -38,12 +38,14 @@ if debug:
   directory = "20190831-0901-Hässelholmen-SM4"
   directory = "20190926-1002-Ks-SM4"
   directory = "XC-Set-8"
+  directory = "20190505-11-Nötkärrinkallio-N"
   directory = "20190522-27-Harmaakallio"
+  
   
   location =  "xctest"
   location =  "training"
-  location =  "hässelholmen"
   location =  "xeno-canto"
+  location =  "nötkärrinkallio-n"
   location =  "harmaakallio"
 
   segments = 0

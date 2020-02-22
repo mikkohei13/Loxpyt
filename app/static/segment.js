@@ -50,6 +50,9 @@ document.onkeyup = function(e) {
   if (e.which == 50) { // 2
     moveToNextSegment(10);
   }
+  if (e.which == 192) { // §
+    moveToNextSegment(-1);
+  }
 
   if (e.which == 77) {
     $("#migrant").prop("checked", true);
@@ -63,7 +66,7 @@ document.onkeyup = function(e) {
     $("#local_individual").prop("checked", true);
     $("#local_individual").parent().addClass("checkedlabel");
   }
-  else if (e.which == 192) {
+  else if (e.which == 59) {
     $("#local_choir").prop("checked", true);
     $("#local_choir").parent().addClass("checkedlabel");
   }
@@ -143,18 +146,23 @@ function getSegmentData(file_id, segmentNumber) {
   })
   .done(function(data) {
     console.log("FROM API");
-    console.log(data.spectroFilename); // ok
 
-    let basePath = "http://localhost:8080/";
-    let spectrogramPath = basePath + data.fileDirectory + "/" + data.spectroFilename;
-    $("#spectrogram").attr("src", spectrogramPath);
-    let audioPath = basePath + data.fileDirectory + "/" + data.finalAudioFilename;
-    $("#audio").attr("src", audioPath);
-    let titleText = "File number: " + (data.segmentNumber - 1) + " - Segment: " + data._id + ", number " + data.segmentNumber + " - Start: " + data.segmentStartUTC;
-    $("#titletext").text(titleText);
-//    $("#prev").text(data.segmentNumber - 1);
-//    $("#next").text(data.segmentNumber + 1);
-    
+    if (null == data) {
+      error("Segment not found");
+    }
+    else {
+      console.log(data.spectroFilename); // ok
+
+      let basePath = "http://localhost:8080/";
+      let spectrogramPath = basePath + data.fileDirectory + "/" + data.spectroFilename;
+      $("#spectrogram").attr("src", spectrogramPath);
+      let audioPath = basePath + data.fileDirectory + "/" + data.finalAudioFilename;
+      $("#audio").attr("src", audioPath);
+      let titleText = "File number: " + (data.segmentNumber - 1) + " - Segment: " + data._id + ", number " + data.segmentNumber + " - Start: " + data.segmentStartUTC;
+      $("#titletext").text(titleText);
+  //    $("#prev").text(data.segmentNumber - 1);
+  //    $("#next").text(data.segmentNumber + 1);
+    }
   });
 }
 
@@ -261,6 +269,9 @@ function showAnnotationCount() {
     if (data.count > 0) {
       $("#alert").text("Already " + data.count + " annotation(s) of this segment!");
       $("#alert").addClass("notice");
+    }
+    else {
+      $("#alert").removeClass("notice");
     }
   })
   .fail(function() {

@@ -6,23 +6,30 @@
 
 # Usage
 
-## Setup (not tested)
+## Setup
 
-- Install Docker
+- Install Docker & Docker-Compose
 - Clone this repository
 - Create directories for audio files:
   - _exports
   - _source_audio
 - Place audio (.wav) files to _source_audio/{RECORDING SESSION NAME}/Data
 - Start containers:
-  - `docker-compose up --build`
+  - `docker-compose up --build; docker-compose down`
+  - To rebuild images, if they are modified `docker-compose up --build; docker-compose down`
+
+## Process files
+
 - Terminal to container:
   - `docker exec -ti loxia_web bash`
 - Handle audio file inside the container:
   - `cd /app/src/`
   - `python3 audiofile_handler.py --dir DIRECTORY_NAME --location LOCATION_ID`
+- Make predictions
+  - TODO: parameters
+  - `python3 predict.py`
 
-## Annotating
+## Annotate
 
 - Annotate at http://localhost/files
 - See & manage data at http://localhost:8081/

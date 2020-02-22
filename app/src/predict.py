@@ -68,15 +68,17 @@ def toDict(predictionJson):
 def toHumanReadable(predictionDict):
   text = predictionDict["fileKey"] + " "
 
-  animalScoreInt = math.floor(predictionDict["labels"]["animal"] * 20)
-  noAnimalScoreInt = math.floor(predictionDict["labels"]["no-animal"] * 20)
+  animalScoreInt = math.floor(predictionDict["labels"]["animal"] * 10)
+  noAnimalScoreInt = math.floor(predictionDict["labels"]["no-animal"] * 10)
   scoreBar = ""
 
+  b = 1
   for h in range(animalScoreInt):
-    scoreBar += "#"
+    scoreBar += str(b)
+    b += 1
   
   for h in range(noAnimalScoreInt):
-    scoreBar += "-"
+    scoreBar += " "
 
 #  scoreBar = scoreBar.ljust(22, " ")
 
@@ -87,7 +89,7 @@ def toHumanReadable(predictionDict):
 # --------------------------------------------
 
 print("Start")
-baseFilePath = "../../_exports/20190522-27-Harmaakallio/5CE725F3.WAV"
+baseFilePath = "../../_exports/20190505-11-Nötkärrinkallio-N/5CCF5CE3.WAV"
 print(baseFilePath + "\n")
 
 for x in range(0, 400):
