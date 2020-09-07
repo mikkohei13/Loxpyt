@@ -69,7 +69,7 @@ services:
     ports:
       - 8501:8501
     volumes:
-      - ./_models/birdmig1_animals_full_20200212/:/tmp/mounted_model/0001
+      - ./_models/birdmig1_animals_full_20200223/:/tmp/mounted_model/0001
 
 volumes: 
   mongodb-volume:

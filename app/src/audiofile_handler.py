@@ -36,10 +36,10 @@ if debug:
   directory = "Noise-training-data"
   directory = "20200201-07-Lilla-Bodö"
   directory = "20190831-0901-Hässelholmen-SM4"
-  directory = "20190926-1002-Ks-SM4"
   directory = "XC-Set-8"
   directory = "20190505-11-Nötkärrinkallio-N"
   directory = "20190522-27-Harmaakallio"
+  directory = "20200305-06-Ks-SM4"
   
   
   location =  "xctest"
@@ -47,6 +47,7 @@ if debug:
   location =  "xeno-canto"
   location =  "nötkärrinkallio-n"
   location =  "harmaakallio"
+  location =  "kaskisavu"
 
   segments = 0
 
@@ -85,14 +86,15 @@ audioFileList = file_helper.getAudioFileList(path)
 db = loxia_database.db()
 
 ### SESSION ###
-# Todo: tbd: What to do if same directory handled twice?
+# Todo: tbd: What to do if same directory handled twice? Exit the process with warning.
+
 sessionId = directory
 sessionData = { "_id": sessionId, "directory": directory, "location": location }
 db.saveSession(sessionData)
 
 ### FILES ###
 for audioFilePath in audioFileList:
-  # Todo: tbd: What to do if save file handled twice?
+  # Todo: tbd: What to do if same file handled twice? Exit the process with warning.
 
   # File to mono
   # Todo: log

@@ -49,12 +49,46 @@ Precison & recall: 92.57 %
 Animals: c. 91.8 %
 
 
-Problem cases:
-- Clahye's
+False negatives:
+- Melnig's
+- Scorus's
 - Faint migrants
+- Sounds in the beginning & end of segment
 - Some local fieldfares
+- Birds with other noises (single noises, rain, mechanical noises)
+- Thrushes, can be mixed with human sounds?
+
+False positives
+- Loud planes
+- Human sounds: coughing, footsteps
+- Unforeseen mechanical noises & snaps
+- Uniform background noise, which causes "light" spectrogram
+- Strong wind
 
 Exported model birdmig1_animals_full_20200212.pb
+
+## DATASET:
+
+23.2.2020
+
+### MODEL: birdmig1_animals_full_20200223
+
+Edge
+High-precision
+max 20 node hours, 8 estimated, c. NN hours used
+
+
+ Operation ID:
+    projects/825817147834/locations/us-central1/operations/ICN7374201286633193472
+Error Messages:
+    Error: gs://spectro-us/spectro-1/_data/target_annotations_animals_full_20200223.csv line 4023: The label is already a ground truth. 
+    Error: gs://spectro-us/spectro-1/_data/target_annotations_animals_full_20200223.csv line 4052: The label is already a ground truth. 
+    Error: gs://spectro-us/spectro-1/_data/target_annotations_animals_full_20200223.csv line 4800: The label is already a ground truth. 
+    Error: gs://spectro-us/spectro-1/_data/target_annotations_animals_full_20200223.csv line 4862: The label is already a ground truth. 
+    Error: gs://spectro-us/spectro-1/_data/target_annotations_animals_full_20200223.csv line 5302: The label is already a ground truth. 
+    Error: gs://spectro-us/spectro-1/_data/target_annotations_animals_full_20200223.csv line 4655: The label is already a ground truth. 
+    Error: gs://spectro-us/spectro-1/_data/target_annotations_animals_full_20200223.csv line 5749: The label is already a ground truth. 
+    Error: gs://spectro-us/spectro-1/_data/target_annotations_animals_full_20200223.csv line 5741: The label is already a ground truth.  
 
 
 ## Possible datasets & models
@@ -114,13 +148,15 @@ Searching files with regex/wildcard in mongodb:
 
 Create bucket:
 
-  gsutil mb -l europe-north1 gs://spectro-us/
+  gsutil mb -l {REGION} gs://spectro-us/
 
+List directories in bucket:
+
+  gsutil ls gs://spectro-us/
 
 Copy single file:
 
-  gsutil cp *.png gs://spectro-us/
-
+  gsutil cp FILENAME gs://spectro-us/spectro-1/_data/
 
 Copies files from current dir to bucket, but does not create folder structure:
 
@@ -129,7 +165,8 @@ Copies files from current dir to bucket, but does not create folder structure:
 
 Rsync all subdirs, excluding mp3-files:
 
-  gsutil -m rsync -r -x ".*.mp3$" . gs://spectro-us
+  # First go to the directory to sync (_exports)
+  gsutil -m rsync -r -x ".*.mp3$" . gs://spectro-us/lepidoptera/
 
 
 Move bucket ...

@@ -4,7 +4,9 @@
 * [Annotation notes](docs/annotating.md)
 * [Google AI & models](docs/google-ai.md)
 
+
 # Usage
+
 
 ## Setup
 
@@ -18,6 +20,7 @@
   - `docker-compose up --build; docker-compose down`
   - To rebuild images, if they are modified `docker-compose up --build; docker-compose down`
 
+
 ## Process files
 
 - Terminal to container:
@@ -29,6 +32,7 @@
   - TODO: parameters
   - `python3 predict.py`
 
+
 ## Annotate
 
 - Annotate at http://localhost/files
@@ -37,7 +41,19 @@
 - [More annotation notes](docs/annotating.md)
 
 
-## System design & Specs
+## Export annotations
+
+- Export annotations using Mongo express. This creates a file of annotations with JSON document on each row.
+- Remove those annotations that you dont need (if you are training an existing model)
+- Save the file to _data/annotations.json
+- Adjust settings in create_csv.py
+- Run `create_csv.py` on your machine (not in Docker)
+  - If this fails, remove any empty lines in the annotations.json file (end of the file)
+
+
+
+
+# System design & Specs
 
 - All data except annotations are upserted, so that there won't be duplicates.-
 - Annotations are not upserted, because this might lose work and/or break the AI training process
@@ -49,7 +65,33 @@
 - Due to this, if segment length changes, this requires fresh database and _exports directory.
 
 
-### Spectrograms
+## Files
+
+### Annotator
+
+- ROOT app/
+- main.py - Annotator Flask routers
+  - src/data_helper.py - Handle segment & file data from database 
+
+### Audio file handler
+
+- ROOT app/src/
+- audiofile_handler.py - Handles large audio files, saves data into db
+  - split_and_spectro.py - Splits large files to segments, creates spectrograms
+  - file_helper.py - Functions to parse audio files, e.g. getting recoding device metadata
+    - wamd.py - Third-party functions to parse Wildlife Acoustics sound files
+  - file_normalizer.py - Functions to normalize audio files, converts stereo to mono
+  - loxia_database.py - Class to access database
+
+### Misc
+
+- ROOT app/src/
+- create_csv.py - Converts MongoDB json files to CSV files for Google AutoML Vision 
+- predict.py - Makes predictions using AI model
+- api.py - TEST?
+
+
+## Spectrograms
 
 - Calculating NFTT so that the spectro is close to the desired size seems to produce clearest results, despite pylab's instruction to have "A power 2 is most efficient" for the NFTT. This avoids blurring due to image resizing.
   - With 32 KhZ recording and 450 px wide 10 sec segments this means 22 ms segments and NFTT of ~1400 
@@ -57,7 +99,7 @@
 - Youtube: "standard" is 25 ms window size and 10 ms step (= 15 ms noverlap)
 
 
-### Dates
+## Dates
 
 - UTC is standard time without daylight saving time adjustments.
 - File metadata date modified cannot be trusted, it can change when file is copied?
@@ -72,7 +114,7 @@ SM4
 - File name has *start* time, e.g. "HLO10_20191102_022600"
 
 
-### Data model
+## Data model
 
 Session (can be 1...n nights)
 - Id [string]: directory DONE
@@ -109,22 +151,22 @@ Annotation
 - Entry datetime [datetime/string] 
 
 
+### Data notes
+
 Segment AI data TBD later
 - AI id uuid
 - Segment file uuid
 - AI run id manually
 - Probability for bird | no bird
 
-
-
 How to find the original file later, if needed?
 - If path remains - use value directly
 - If path changed - find the file based on datetime and other info. Often only datetime is enough?
 
 
-### Logic
+## Logic
 
-Annotate
+### Annotation
 
 - Sessions
 - Files / Segments
@@ -151,15 +193,37 @@ Annotate
 - When ok response code
   - Open new data
 
-Batch annotate?
-- Command line tool to add data to range of annotations
-
 Train AI
-
 - Make spectros with different settings (decrease/increase volume) and augmentation
 
 
-## Todo
+
+
+# Todo
+
+
+N) To automate processing of one night, without keeping all segments to train AI
+* must be able to handle spring nights, with lot of bird sounds
+* sound analysis is repeatable, so no need to store to db permanently
+
+- BACKUP DATABASE
+- Start from command line, not debug
+- Two modes: training segments, sound analysis
+- a) train mode: as currently, don't predict
+- b) sound analysis mode: 
+  - output mp3 & files to different folder
+  - don't save to database (or save elsewhere?)
+  - predict whole folder (make copy of predict.py)
+    - if below threshold, delete spectro & mp3
+    - if above threshold, add entry to file string
+  - output file string with
+    - file info (needed to retrain AI)
+    - visual cue
+    - embedded spectro
+    - embedded mp3? or link to mp3?
+
+
+
 
 1) Audiofile handling:
 - Validate that file names dont have spaces
@@ -198,9 +262,11 @@ Train AI
 
 
 
-## Notes
 
-### Update data in MongoDB
+# Notes
+
+
+## MongoDB
 
 How to increment values in db:
 
@@ -210,10 +276,15 @@ How to increment values in db:
   db.segments.updateMany({}, { $inc: { segmentStartSeconds: -10 } })
   db.segments.updateMany({}, { $inc: { segmentEndSeconds: -10 } })
 
+Fing partial string:
+
+  {"file_id": /XC469422/}
+
+
 **Documents have not been updated**, since should also update segment _id, which is string
 
 
-### Links
+## Links
 
 https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.spectrogram.html
 

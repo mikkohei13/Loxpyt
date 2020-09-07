@@ -64,8 +64,8 @@ with open(sourceFile, "r") as infile, open(targetFile, "w") as outfile:
       continue
 
     spectroFileName = "gs://spectro-us/spectro-1/" + dictData['file_id'] + "." + formatFileNumber(dictData['segmentNumber']) + ".png"
-#    tag = tagNormalizer_animal(dictData["tags"])
-    tag = tagNormalizer_multi(dictData["tags"])
+    tag = tagNormalizer_animal(dictData["tags"])
+#    tag = tagNormalizer_multi(dictData["tags"])
 
     outfile.write(spectroFileName + "," + tag + "\n");
 

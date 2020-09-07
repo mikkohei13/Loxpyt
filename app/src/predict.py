@@ -89,7 +89,7 @@ def toHumanReadable(predictionDict):
 # --------------------------------------------
 
 print("Start")
-baseFilePath = "../../_exports/20190505-11-Nötkärrinkallio-N/5CCF5CE3.WAV"
+baseFilePath = "../../_exports/20190505-11-Nötkärrinkallio-N/5CCF6AF4.WAV" # 20190505-11-Nötkärrinkallio-N/5CCF6AF4.WAV 20190422-26-Harmaakallio/5CBE1D41.WAV
 print(baseFilePath + "\n")
 
 for x in range(0, 400):

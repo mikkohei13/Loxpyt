@@ -8,6 +8,7 @@ _TEST_exports/
 _temp/
 _models/
 
+.directory
 fail.html
 *.log
 

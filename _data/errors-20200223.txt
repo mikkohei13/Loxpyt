@@ -1,0 +1,11 @@
+ Operation ID:
+    projects/825817147834/locations/us-central1/operations/ICN7374201286633193472
+Error Messages:
+    Error: gs://spectro-us/spectro-1/_data/target_annotations_animals_full_20200223.csv line 4023: The label is already a ground truth. 
+    Error: gs://spectro-us/spectro-1/_data/target_annotations_animals_full_20200223.csv line 4052: The label is already a ground truth. 
+    Error: gs://spectro-us/spectro-1/_data/target_annotations_animals_full_20200223.csv line 4800: The label is already a ground truth. 
+    Error: gs://spectro-us/spectro-1/_data/target_annotations_animals_full_20200223.csv line 4862: The label is already a ground truth. 
+    Error: gs://spectro-us/spectro-1/_data/target_annotations_animals_full_20200223.csv line 5302: The label is already a ground truth. 
+    Error: gs://spectro-us/spectro-1/_data/target_annotations_animals_full_20200223.csv line 4655: The label is already a ground truth. 
+    Error: gs://spectro-us/spectro-1/_data/target_annotations_animals_full_20200223.csv line 5749: The label is already a ground truth. 
+    Error: gs://spectro-us/spectro-1/_data/target_annotations_animals_full_20200223.csv line 5741: The label is already a ground truth.  
