@@ -3,6 +3,7 @@
 OLDs/
 .vscode/
 _exports/
+_analysis/
 _source_audio/
 _TEST_exports/
 _temp/

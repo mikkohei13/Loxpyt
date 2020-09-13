@@ -33,19 +33,6 @@ def getAudioFileList(directory):
   return tuple(audioFileList)
 
 
-# todo: remove if getSegmentDict is used instead
-def getSegmentList(directory):
-  segmentList = []
-  objects = os.listdir(directory)
-#  print(objects) # debug
-  for name in objects:
-    if name.lower().endswith(".png"):
-      segment = name.replace(".png", "")
-      segmentList.append(directory + "/" + segment)
-
-  return tuple(segmentList)
-
-
 def getSegmentDict(directory):
   segmentDict = {}
   objects = os.listdir(directory)
@@ -57,8 +44,6 @@ def getSegmentDict(directory):
       segmentDict[segment] = segmentBasePath
 
   return segmentDict
-
-
 
 
 ### AUDIOMOTH PARSER #########################################################

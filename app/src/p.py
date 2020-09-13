@@ -1,18 +1,23 @@
 
 import predict_helper
 import file_helper
-
+import report_helper
 
 # test_20190506-07-Ks-SM4
 
 directory = "test_20190506-07-Ks-SM4"
 
+# TODO: Design flow. User gives dir name as param. System creates segments to _analysis/sourcedirname_analysistime, predicts, and deletes those below threshold, and creates html report.
+
 # TODO later: Handle only one night at a time, allow selecting which night using param
 
-print("Start")
+print("Start\n")
+html = ""
+
+# TODO: source dir from command line
 
 threshold = 0.5
-baseFilePath = "../../_exports/" + directory + "/"
+baseFilePath = "../../_analysis/" + directory + "/"
 # print(baseFilePath + "\n")
 
 # TODO: ordered dict in function?
@@ -31,11 +36,13 @@ for segment, segmentBasePath in segmentsDict.items():
 #  print(predictionDict)
 
   if (score >= threshold):
-    print(segment + " " + str(score) + "\n")
+    segmentPrint = segment + " " + str(score) + "\n"
+    print(segmentPrint) # debug
+    html += segmentPrint
+    html += report_helper.audioEmbed(segment)
+    html += report_helper.spectrogram(segment)    
 
-  # ELSE TODO later: print chart of activity through the night. plane the purpose & implementation.
   # ELSE delete PNG & MP3
-
 
   i = i + 1
   if i >= limit:
@@ -44,4 +51,8 @@ for segment, segmentBasePath in segmentsDict.items():
 #  predict_helper.predict(baseFile)
 
 
+report_helper.saveFile(html, baseFilePath)
+
+
+print("End\n")
 

@@ -3,12 +3,10 @@ import io
 import json
 import requests
 
-import pprint
-import math
-import os
-
 
 # Based on https://cloud.google.com/vision/automl/docs/containers-gcs-tutorial
+# Changes: localhost -> service name
+
 def container_predict(image_file_path, image_key):
   
   automlDockerServiceName = "automl-model"
@@ -46,13 +44,6 @@ def container_predict(image_file_path, image_key):
   return response.json()
 
 
-
-def leadingZeros(number):
-  number = str(number)
-  number = number.zfill(5)
-  return number
-  
-
 def toDict(predictionJson):
   resultDict = {}
   resultDict["segment"] = predictionJson["predictions"][0]["key"]
@@ -65,82 +56,15 @@ def toDict(predictionJson):
 
   return resultDict
 
-def toHumanReadable(predictionDict):
-  text = predictionDict["segment"] + " "
-
-  animalScoreInt = math.floor(predictionDict["labels"]["animal"] * 10)
-  noAnimalScoreInt = math.floor(predictionDict["labels"]["no-animal"] * 10)
-  scoreBar = ""
-
-  b = 1
-  for h in range(animalScoreInt):
-    scoreBar += str(b)
-    b += 1
-  
-  for h in range(noAnimalScoreInt):
-    scoreBar += " "
-
-#  scoreBar = scoreBar.ljust(22, " ")
-
-  text += scoreBar + "   " + str(round(predictionDict["labels"]["animal"], 2)) + " / " + str(round(predictionDict["labels"]["no-animal"], 2))
-  return text
-
-
 
 def predict(segmentFilePath, segment):
   predictionJson = container_predict(segmentFilePath, segment)
   predictionDict = toDict(predictionJson)
 
-# If doing batch predictions, need to return dict with key and prediction value
+# TODO maybe later: If doing batch predictions, need to return dict with key and prediction value
 #  return predictionDict
 
-  # return score
+  # return single score
   return predictionDict["labels"]["animal"]
 
 
-
-
-
-# --------------------------------------------
-
-#print("Start")
-#baseFilePath = "../../_exports/20190505-11-Nötkärrinkallio-N/5CCF6AF4.WAV" # 20190505-11-Nötkärrinkallio-N/5CCF6AF4.WAV 20190422-26-Harmaakallio/5CBE1D41.WAV
-#print(baseFilePath + "\n")
-
-#LOOP NUMBERS
-#for x in range(0, 400):
-  # GENERATE IMAGE FILENAME
-#  fileNumberString = leadingZeros(x)
-#  filePath = baseFilePath + "." + fileNumberString + ".png"
-#  fileKey = fileNumberString
-
-  # Check if file = segments exists
-#  if not os.path.exists(filePath):
-#    print("\nNo more segments")
-#    break
-
-  # PREDICT ONE IMAGE
-  # Predict
-#  predictionJson = container_predict(filePath, fileKey)
-
-  # Format results
-#  resultDict = toDict(predictionJson)
-#  print(toHumanReadable(resultDict))
-
-#  pp = pprint.PrettyPrinter(indent=2)
-#  pp.pprint(resultDict)
-
-
-
-
-#  print(json.dumps(resultDict, default_flow_style=False))
-
-#  print(result.json())
-
-
-#response = requests.get("http://localhost:8081")
-#print(response)
-
-print("\nEnd")
-
-# Muutin tässä googlen ohjeeseen verrattuna: localhost -> service name
