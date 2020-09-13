@@ -7,25 +7,35 @@ import file_helper
 
 directory = "test_20190506-07-Ks-SM4"
 
+# TODO later: Handle only one night at a time, allow selecting which night using param
+
 print("Start")
 
+threshold = 0.5
 baseFilePath = "../../_exports/" + directory + "/"
 # print(baseFilePath + "\n")
 
-segments = file_helper.getSegmentList(baseFilePath)
+# TODO: ordered dict in function?
+segmentsDict = file_helper.getSegmentDict(baseFilePath)
 #print("\n".join(segments))
 
 # Loop segments
 limit = 5
 i = 0
 
-for segment in segments:
-  segmentFilePath = segment + ".png"
-  print(segmentFilePath)
+for segment, segmentBasePath in segmentsDict.items():
+  segmentPngPath = segmentBasePath + ".png"
+#  print(segmentPngPath + " " + segment + " \n")
 
-  print(segment + " \n")
-  predictionJson = predict_helper.predictAnimal(segmentFilePath, segment)
-  print(predictionJson)
+  score = predict_helper.predict(segmentPngPath, segment)
+#  print(predictionDict)
+
+  if (score >= threshold):
+    print(segment + " " + str(score) + "\n")
+
+  # ELSE TODO later: print chart of activity through the night. plane the purpose & implementation.
+  # ELSE delete PNG & MP3
+
 
   i = i + 1
   if i >= limit:

@@ -55,7 +55,7 @@ def leadingZeros(number):
 
 def toDict(predictionJson):
   resultDict = {}
-  resultDict["fileKey"] = predictionJson["predictions"][0]["key"]
+  resultDict["segment"] = predictionJson["predictions"][0]["key"]
   resultDict["labels"] = {}
 
   n = 0
@@ -66,7 +66,7 @@ def toDict(predictionJson):
   return resultDict
 
 def toHumanReadable(predictionDict):
-  text = predictionDict["fileKey"] + " "
+  text = predictionDict["segment"] + " "
 
   animalScoreInt = math.floor(predictionDict["labels"]["animal"] * 10)
   noAnimalScoreInt = math.floor(predictionDict["labels"]["no-animal"] * 10)
@@ -87,10 +87,15 @@ def toHumanReadable(predictionDict):
 
 
 
-def predictAnimal(segmentFilePath, segment):
+def predict(segmentFilePath, segment):
   predictionJson = container_predict(segmentFilePath, segment)
   predictionDict = toDict(predictionJson)
-  print(predictionDict)
+
+# If doing batch predictions, need to return dict with key and prediction value
+#  return predictionDict
+
+  # return score
+  return predictionDict["labels"]["animal"]
 
 
 
