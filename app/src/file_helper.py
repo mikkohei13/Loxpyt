@@ -24,13 +24,26 @@ def getDurationStr2Sec(durationStr):
 def getAudioFileList(directory):
   audioFileList = []
   objects = os.listdir(directory)
-  print(objects)
+  print(objects) # debug
   for name in objects:
     # Todo: from mp3
     if name.lower().endswith(".wav"):
       audioFileList.append(directory + "/" + name)
 
   return tuple(audioFileList)
+
+
+def getSegmentList(directory):
+  segmentList = []
+  objects = os.listdir(directory)
+#  print(objects) # debug
+  for name in objects:
+    if name.lower().endswith(".png"):
+      segment = name.replace(".png", "")
+      segmentList.append(directory + "/" + segment)
+
+  return tuple(segmentList)
+
 
 
 ### AUDIOMOTH PARSER #########################################################

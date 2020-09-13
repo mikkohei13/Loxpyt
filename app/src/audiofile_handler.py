@@ -116,12 +116,16 @@ for audioFilePath in audioFileList:
   fileData["_id"] = fileId
   fileData["session_id"] = sessionId
 
+  # ABBA: If analyzing, skip saving to database. Start saving into file/string instead.
   db.saveFile(fileData)
 
   ### SEGMENTS ###
   # Split into segments and generate spectrograms
   segmentMetaGenerator = split_and_spectro.parseFile(monoFilePath, exportDir, directory, fileData["fileName"], segments, 10)
 
+  # ABBA: If analyzing, call model, save result to file/string, delete segment png & mp3 if above threshold.
+
+  # Segment metadata to database
   for segmentMeta in segmentMetaGenerator:
     segmentId = fileId + "/" + str(segmentMeta["segmentNumber"])
 
@@ -132,6 +136,7 @@ for audioFilePath in audioFileList:
 
     segmentMeta["segmentStartUTC"] = fileData["recordDateStartUTC"] + datetime.timedelta(0, segmentMeta["segmentStartSeconds"])
 
+    # ABBA: If analyzing, skip saving to database.
     db.saveSegment(segmentMeta)
 
   # Remove temp file
