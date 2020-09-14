@@ -15,9 +15,21 @@ import loxia_database
 
 segments = 0
 segmentsLimit = 100
-exportDir = "/_exports"
 
 debug = True # get input from this file
+onlyAnalyse = True;
+
+
+if onlyAnalyse:
+  now = datetime.datetime.now() # OR datetime.datetime ??
+  timestampSuffix = "_" + now.strftime("%Y%m%d_%H%M%S") # timestamp because analysis can be repeated later with a btter model
+  exportDir = "/_analysis"
+
+else:
+  exportDir = "/_exports"
+  timestampSuffix = "" # No timestamp because should be created only once
+
+
 
 if debug:
   directory = "ks"
@@ -39,8 +51,7 @@ if debug:
   directory = "XC-Set-8"
   directory = "20190505-11-Nötkärrinkallio-N"
   directory = "20190522-27-Harmaakallio"
-  directory = "20200305-06-Ks-SM4"
-  
+  directory = "20190522-27-Harmaakallio-test"
   
   location =  "xctest"
   location =  "training"
@@ -48,8 +59,9 @@ if debug:
   location =  "nötkärrinkallio-n"
   location =  "harmaakallio"
   location =  "kaskisavu"
+  location =  "test"
 
-  segments = 0
+  segments = 10    # zero for unlimited
 
 else:
   # Get args from command line
@@ -63,6 +75,11 @@ else:
   segments = int(args.segments)
   location = args.location
 
+
+# TODO: Think up a good place to define path structure?
+path = "/_source_audio/" + directory + "/Data"
+directory = directory + timestampSuffix
+
 # Validate input
 # Todo: tbd: Check that dir name contains locality string? To avoid errors.
 # Todo: check if directory/data (case-sensitivity?) exists and contains wav files, or raise error. What happens now?
@@ -71,9 +88,6 @@ if segments > segmentsLimit:
   segments = segmentsLimit
 
 location = location.lower()
-
-# Todo: good place to define path structure?
-path = "/_source_audio/" + directory + "/Data"
 
 
 ### HANDLING DATA #########################################################
@@ -94,17 +108,17 @@ db.saveSession(sessionData)
 
 ### FILES ###
 for audioFilePath in audioFileList:
-  # Todo: tbd: What to do if same file handled twice? Exit the process with warning.
+  # TODO: tbd: What to do if same file handled twice? Exit the process with warning.
 
   # File to mono
-  # Todo: log
+  # TODO later: log
   try:
     deleteMonoFile, monoFilePath = file_normalizer.mono(audioFilePath)
   except:
     print("   WARNING: Skipping due to normalization problem " + audioFilePath)
     continue
 
-  # File metadata
+  # Create file metadata
   fileData = file_helper.parseFile(audioFilePath)
   if False == fileData:
     # Todo: log
@@ -116,16 +130,17 @@ for audioFilePath in audioFileList:
   fileData["_id"] = fileId
   fileData["session_id"] = sessionId
 
-  # ABBA: If analyzing, skip saving to database. Start saving into file/string instead.
-  db.saveFile(fileData)
-
-  ### SEGMENTS ###
-  # Split into segments and generate spectrograms
+  # If analyzing, skip saving to database. Start saving into file/string instead.
+  if not onlyAnalyse:
+    db.saveFile(fileData)
+  
+  # Split file into segments and generate spectrograms
+  # ABBA: segment location when onlyAnalyse
   segmentMetaGenerator = split_and_spectro.parseFile(monoFilePath, exportDir, directory, fileData["fileName"], segments, 10)
 
-  # ABBA: If analyzing, call model, save result to file/string, delete segment png & mp3 if above threshold.
 
-  # Segment metadata to database
+  ### SEGMENTS ###
+  # Create segment metadata
   for segmentMeta in segmentMetaGenerator:
     segmentId = fileId + "/" + str(segmentMeta["segmentNumber"])
 
@@ -136,12 +151,19 @@ for audioFilePath in audioFileList:
 
     segmentMeta["segmentStartUTC"] = fileData["recordDateStartUTC"] + datetime.timedelta(0, segmentMeta["segmentStartSeconds"])
 
-    # ABBA: If analyzing, skip saving to database.
-    db.saveSegment(segmentMeta)
+    if onlyAnalyse:
+      # ABBA: predict, delete, report
+      x = 0
 
-  # Remove temp file
+    # If analyzing, skip saving to database.
+    else:
+      db.saveSegment(segmentMeta)
+
+
+  # Remove temp mono file
   if deleteMonoFile:
     file_normalizer.deleteTempFile(monoFilePath)
+
 
   # If segments defined for debugging, break processing before going to next file
   if segments > 0:

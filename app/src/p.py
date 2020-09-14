@@ -29,12 +29,13 @@ limit = 10
 i = 0
 
 for segment, segmentBasePath in segmentsDict.items():
-  segmentPngPath = segmentBasePath + ".png"
-#  print(segmentPngPath + " " + segment + " \n")
 
+  # Predict one segment
+  segmentPngPath = segmentBasePath + ".png"
   score = predict_helper.predict(segmentPngPath, segment)
 #  print(predictionDict)
 
+  # Create report and cleanup
   if (score >= threshold):
     segmentPrint = segment + " " + str(score) + "\n"
     print(segmentPrint) # debug
@@ -46,6 +47,7 @@ for segment, segmentBasePath in segmentsDict.items():
 
   # ELSE delete PNG & MP3
 
+  # Limit how many segments handled (debug)
   i = i + 1
   if i >= limit:
     break
