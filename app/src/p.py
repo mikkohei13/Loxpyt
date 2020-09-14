@@ -25,7 +25,7 @@ segmentsDict = file_helper.getSegmentDict(baseFilePath)
 #print("\n".join(segments))
 
 # Loop segments
-limit = 5
+limit = 10
 i = 0
 
 for segment, segmentBasePath in segmentsDict.items():
@@ -41,6 +41,8 @@ for segment, segmentBasePath in segmentsDict.items():
     html += segmentPrint
     html += report_helper.audioEmbed(segment)
     html += report_helper.spectrogram(segment)    
+  else:
+    print(segment + " below threshold")
 
   # ELSE delete PNG & MP3
 

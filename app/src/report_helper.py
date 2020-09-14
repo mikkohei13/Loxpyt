@@ -16,7 +16,7 @@ def spectrogram(segment):
   return html
 
 def saveFile(html, baseFilePath):
-  filePath = baseFilePath + "report.html"
+  filePath = baseFilePath + "_report.html"
   file = open(filePath, "w+")
   file.write(html)
   file.close()

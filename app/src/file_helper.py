@@ -5,6 +5,8 @@ from bs4 import BeautifulSoup
 import os
 import datetime
 
+from collections import OrderedDict
+
 from wamd import wamd
 
 
@@ -34,15 +36,16 @@ def getAudioFileList(directory):
 
 
 def getSegmentDict(directory):
-  segmentDict = {}
+  tempDict = {}
   objects = os.listdir(directory)
 #  print(objects) # debug
   for name in objects:
     if name.lower().endswith(".png"):
       segment = name.replace(".png", "")
       segmentBasePath = directory + "/" + segment
-      segmentDict[segment] = segmentBasePath
+      tempDict[segment] = segmentBasePath
 
+  segmentDict = OrderedDict(sorted(tempDict.items()))
   return segmentDict
 
 
