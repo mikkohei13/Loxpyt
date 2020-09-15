@@ -11,7 +11,7 @@ import file_helper
 import file_normalizer
 import loxia_database
 import predict_helper
-import report_helper
+import report
 
 
 ### INPUT #########################################################
@@ -23,12 +23,13 @@ debug = True # get input from this file
 onlyAnalyse = True;
 
 threshold = 0.8
+#threshold = 0.15 # debug
 
-html = "" # refactor into class
+report = report.report()
 
 
 if onlyAnalyse:
-  now = datetime.datetime.now() # OR datetime.datetime ??
+  now = datetime.datetime.now()
   timestampSuffix = "_" + now.strftime("%Y%m%d_%H%M%S") # timestamp because analysis can be repeated later with a btter model
   exportDir = "/_analysis"
 
@@ -60,6 +61,7 @@ if debug:
   directory = "20190522-27-Harmaakallio"
   directory = "20190522-27-Harmaakallio-test"
   directory = "test_20190506-07-Ks-SM4"
+  directory = "20200914-15-Ks-SM4"
   
   location =  "xctest"
   location =  "training"
@@ -84,9 +86,9 @@ else:
   location = args.location
 
 
-# TODO: Think up a good place to define path structure?
-path = "/_source_audio/" + directory + "/Data"
-directory = directory + timestampSuffix
+# TODO: Think up a good place to define path structures?
+path = "/_source_audio/" + directory + "/Data" # source directory
+directory = directory + timestampSuffix # analysis/report directory
 
 # Validate input
 # Todo: tbd: Check that dir name contains locality string? To avoid errors.
@@ -100,11 +102,13 @@ location = location.lower()
 
 ### HANDLING DATA #########################################################
 
+# TODO: sort filename ascending
 audioFileList = file_helper.getAudioFileList(path)
 
 # Get metadata for the file
 # Todo: move this to last, so that error will prevent it from running
 
+# Todo: disable save here, when onlyAnalyse
 db = loxia_database.db()
 
 ### SESSION ###
@@ -112,7 +116,10 @@ db = loxia_database.db()
 
 sessionId = directory
 sessionData = { "_id": sessionId, "directory": directory, "location": location }
-db.saveSession(sessionData)
+
+if not onlyAnalyse:
+  db.saveSession(sessionData)
+
 
 ### FILES ###
 for audioFilePath in audioFileList:
@@ -170,15 +177,13 @@ for audioFilePath in audioFileList:
       score = predict_helper.predict(spectroFilePath, segmentMeta["spectroFilename"])
 
       if score >= threshold:
-        print("above threshold " + str(score) + "\n")
+        print("above " + str(score) + "\n")
 #        html += "\n\n" + segmentMeta["baseAudioFilename"] + "\n"
-        html += report_helper.spectrogram(segmentMeta["spectroFilename"])
-        html += "<p>score " + str(score) + "</p>\n"
-        html += report_helper.audioEmbed(segmentMeta["finalAudioFilename"])
+        report.addPositiveSegment(segmentMeta["spectroFilename"], segmentMeta["finalAudioFilename"], score)
 
       else:
-        print("below threshold " + str(score) + "\n")
-        html += "<p>below threshold score " + str(score) + "</p>\n"
+        print("below " + str(score) + "\n")
+        report.addNegativeSegment(score)
         mp3FilePath = "../.." + exportDir + "/" + segmentMeta["fileDirectory"] + "/" + segmentMeta["finalAudioFilename"]
         os.remove(mp3FilePath)
         os.remove(spectroFilePath)
@@ -199,4 +204,4 @@ for audioFilePath in audioFileList:
     break;
 
 # Save report
-report_helper.saveFile(html, ("../.." + exportDir + "/" + segmentMeta["fileDirectory"] + "/")) # TODO: simplify dir management
+report.saveFile(("../.." + exportDir + "/" + segmentMeta["fileDirectory"] + "/")) # TODO: simplify dir management TODO: set file early, so can append -> saves even if script fails
