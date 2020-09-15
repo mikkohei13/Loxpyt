@@ -10,6 +10,9 @@ import split_and_spectro
 import file_helper
 import file_normalizer
 import loxia_database
+import predict_helper
+import report_helper
+
 
 ### INPUT #########################################################
 
@@ -18,6 +21,10 @@ segmentsLimit = 100
 
 debug = True # get input from this file
 onlyAnalyse = True;
+
+threshold = 0.8
+
+html = "" # refactor into class
 
 
 if onlyAnalyse:
@@ -52,6 +59,7 @@ if debug:
   directory = "20190505-11-Nötkärrinkallio-N"
   directory = "20190522-27-Harmaakallio"
   directory = "20190522-27-Harmaakallio-test"
+  directory = "test_20190506-07-Ks-SM4"
   
   location =  "xctest"
   location =  "training"
@@ -61,7 +69,7 @@ if debug:
   location =  "kaskisavu"
   location =  "test"
 
-  segments = 10    # zero for unlimited
+  segments = 0    # zero for unlimited
 
 else:
   # Get args from command line
@@ -134,8 +142,7 @@ for audioFilePath in audioFileList:
   if not onlyAnalyse:
     db.saveFile(fileData)
   
-  # Split file into segments and generate spectrograms
-  # ABBA: segment location when onlyAnalyse
+  # Split file into segments and generate spectrograms, return metadata about them
   segmentMetaGenerator = split_and_spectro.parseFile(monoFilePath, exportDir, directory, fileData["fileName"], segments, 10)
 
 
@@ -153,7 +160,29 @@ for audioFilePath in audioFileList:
 
     if onlyAnalyse:
       # ABBA: predict, delete, report
-      x = 0
+      print("HERE: ") # debug
+      print(segmentMeta) # debug
+
+      spectroFilePath = "../.." + exportDir + "/" + segmentMeta["fileDirectory"] + "/" + segmentMeta["spectroFilename"]
+
+      print(", PATH: " + spectroFilePath) # debug
+
+      score = predict_helper.predict(spectroFilePath, segmentMeta["spectroFilename"])
+
+      if score >= threshold:
+        print("above threshold " + str(score) + "\n")
+#        html += "\n\n" + segmentMeta["baseAudioFilename"] + "\n"
+        html += report_helper.spectrogram(segmentMeta["spectroFilename"])
+        html += "<p>score " + str(score) + "</p>\n"
+        html += report_helper.audioEmbed(segmentMeta["finalAudioFilename"])
+
+      else:
+        print("below threshold " + str(score) + "\n")
+        html += "<p>below threshold score " + str(score) + "</p>\n"
+        mp3FilePath = "../.." + exportDir + "/" + segmentMeta["fileDirectory"] + "/" + segmentMeta["finalAudioFilename"]
+        os.remove(mp3FilePath)
+        os.remove(spectroFilePath)
+
 
     # If analyzing, skip saving to database.
     else:
@@ -169,3 +198,5 @@ for audioFilePath in audioFileList:
   if segments > 0:
     break;
 
+# Save report
+report_helper.saveFile(html, ("../.." + exportDir + "/" + segmentMeta["fileDirectory"] + "/")) # TODO: simplify dir management

@@ -1,18 +1,22 @@
 
+def css():
+  # refer to css file above one folder level -> can update all reports with one file retroactively
+  x = 1;
+
 def audioEmbed(segment):
   html = """
   <figure>
     <figcaption>""" + segment + """</figcaption>
     <audio
         controls
-        src='""" + segment + """.mp3'>
+        src='""" + segment + """'>
     </audio>
   </figure>
   """
   return html
 
 def spectrogram(segment):
-  html = "<img src='" + segment + ".png'>\n"
+  html = "<img src='" + segment + "'>\n"
   return html
 
 def saveFile(html, baseFilePath):

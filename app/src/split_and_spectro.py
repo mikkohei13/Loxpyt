@@ -107,6 +107,8 @@ def get_wav_info(wavFilename):
 
 ### MAIN PARSER GENERATOR #########################################################
 
+# TODO: refactor into smaller units. E.g. mp3 creation in separate function, which will only be called if prediction finds bird in the spectro, while doing onlyAnalysis.
+
 # Parse single audio file
 def parseFile(sourceAudioFilePath, exportDir, sessionDir, sourceAudioFileName, segments = 1, segmentLengthSeconds = 10):
 #  prof("parseFile start", startTime)
@@ -162,7 +164,6 @@ def parseFile(sourceAudioFilePath, exportDir, sessionDir, sourceAudioFileName, s
 #    prof("spectro", startTime)
 
     # Save mp3 file to disk and remove wav
-    # Todo: exclude wav file extension from mp3 & spectro
     segment.export(exportDirPath + finalAudioFilename, format="mp3")
     os.remove(exportDirPath + tempAudioFilename)
 #    prof("mp3 export", startTime)
