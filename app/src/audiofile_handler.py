@@ -22,10 +22,8 @@ segmentsLimit = 100
 debug = True # get input from this file
 onlyAnalyse = True;
 
-threshold = 0.8
-#threshold = 0.15 # debug
-
-report = report.report()
+threshold = 0.7
+threshold = 0.6 # debug
 
 
 if onlyAnalyse:
@@ -61,7 +59,7 @@ if debug:
   directory = "20190522-27-Harmaakallio"
   directory = "20190522-27-Harmaakallio-test"
   directory = "test_20190506-07-Ks-SM4"
-  directory = "20200914-15-Ks-SM4"
+  directory = "20200916-17-Ks-SM4"
   
   location =  "xctest"
   location =  "training"
@@ -71,7 +69,7 @@ if debug:
   location =  "kaskisavu"
   location =  "test"
 
-  segments = 0    # zero for unlimited
+  segments = 6    # zero for unlimited
 
 else:
   # Get args from command line
@@ -87,8 +85,18 @@ else:
 
 
 # TODO: Think up a good place to define path structures?
+# TODO: simplify dir management TODO: set file early, so can append -> saves even if script fails
+
 path = "/_source_audio/" + directory + "/Data" # source directory
 directory = directory + timestampSuffix # analysis/report directory
+
+
+# Init report
+if onlyAnalyse:
+  reportDir = "../.." + exportDir + "/" + directory + "/"
+  split_and_spectro.createDir(reportDir) # TODO: move to file helper, and use from there, also by split_and_spectro?
+  report = report.report(reportDir)
+
 
 # Validate input
 # Todo: tbd: Check that dir name contains locality string? To avoid errors.
@@ -166,8 +174,6 @@ for audioFilePath in audioFileList:
     segmentMeta["segmentStartUTC"] = fileData["recordDateStartUTC"] + datetime.timedelta(0, segmentMeta["segmentStartSeconds"])
 
     if onlyAnalyse:
-      # ABBA: predict, delete, report
-      print("HERE: ") # debug
       print(segmentMeta) # debug
 
       spectroFilePath = "../.." + exportDir + "/" + segmentMeta["fileDirectory"] + "/" + segmentMeta["spectroFilename"]
@@ -204,4 +210,4 @@ for audioFilePath in audioFileList:
     break;
 
 # Save report
-report.saveFile(("../.." + exportDir + "/" + segmentMeta["fileDirectory"] + "/")) # TODO: simplify dir management TODO: set file early, so can append -> saves even if script fails
+report.finalize()

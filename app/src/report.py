@@ -4,12 +4,14 @@ import datetime
 
 class report():
 
-  def __init__(self):
+  def __init__(self, directoryPath):
+
+    self._filePath = directoryPath + "_report.html"
     self._timeStart = int(time.time())
     self._counterPositive = 0
     self._counterNegative = 0
 
-    self._html = """<!DOCTYPE html>
+    html = """<!DOCTYPE html>
   <html lang="fi" class="no-js">
   <head>
     <meta charset="UTF-8">
@@ -19,19 +21,31 @@ class report():
   <body>
     """
 
+    # Create file
+    f = open(self._filePath, "w+")  # open file in append mode
+    f.write(html)
+    f.close()
+
+
+
+  def appendLine(self, html):
+    file = open(self._filePath, "a")
+    file.write(html + "\n")
+    file.close()
+
+
   def addPositiveSegment(self, spectroFilename, audioFilename, score):
     score = str(score)
-    self.addHtml("<div class='segment'>")
+    self.appendLine("<div class='segment'>")
     self.addSpectro(spectroFilename)
     self.addAudio(audioFilename)
-    self.addHtml("<p class='score'>score " + score + "</p>")
-    self.addHtml("</div>")
+    self.appendLine("<p class='score'>score " + score + "</p> \n</div>")
 
     self._counterPositive = self._counterPositive + 1 # TODO: shorthand / append?
 
 
   def addAudio(self, segment):
-    self._html += """
+    html = """
     <figure>
       <figcaption>""" + segment + """</figcaption>
       <audio
@@ -40,34 +54,37 @@ class report():
       </audio>
     </figure>
     """
+    self.appendLine(html)
+
 
   def addSpectro(self, segment):
-    self._html += "<img src='" + segment + "'>\n"
+    html = "<img src='" + segment + "'>\n"
+    self.appendLine(html)
 
 
-  def addHtml(self, addedHtml):
-    self._html += addedHtml + "\n"
+  def addHtml(self, html):
+    self.appendLine(html)
 
 
   def addNegativeSegment(self, score):
-    self.addHtml(str(score) + " / ")
+    self.appendLine(str(score) + " / ")
     self._counterNegative = self._counterNegative + 1 # TODO: shorthand / append?
 
 
-  def saveFile(self, baseFilePath):
+  def finalize(self):
     timeEnd = int(time.time())
-    timeElapsed = str(timeEnd - self._timeStart)
+    timeElapsed = timeEnd - self._timeStart
 
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d %H:%M:%S")
 
-    total = str(self._counterPositive + self._counterNegative)
+    total = self._counterPositive + self._counterNegative
 
-    self._html += "<p>" + str(self._counterPositive) + " positives, " + str(self._counterNegative) + " negatives, total " + total + "</p>"
-    self._html += "<p>End of report / " + date + " UTC / Elapsed " + timeElapsed + " s</p>"
-    self._html += "</body></html>"
+    timeElapsedPerSegment = timeElapsed / total
 
-    filePath = baseFilePath + "_report.html"
-    file = open(filePath, "w+")
-    file.write(self._html)
-    file.close()
+    html = ""
+    html += "<p>" + str(self._counterPositive) + " positives, " + str(self._counterNegative) + " negatives, total " + str(total) + "</p>\n"
+    html += "<p>End of report / " + date + " UTC / Elapsed " + str(timeElapsed) + " s, " + str(timeElapsedPerSegment) + " s per segment</p>\n"
+    html += "</body></html>"
+    self.appendLine(html)
+
