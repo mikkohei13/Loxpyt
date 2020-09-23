@@ -20,56 +20,38 @@ segments = 0
 segmentsLimit = 100
 
 debug = True # get input from this file
+
 onlyAnalyse = True;
 
-threshold = 0.7
-threshold = 0.6 # debug
+threshold = 0.6
+#threshold = 0.1 # debug
 
 
 if onlyAnalyse:
   now = datetime.datetime.now()
   timestampSuffix = "_" + now.strftime("%Y%m%d_%H%M%S") # timestamp because analysis can be repeated later with a btter model
-  exportDir = "/_analysis"
+  rootDirectory = "/_analysis"
 
 else:
-  exportDir = "/_exports"
+  rootDirectory = "/_exports"
   timestampSuffix = "" # No timestamp because should be created only once
 
 
 
 if debug:
-  directory = "ks"
-  directory = "20190422-26-Harmaakallio"
-  directory = "20190512-15-Söderskoginmetsä-jyrkänne"
-  directory = "20190505-11-Nötkärrinkallio-N"
-  directory = "noordwijk"
-  directory = "20190421-22-Nötkärrinkallio"
-  directory = "20190926-1002-Ks-SM4"
-  directory = "Noise-training-data"
-  directory = "20190427-28-Hanikka"
-  directory = "XC-Set-1"
-  directory = "xctest"
-  directory = "20200126-27-Ks-häiriöjasade"
-  directory = "20190506-07-Ks-SM4"
-  directory = "Noise-training-data"
-  directory = "20200201-07-Lilla-Bodö"
-  directory = "20190831-0901-Hässelholmen-SM4"
-  directory = "XC-Set-8"
-  directory = "20190505-11-Nötkärrinkallio-N"
-  directory = "20190522-27-Harmaakallio"
-  directory = "20190522-27-Harmaakallio-test"
   directory = "test_20190506-07-Ks-SM4"
   directory = "20200916-17-Ks-SM4"
+  directory = "XC-Set-9"
+  directory = "20200915-16-Ks-SM4"
   
   location =  "xctest"
   location =  "training"
   location =  "xeno-canto"
-  location =  "nötkärrinkallio-n"
-  location =  "harmaakallio"
-  location =  "kaskisavu"
   location =  "test"
+  location =  "kaskisavu"
+  location =  "xeno-canto"
 
-  segments = 6    # zero for unlimited
+  segments = 5    # zero for unlimited
 
 else:
   # Get args from command line
@@ -88,12 +70,13 @@ else:
 # TODO: simplify dir management TODO: set file early, so can append -> saves even if script fails
 
 path = "/_source_audio/" + directory + "/Data" # source directory
-directory = directory + timestampSuffix # analysis/report directory
-
 
 # Init report
+# ABBA: get datetime from first file in dir
 if onlyAnalyse:
-  reportDir = "../.." + exportDir + "/" + directory + "/"
+  directory = directory + timestampSuffix # analysis/report directory
+
+  reportDir = "../.." + rootDirectory + "/" + directory + "/"
   split_and_spectro.createDir(reportDir) # TODO: move to file helper, and use from there, also by split_and_spectro?
   report = report.report(reportDir)
 
@@ -110,8 +93,8 @@ location = location.lower()
 
 ### HANDLING DATA #########################################################
 
-# TODO: sort filename ascending
-audioFileList = file_helper.getAudioFileList(path)
+# TODO: Test sort filename ascending
+audioFileList = sorted(file_helper.getAudioFileList(path))
 
 # Get metadata for the file
 # Todo: move this to last, so that error will prevent it from running
@@ -156,9 +139,13 @@ for audioFilePath in audioFileList:
   # If analyzing, skip saving to database. Start saving into file/string instead.
   if not onlyAnalyse:
     db.saveFile(fileData)
+  else:
+    # Save file header to report ABBA
+    report.addFile(fileData)
+    abba = 1 # debug temp
   
   # Split file into segments and generate spectrograms, return metadata about them
-  segmentMetaGenerator = split_and_spectro.parseFile(monoFilePath, exportDir, directory, fileData["fileName"], segments, 10)
+  segmentMetaGenerator = split_and_spectro.parseFile(monoFilePath, rootDirectory, directory, fileData["fileName"], segments, 10)
 
 
   ### SEGMENTS ###
@@ -176,7 +163,7 @@ for audioFilePath in audioFileList:
     if onlyAnalyse:
       print(segmentMeta) # debug
 
-      spectroFilePath = "../.." + exportDir + "/" + segmentMeta["fileDirectory"] + "/" + segmentMeta["spectroFilename"]
+      spectroFilePath = "../.." + rootDirectory + "/" + segmentMeta["fileDirectory"] + "/" + segmentMeta["spectroFilename"]
 
       print(", PATH: " + spectroFilePath) # debug
 
@@ -185,12 +172,12 @@ for audioFilePath in audioFileList:
       if score >= threshold:
         print("above " + str(score) + "\n")
 #        html += "\n\n" + segmentMeta["baseAudioFilename"] + "\n"
-        report.addPositiveSegment(segmentMeta["spectroFilename"], segmentMeta["finalAudioFilename"], score)
+        report.addPositiveSegment(segmentMeta, score)
 
       else:
         print("below " + str(score) + "\n")
         report.addNegativeSegment(score)
-        mp3FilePath = "../.." + exportDir + "/" + segmentMeta["fileDirectory"] + "/" + segmentMeta["finalAudioFilename"]
+        mp3FilePath = "../.." + rootDirectory + "/" + segmentMeta["fileDirectory"] + "/" + segmentMeta["finalAudioFilename"]
         os.remove(mp3FilePath)
         os.remove(spectroFilePath)
 

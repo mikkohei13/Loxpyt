@@ -1,6 +1,7 @@
 
 import time
 import datetime
+import json
 
 class report():
 
@@ -27,19 +28,32 @@ class report():
     f.close()
 
 
-
   def appendLine(self, html):
     file = open(self._filePath, "a")
     file.write(html + "\n")
     file.close()
 
 
-  def addPositiveSegment(self, spectroFilename, audioFilename, score):
+  def addFile(self, fileData):
+    print(fileData) # Debug
+
+    html = "<h3>"
+    html += fileData['fileName'] + ", start UTC " + fileData['recordDateStartUTC'].strftime("%Y-%m-%d %H:%M:%S")
+    html += "</h3>"
+
+    self.appendLine(html) # debug
+
+
+  def addPositiveSegment(self, segmentMeta, score):
     score = str(score)
     self.appendLine("<div class='segment'>")
-    self.addSpectro(spectroFilename)
-    self.addAudio(audioFilename)
-    self.appendLine("<p class='score'>score " + score + "</p> \n</div>")
+    self.addSpectro(segmentMeta["spectroFilename"])
+    self.addAudio(segmentMeta["finalAudioFilename"])
+
+#    segmentStartUTCstr = segmentMeta["segmentStartUTC"].__str__()
+    segmentStartUTCstr = segmentMeta["segmentStartUTC"].strftime("%H:%M:%S")
+
+    self.appendLine("<p class='caption'><em>UTC " + segmentStartUTCstr + ",</em> <strong>score " + score + "</strong></p> \n</div>")
 
     self._counterPositive = self._counterPositive + 1 # TODO: shorthand / append?
 

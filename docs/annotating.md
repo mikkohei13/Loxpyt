@@ -26,6 +26,7 @@
 
 - XC:
   - Owls
+  - Grugru
   - Anthus, Phoen...
   - emberiza
   - buntings
@@ -33,7 +34,6 @@
 
 - Omat
   - Clahye
-  - Aamukuoro pihasta ja metsästä, erityisesti ekat rastaat
   - Mössenkärr
   - Morning chorus with buzzing sound 
   - Noorwijk
@@ -48,6 +48,8 @@
       rename 's/ /_/g' *
   - Create nonmodified wav's
       for i in *.mp3; do ffmpeg -i "$i" "${i%.*}.wav"; done
+  - Check that filenames don't have non-ascii characters, because they will choke exiftool:
+      LC_ALL=C find . -name '*[! -~]*'
 
 - MAYBE DO
   - Basic augmentation sets:

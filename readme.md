@@ -36,7 +36,7 @@
 ## Annotate
 
 - Annotate at http://localhost/files
-- See & manage data at http://localhost:8081/
+- See & manage data at http://localhost:8081/ 
 
 - [More annotation notes](docs/annotating.md)
 
@@ -205,6 +205,16 @@ Train AI
 N) To automate processing of one night, without keeping all segments to train AI
 * must be able to handle spring nights, with lot of bird sounds
 * sound analysis is repeatable, so no need to store to db permanently
+- Report
+  - show start date in report and folder name
+  - show when new file starts
+  - sort Audiomoth files by date
+  - class with threshold, js to display only some thresholds
+  - styles
+  - warn of 10 consecutive bird segments?
+- Split into reports at 12.00 midday
+- Find out if splitting can be done faster
+
 
 - BACKUP DATABASE
 - Start from command line, not debug
