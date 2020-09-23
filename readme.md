@@ -206,9 +206,8 @@ N) To automate processing of one night, without keeping all segments to train AI
 * must be able to handle spring nights, with lot of bird sounds
 * sound analysis is repeatable, so no need to store to db permanently
 - Report
-  - show start date in report and folder name
-  - show when new file starts
-  - sort Audiomoth files by date
+  - Show start date in folder name. Difficulty: start date not known until first file metadata is created. unless we make function to get just that info from the file easily. (Now might take time, since need to convert stereo to mono etc.)
+  - Sort Audiomoth files by date. Should sort correctly just by normal sort, but Windows does this incorrectly.
   - class with threshold, js to display only some thresholds
   - styles
   - warn of 10 consecutive bird segments?

@@ -46,7 +46,9 @@ class report():
 
   def addPositiveSegment(self, segmentMeta, score):
     score = str(score)
-    self.appendLine("<div class='segment'>")
+    scoreClass = score[0:3].replace(".", "")
+
+    self.appendLine("<div class='segment s" + scoreClass + "'>")
     self.addSpectro(segmentMeta["spectroFilename"])
     self.addAudio(segmentMeta["finalAudioFilename"])
 

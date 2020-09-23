@@ -23,7 +23,7 @@ debug = True # get input from this file
 
 onlyAnalyse = True;
 
-threshold = 0.6
+threshold = 0.1
 #threshold = 0.1 # debug
 
 
@@ -72,7 +72,6 @@ else:
 path = "/_source_audio/" + directory + "/Data" # source directory
 
 # Init report
-# ABBA: get datetime from first file in dir
 if onlyAnalyse:
   directory = directory + timestampSuffix # analysis/report directory
 
@@ -93,7 +92,7 @@ location = location.lower()
 
 ### HANDLING DATA #########################################################
 
-# TODO: Test sort filename ascending
+# TODO: Test sort Audiomoth filename ascending
 audioFileList = sorted(file_helper.getAudioFileList(path))
 
 # Get metadata for the file
@@ -142,7 +141,6 @@ for audioFilePath in audioFileList:
   else:
     # Save file header to report ABBA
     report.addFile(fileData)
-    abba = 1 # debug temp
   
   # Split file into segments and generate spectrograms, return metadata about them
   segmentMetaGenerator = split_and_spectro.parseFile(monoFilePath, rootDirectory, directory, fileData["fileName"], segments, 10)
