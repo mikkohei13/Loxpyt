@@ -3,7 +3,7 @@
 pipreqs==0.4.9
 pydub==0.23.1
 matplotlib==3.0.3
-Pillow==6.2.1
+Pillow==8.3.2
 beautifulsoup4==4.8.1
 lxml==4.4.1
 pymongo==3.9.0
