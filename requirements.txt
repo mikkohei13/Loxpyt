@@ -1,6 +1,6 @@
 # created with pipreqs ./
 
-pipreqs==0.4.9
+pipreqs==0.4.12
 pydub==0.23.1
 matplotlib==3.0.3
 Pillow==6.2.1
